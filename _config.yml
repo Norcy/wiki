@@ -15,7 +15,7 @@ timezone:
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://yoursite.com
 root: /wiki/
-permalink: :year/:month/:day/:title/
+permalink: wiki/:title/
 permalink_defaults:
 
 # Directory
@@ -27,6 +27,8 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - README.md
+  - '_posts/**/embed_page/**'
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -82,3 +84,32 @@ deploy:
   repo: https://github.com/Norcy/wiki.git
   branch: master
   message：Site updated at: {{ now('YYYY-MM-DD HH:mm:ss') }}
+
+## Markdown
+## https://github.com/hexojs/hexo-renderer-marked
+marked:
+  gfm: true
+
+### Creat sitemap
+sitemap:
+  path: sitemap.xml
+
+
+## Plugins: https://hexo.io/plugins/
+### JsonContent
+jsonContent:
+  meta: false
+  pages:
+    title: true
+    date: true
+    path: true
+    text: true
+  posts:
+    title: true
+    date: true
+    path: true
+    text: true
+    tags: true
+    categories: true
+  ignore:
+    - 404.html
