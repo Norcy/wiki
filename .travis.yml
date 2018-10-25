@@ -4,6 +4,11 @@ node_js: stable  #设置相应的版本
 
 install:
   - npm install  #安装hexo及插件
+  - npm install hexo-autonofollow 
+  - npm install hexo-directory-category
+  - npm install hexo-generator-feed
+  - npm install hexo-generator-json-content
+  - npm install hexo-generator-sitemap
 
 script:
   - hexo version
