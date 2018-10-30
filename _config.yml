@@ -7,7 +7,7 @@ title: Hexo
 subtitle:
 description:
 keywords:
-author: John Doe
+author: Norcy
 language:
 timezone:
 
@@ -15,7 +15,7 @@ timezone:
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://yoursite.com
 root: /wiki/
-permalink: wiki/:title/
+permalink: :title/
 permalink_defaults:
 
 # Directory
