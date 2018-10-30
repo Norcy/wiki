@@ -2,19 +2,19 @@
 menu:
   首页: /
   归档: /archives
-  分类: /categories
-  标签: /tags
-  关于: /about
+  # 分类: /categories
+  # 标签: /tags
+  # 关于: /about
 
 # Customize
 customize:
     logo:
-        enabled: true
+        enabled: false
         width: 40
         height: 40
         url: /logo.png
     profile:
-        enabled: true # Whether to show profile bar
+        enabled: false # Whether to show profile bar
         avatar: # css/images/avatar.png
         gravatar: Test # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
         author: Norcy
@@ -32,7 +32,7 @@ customize:
         #stack-overflow: http://stackoverflow.com/users/7277090/zthxxx?tab=profile
         #codepen: http://codepen.io/zthxxx/
         #rss: /atom.xml
-    social_link_tooltip: true # enable the social link tooltip, options: true, false
+    social_link_tooltip: false # enable the social link tooltip, options: true, false
 
 # Widgets
 widgets: # default use category only
