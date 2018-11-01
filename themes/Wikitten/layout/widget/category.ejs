@@ -84,7 +84,22 @@
                 } 
                 if(branch.articles && branch.articles.length) {
                     branch.articles.forEach(function(post){
-                        %> <li class="file<%- (is_post() && post._id == page._id) ? ' active' : '' %>"><a href="<%- post.path %>"><%- post.title %></a></li> <%
+                        %> 
+                        <li class="file<%- (is_post() && post._id == page._id) ? ' active' : '' %>">
+                            <a href="<%- post.path %>">
+                                <% if (post.title) { %>
+                                    <%- post.title %>
+                                <% } else { %>
+                                    <%
+                                        var index = post.path.lastIndexOf("\/");  
+                                        var str = post.path.substring(0, index); 
+                                        index = str.lastIndexOf("\/");
+                                        str = str.substring(index+1, str.length);
+                                    %>
+                                    <%=str%>
+                                <% } %>
+                            </a>
+                        </li> <%
                     });
                 }
              %> </ul> <%
