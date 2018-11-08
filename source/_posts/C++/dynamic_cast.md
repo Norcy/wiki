@@ -1,3 +1,7 @@
+---
+title: dynamic_cast
+---
+
 C++ 中
 
 + 如果是子类指针强制转换父类指针，则称为上行转换（upcasting）

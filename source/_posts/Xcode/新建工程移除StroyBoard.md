@@ -1,3 +1,7 @@
+---
+title: 新建工程移除StroyBoard
+---
+
 1. 移除 `Main.storyboard` 文件
 2. 移除 `LaunchScreen.storyboard`
 3. 在 `TARGETS` 中，将 `Main InInterface` 选项中的值清空
