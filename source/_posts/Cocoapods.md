@@ -34,4 +34,5 @@ title: Cocoapods
 可以参考这里 [CocoaPods的原理与技巧（二）](https://www.jianshu.com/p/fb202af858fd)
 
 ## 优秀文章
-[我所理解的 CocoaPods](https://juejin.im/post/5b1cfaff6fb9a01e417b6051)
++ [我所理解的 CocoaPods](https://juejin.im/post/5b1cfaff6fb9a01e417b6051)
++ [一行命令发布 Pod 框架](https://juejin.im/entry/58df270f61ff4b006b1227c9)（生成 podspec 的工具不错）
