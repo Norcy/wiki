@@ -1,4 +1,4 @@
-主要是 [XcodeProj](https://github.com/CocoaPods/Xcodeproj)) 这个工具的应用
+主要是 [XcodeProj](https://github.com/CocoaPods/Xcodeproj) 这个工具的应用
 
 ```ruby
 require 'xcodeproj'
