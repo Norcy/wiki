@@ -24,9 +24,23 @@ git tag -l | xargs git tag -d
 git fetch --tags
 ```
 
+### 重命名远程 Tag
+```bash
+git tag new old
+git tag -d old
+git push origin :refs/tags/old
+git push --tags
+```
+
 ## History
 ### 一个 Log 只占一行，用于快速浏览
 git log --pretty=oneline
 
 ### 展示某个提交的具体细节
 git show ace518d5172459d95cad6a21efe2ac6068011f2d
+
+
+### 修改最后一次 Commit 信息
+```bash
+git commit --amend
+```
