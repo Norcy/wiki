@@ -107,7 +107,7 @@ VideoNative 核心层主要包括 VNComponent、VNCore、VNCss、VNData、VNExpr
 + VNExpression 是表达式模块，负责解析脚本里的胡子语法中的表达式计算；
 
 	
-> 什么是胡子语法（Mustache）？Mustache 是一个 logic-less（轻逻辑）模板解析引擎，它是为了使用户界面与业务数据（内容）分离而产生的。比如 vnml 中的代码：{{userInfo.nickName}}，这里的{{ }}就是 Mustache 的语法。
+> 什么是胡子语法（Mustache）？Mustache 是一个 logic-less（轻逻辑）模板解析引擎，它是为了使用户界面与业务数据（内容）分离而产生的。比如 vnml 中的代码：`{{userInfo.nickName}}`，这里的`{{ }}`就是 Mustache 的语法。
 	
 + VNCore 负责调度 VNCss、VNData、VNJs 等其他模块，将数据、样式、JS 逻辑应用到 UI 结构上
 
