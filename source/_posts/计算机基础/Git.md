@@ -34,13 +34,27 @@ git push --tags
 
 ## History
 ### 一个 Log 只占一行，用于快速浏览
+```bash
 git log --pretty=oneline
+```
 
 ### 展示某个提交的具体细节
+```bash
 git show ace518d5172459d95cad6a21efe2ac6068011f2d
+```
 
 
 ### 修改最后一次 Commit 信息
 ```bash
 git commit --amend
+```
+
+## 撤销
+### 撤销本地未 add 的更改
+```bash
+git clean -df
+```
+### 撤销本地已 add 没 commit 的更改
+```bash
+git reset --hard
 ```
