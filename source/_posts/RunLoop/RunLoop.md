@@ -94,12 +94,11 @@ CFRunLoopRef CFRunLoopGetCurrent() {
 
 + CFRunLoop 是基于 pthread 来管理的
 
->
-pthread_t 和 NSThread 是一一对应的
->
-可以通过 `pthread_main_thread_np()` 或 [NSThread mainThread] 来获取主线程；
->
-也可以通过 `pthread_self()` 或 [NSThread currentThread] 来获取当前线程。
+> pthread_t 和 NSThread 是一一对应的
+> 
+> 可以通过 `pthread_main_thread_np()` 或 [NSThread mainThread] 来获取主线程；
+> 
+> 也可以通过 `pthread_self()` 或 [NSThread currentThread] 来获取当前线程。
 
 # RunLoop 的结构
 ## 结构图
