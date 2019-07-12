@@ -2,8 +2,11 @@ article
     padding: 3px
     border-radius: 4px
     background-color: color-border-stretch
+    display: flex
 .article
     margin: block-margin 0
+    width: 75%
+    max-width: 75%
 
 .article-inner
     @extend $block
@@ -11,6 +14,7 @@ article
     background: white
     border-radius: 4px
     border: 1px solid #BBB
+    width: 100%
 
 .article-banner
     width:100%
@@ -402,11 +406,11 @@ $article-share-link
 
 /* topic section */
 .toc-article
-    background #F9F9F9
-    margin 2em 0 0 0.2em
-    padding 1em
-    border: 1px solid #000
-    border-radius 0px
+    /*background #F9F9F9*/
+    /*margin 2em 0 0 0.2em*/
+    /*padding 0em 1em*/
+    /*border: 4px solid #c1cfdc
+    border-radius 4px*/
     .toc-title
         font-size 120%
     strong
@@ -414,16 +418,25 @@ $article-share-link
 
 ol.toc
     width 100%
-    margin 1em 2em 0 0
+    /*margin 1em 2em 0 0*/
 
 #toc
     line-height 1em
-    font-size 0.8em
+    display flex
+    flex-direction column
+    font-size 12pt
     float right
+    margin 40px 0px
+    height auto
+    max-width 15%
+    width 15%
+    position fixed
+    right 3%
     .toc
         padding 0
         li
             list-style-type none
+            margin-bottom 20px
     .toc-child
         padding-left 0em
 

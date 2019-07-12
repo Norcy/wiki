@@ -49,12 +49,6 @@
                 <% } %>
             <% } %>
         <% } else { %>
-            <% if (post.toc) { %>
-                <div id="toc" class="toc-article">
-                <strong class="toc-title"><%= __('article.catalogue') %></strong>
-                    <%- toc(post.content) %>
-                </div>
-            <% } %>
         <% } %>
         <% if (show_all_content) { %>
             <%- post.content %>
@@ -70,13 +64,13 @@
     </div>
 </article>
 
-<% if (!index) { %>
+<!-- <% if (!index) { %>
     <%- partial('post/nav') %>
-<% } %>
+<% } %> -->
 
-<% if (!index) { %>
+<!-- <% if (!index) { %>
     <%- partial('comment/index') %>
-<% } %>
+<% } %> -->
 
 <% if (!index){ %>
 <!-- baidu url auto push script -->

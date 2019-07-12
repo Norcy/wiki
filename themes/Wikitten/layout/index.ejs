@@ -7,6 +7,7 @@ if(index_file) {
 }
 if(indexArticle) { %>
     <%- partial('common/article', { post: indexArticle, index: false }) %>
+    <%- partial('common/toc', { post: indexArticle, index: false }) %>
 <% } else {
     page.posts.each(function(post) { %>
         <%- partial('common/article', { post: post, index: true }) %>
