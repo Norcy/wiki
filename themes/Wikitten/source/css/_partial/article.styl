@@ -450,8 +450,16 @@ ol.toc
                     color red
                     border-bottom 1px solid red
                     transition all .3s ease-out
-    .toc-child
-        margin 10px 10px 2px 10px
+
+    .toc-level-1
+        .toc-child
+            display block
+            margin 10px 10px 2px 10px
+
+    .toc-level-2
+        .toc-child
+            display none
+      
 
 #toc.toc-aside
     display none
