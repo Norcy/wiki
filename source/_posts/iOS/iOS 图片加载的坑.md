@@ -36,8 +36,6 @@ iOS 中有两种常用的图片加载方式：
 	NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"image.png"];
 	UIImage *image = [UIImage imageWithContentsOfFile:path];
 	```
-	
-	
 
 ## Framework 的图片加载
 提供 Framework 提供给业务方时，需要提供 .bundle 和 .framework
