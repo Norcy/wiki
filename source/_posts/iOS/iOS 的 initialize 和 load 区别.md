@@ -13,8 +13,8 @@
 > + load 中最好不要调用其他类的方法，是因为调用的时候其他类不一定加载好
 > + initialize 中最好不要调用其他类的方法，是因为如果这样做，可能产生循环依赖，比如 A 的 initialize 调用了 B 的方法，导致 B 的 initialize 被调用，而 B 的 initialize 也调用了 A 的方法，此时会有问题（而现实情况的互相依赖可能涉及多个类，一旦出现问题就难以定位）
 
-## load
-### 父类的 load 优先于子类
+# load
+## 父类的 load 优先于子类
 ```objc
 static void schedule_class_load(Class cls)
 {
@@ -33,7 +33,7 @@ static void schedule_class_load(Class cls)
 
 可以看到，对 cls 的处理过程中，优先递归处理了父类，因此父类的 load 一定比子类的优先调用
 
-### 本类的 load 优先于分类
+## 本类的 load 优先于分类
 ```objc
 void call_load_methods(void)
 {
@@ -69,7 +69,7 @@ void call_load_methods(void)
 其中 `call_class_loads` 是调用本类的 load，而 `call_category_loads` 是调用分类的 load
 
 
-### 系统加载本类的时候为什么不会调用父类
+## 系统加载本类的时候为什么不会调用父类
 这里有一点值得探讨：**本类没写，系统在加载本类的时候不会调用其父类**
 
 探讨这个问题的前提是，父类的 load 方法是存在的，假如没有实现，讨论调用时机是没有意义的
@@ -106,8 +106,8 @@ static void call_class_loads(void)
 `(*load_method)(cls, SEL_load);` 说明，load 方法不是通过 `objc_msgSend` 调用，而是直接通过函数指针调用，因此不会在此次调用中调用父类实现
 
 
-## initialize
-### initialize 的正确写法（重要！！！不然有子类的情况下可能会调用多次）
+# initialize
+## initialize 的正确写法（重要！！！不然有子类的情况下可能会调用多次）
 假设我想要在 A 的 initialize 方法中打印出自己，如果这样写：
 
 ```objc
@@ -146,7 +146,7 @@ static void call_class_loads(void)
 此时创建一个B对象，输出是
 > B
 
-### initialize 的调用顺序
+## initialize 的调用顺序
 
 以下关键代码来自 objc-runtime-new.mm，当我们给某个类发送消息时，RunTime 会调用该函数。当类没有初始化会调用 `void _class_initialize(Class cls)` 对该类进行初始化
 
@@ -198,7 +198,7 @@ void _class_initialize(Class cls)
 }
 ```
 
-## 题目实战
+# 题目实战
 Compile Sources 中有以下类，顺序如下
 
 ```
@@ -269,8 +269,8 @@ Main 函数开始执行
 9. 最后在 main 函数中向 Daughter 发送了一个消息，从而触发了 Daughter 的 initialize，可以看出 **initialize 是懒加载的**；其次，**本类没实现 initialize 的时候，系统会自动调用父类的实现**
 
 
-## 延伸思考
-### 为什么方法交换要写在 load
+# 延伸思考
+## 为什么方法交换要写在 load
 我们可以从 load 的特点得到：
 
 + 方法交换调用一次就够了，而 load 只会被系统调用一次
@@ -282,10 +282,10 @@ Main 函数开始执行
 
 写在主类的 initialize 的方法可能被其分类的 initialize 覆盖，而 load 不会
 	
-### 为什么方法交换需要加 dispatch_once，不是说 load 只会执行一次吗
+## 为什么方法交换需要加 dispatch_once，不是说 load 只会执行一次吗
 load 是线程安全的，最多也被系统调用一次，添加 `dispatch_once` 完全是为了防止不合格的程序员手动调用
 
-### 多次交换会有什么问题
+## 多次交换会有什么问题
 ```objc
 // UIViewController+Category1.m
 + (void)load
@@ -357,10 +357,10 @@ viewWillAppear
 3. 最后 `viewWillAppear_1` 的 IMP 里又调用了 @selector(viewWillAppear_1) ，执行的是 `viewWillAppear` 的 IMP
 
 
-### load 方法中实现方法交换的时候采用 c 函数
+## load 方法中实现方法交换的时候采用 c 函数
 swizzleMethod 采用 C 函数，而不是 NSObject 的方法，是为了防止子类在 load 方法中向其自己发送消息，那样会导致其 +initialize 方法在 load 的时候被提前调用，而此时系统环境是不稳定的
 
-## 参考文章
+# 参考文章
 + [《Objective-C +load vs +initialize》](http://blog.leichunfeng.com/blog/2015/05/02/objective-c-plus-load-vs-plus-initialize/)
 + [《一道题搞清楚Objective-C中load和initialize》](https://www.jianshu.com/p/ffdefa76e4a2)
 + 《Effective Objective-C 2.0 编写高质量 iOS 与 OS X 代码的52个有效方法》第 51 条
