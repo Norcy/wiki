@@ -1,3 +1,8 @@
+---
+date: 2019-08-15
+---
+
+
 CommonJS 和 AMD 是 JS 中关于模块化的 2 个规范
 
 ## CommonJS
