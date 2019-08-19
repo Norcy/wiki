@@ -58,3 +58,9 @@ git clean -df
 ```bash
 git reset --hard
 ```
+
+
+## git stauts 中文乱码
+```bash
+git config --global core.quotepath false
+```
