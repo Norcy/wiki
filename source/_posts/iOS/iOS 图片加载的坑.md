@@ -37,8 +37,6 @@ NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComp
 UIImage *image = [UIImage imageWithContentsOfFile:path];
 ```
 
----
-
 假如是一个 3x 设备，3x 图片实际宽度为 300x300，2x 图片实际宽度为 200x200，1x 图片实际宽度为 100x100
 
 ```objc
