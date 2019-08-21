@@ -2,11 +2,23 @@
 date: 2019-08-15
 ---
 
+## 模块化
+模块通常是指编程语言所提供的代码组织机制，利用此机制可将程序拆解为独立且通用的代码单元。所谓模块化主要是解决代码分割、作用域隔离、模块之间的依赖管理以及发布到生产环境时的自动化打包与处理等多个方面
+
+模块化的优点如下：
+
++ 可维护性。 因为模块是独立的，一个设计良好的模块会让外面的代码对自己的依赖越少越好，这样自己就可以独立去更新和改进
++ 命名空间。 在 JavaScript 里面，如果一个变量在最顶级的函数之外声明，它就直接变成全局可用。因此，常常不小心出现命名冲突的情况。使用模块化开发来封装变量，可以避免污染全局环境
++ 重用代码。 我们有时候会喜欢从之前写过的项目中拷贝代码到新的项目，这没有问题，但是更好的方法是，通过模块引用的方式，来避免重复的代码库
 
 CommonJS 和 AMD 是 JS 中关于模块化的 2 个规范
 
 ## CommonJS
-CommonJS 有四个重要的环境变量为模块化的实现提供支持：module、exports、require、global。
+在 CommonJS 中，每个 JavaScript 文件就是一个独立的模块上下文（module context），在这个上下文中默认创建的属性都是私有的。也就是说，在一个文件定义的变量、函数和类，都是私有的，对其他文件是不可见的
+
+CommonJS 有四个重要的环境变量为模块化的实现提供支持：module、exports、require、global
+
+> 注意 exports 要与 ES6 的 import & export 区别开
 
 实际使用时，用 module.exports 定义当前模块对外输出的接口（不推荐直接用 exports），用 require 加载模块
 
@@ -53,8 +65,8 @@ define(
 ```
 
 + 第一个参数 id 参数被省略的时候，我们说这个模块是匿名的
-+ 第二个参数 dependencies 参数代表了一组对所定义的模块来说必须的依赖项
-+ 第三个参数 factory，更多情况下它是一个函数，包裹着模块的具体实现，等到依赖加载完成之后，它才会运行。注意 Function 的参数是各个依赖项的输出，顺序与依赖项一一对应，返回值就是该新定义模块的输出；如果是 Object 则为模块的输出
++ 第二个参数 dependencies 参数代表了一组对所定义的模块来说必须的依赖项；如果没有指定 dependencies，那么它的默认值是 ["require", "exports", "module"]
++ 第三个参数 factory，既可以是函数，也可以是对象。如果是对象，此对象应该为模块的输出值。如果是一个函数，它应该只被执行一次；包裹着模块的具体实现，等到依赖加载完成之后，它才会运行。注意 Function 的参数是各个依赖项的输出，顺序与依赖项一一对应，**返回值就是该新定义模块的输出**
 
 当第三个参数是 Object 的时候，如下例，生成了一个拥有 method1、method2 两个方法的模块
 
@@ -101,6 +113,17 @@ define('myModule', ['foo', 'bar'],
 define('myModule', ['jquery', './math.js', 'foo'], function($, math, foo) {
     // $ 是 jquery 模块的输出
     $('body').text('hello world');
+});
+```
+
+一个使用了简单 CommonJS 转换的模块定义：没有 return 值，输出使用 exports
+
+```
+define(function (require, exports, module) {
+ var a = require('a'),
+     b = require('b');
+
+ exports.action = function () {};
 });
 ```
 
@@ -228,3 +251,4 @@ function test(ele) {
 + [《AMD 规范》](https://zhaoda.net/webpack-handbook/amd.html)
 + [《使用 AMD、CommonJS 及 ES Harmony 编写模块化的 JavaScript》](https://justineo.github.io/singles/writing-modular-js/)
 + [《RequireJS 和 AMD 规范》](https://javascript.ruanyifeng.com/tool/requirejs.html)
++ [《AMD (中文版)》](https://github.com/amdjs/amdjs-api/wiki/AMD-(中文版))
