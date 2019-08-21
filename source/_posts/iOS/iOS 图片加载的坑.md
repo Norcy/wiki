@@ -37,7 +37,7 @@ NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComp
 UIImage *image = [UIImage imageWithContentsOfFile:path];
 ```
 
-
+---
 
 假如是一个 3x 设备，3x 图片实际宽度为 300x300，2x 图片实际宽度为 200x200，1x 图片实际宽度为 100x100
 
@@ -64,7 +64,7 @@ UIImage *image = [UIImage imageWithContentsOfFile:path];
 <UIImage: 0x283a09e30> size {100, 100} orientation 0 scale 1.000000
 ```
 
-> image.png 和 `image@1x.png` 是等价的
+> image.png 和 image@1x.png 是等价的
 
 
 ## Framework 的图片加载
