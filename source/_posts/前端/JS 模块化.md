@@ -46,6 +46,38 @@ http.createService(...).listen(3000);
 
 CommonJS 的 require 方法是同步的。在服务端，模块文件都存在本地磁盘，读取非常快，所以这样做不会有问题。但是在浏览器端，数据需要从服务器获取，受限于网络速度，更合理的方案是使用异步加载
 
+
+注意 module.exports 和 exports 的区别
+
+```js
+var basicNum = 0;
+function add(a, b) {
+  return a + b;
+}
+
+// 方案 1：使用 module.exports 一个个导出（正确）
+module.exports.add = add
+module.exports.basicNum = basicNum
+
+// 方案 2：使用 exports 一个个导出（正确）
+exports.add = add
+exports.basicNum = basicNum
+
+// 方案 3：使用 module.exports 整体导出（正确）
+module.exports = {
+  add: add,
+  basicNum: basicNum
+}
+
+// 方案 4：使用 exports 整体导出（错误）
+exports = {
+  add: add,
+  basicNum: basicNum
+}
+```
+
+方案 4 是错误的，可以理解为在模块开始前 exports = module.exports，因为赋值之后 exports 失去了 对 module.exports 的引用，成为了一个模块内的局部变量
+
 ## AMD
 Asynchronous Module Definition 规范，意为 “异步模块定义”
 
