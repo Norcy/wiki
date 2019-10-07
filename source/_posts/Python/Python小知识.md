@@ -53,3 +53,17 @@ def generateMarkdown(jsonData):
 	global OutputFile
     OutputFile = '123'
 ```
+
+## list 合并
+```python
+l1 = [1,2,3]
+l2 = [3,4,5]
+l3 = l1+l2
+```
+
+## 将 json 写入文件
+```python
+import json
+with open('data.json', 'w') as f:
+    json.dump(myJsonData, f, ensure_ascii=False)
+```

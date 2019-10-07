@@ -45,3 +45,35 @@ tee 是一个把 stdin 保存到文件的小工具。
 	```
 	/etc/init.d/apache2 stop
 	```
+
+## php 实现 RESTful api
+1. 修改 Apache 配置，`/etc/apache2/apache2.conf`，将以下配置从 `AllowOverride None` 改为 `AllowOverride All`
+
+```
+<Directory /var/www/>
+	#Options Indexes FollowSymLinks
+	Options FollowSymLinks
+	AllowOverride All
+	Require all granted
+</Directory>
+```
+
+2. 到网站的根目录下 `/var/www/html`，新增或修改 `.htaccess` 文件，如下
+
+```
+# 开启 rewrite 功能
+Options +FollowSymlinks
+RewriteEngine on
+
+# 重写规则
+RewriteRule ^MiniPro/fmlist$   ./MiniPro/RestController.php?fm=all [nc,qsa]
+RewriteRule ^MiniPro/fmlist/([0-9]+)$  ./MiniPro/RestController.php?fm=single&id=$1 [nc,qsa]
+```
+
+重写规则使用正则表达式来匹配 URL，进而路由到指定的页面，其中 nc 表示不区分大小写（No Case），qsa 表示可以在 URL 后面添加参数字符串（Query String Append）
+
+更多详细可以参照 [PHP RESTful](https://www.runoob.com/php/php-restful.html)
+
+需要注意的是 SiteRestHandler.php 这个文件中的 `$this ->setHttpHeaders($requestContentType, $statusCode);` 这句代码需要注释才能工作
+
+我自己实现的例子：https://github.com/Norcy/SmallFrequence.git
