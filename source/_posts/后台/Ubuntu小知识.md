@@ -77,3 +77,48 @@ RewriteRule ^MiniPro/fmlist/([0-9]+)$  ./MiniPro/RestController.php?fm=single&id
 需要注意的是 SiteRestHandler.php 这个文件中的 `$this ->setHttpHeaders($requestContentType, $statusCode);` 这句代码需要注释才能工作
 
 我自己实现的例子：https://github.com/Norcy/SmallFrequence.git
+
+
+## Ubuntu Apache2 配置 HTTPS
+1. 申请 SSL 证书：包括 sapache.crt  apache.key  server-chain.crt
+2. 拷贝证书到 /etc/apache2/cert 目录下
+3. 创建site-enabled 指向site-available的软链接
+
+```sh
+sudo ln -s /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-enabled/001-ssl.conf
+```
+4. 修改/etc/apache2/sites-enabled/001-ssl.conf，关注 ServerName，SSLCertificateFile，SSLCertificateKeyFile，SSLCertificateChainFile
+
+```xml
+<VirtualHost *:443>
+	ServerName norcy.xyz
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+	SSLEngine On
+	SSLOptions +StrictRequire
+	SSLCertificateFile /etc/apache2/cert/apache.crt
+	SSLCertificateKeyFile /etc/apache2/cert/apache.key
+	SSLCertificateChainFile /etc/apache2/cert/server-chain.crt
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+```
+
+5. 强制 HTTPS 访问：在网站根目录下新建文件 .htaccess 文件，写入内容
+```
+RewriteEngine on
+RewriteBase / 
+RewriteCond %{SERVER_PORT} !^443$
+RewriteRule ^.* https://%{SERVER_NAME}%{REQUEST_URI} [L,R]  
+```
+
+6. 重启
+```sh
+// 加载Apache的SSL模块
+$ sudo a2enmod ssl
+// 然后，重启Apache 
+$ sudo /etc/init.d/apache2 restart     // 这时浏览器应该就可访问了
+```
