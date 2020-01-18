@@ -1,4 +1,4 @@
-## 1. 以下代码输出
+## 以下代码输出
 
 ```objc
 - (void)blockDemo3
@@ -15,7 +15,7 @@
 
 输出 hello123，详细请看截获对象小节
 
-## 2. 下面代码在 MRC 环境 和 ARC 环境运行的情况
+## 下面代码在 MRC 环境 和 ARC 环境运行的情况
 
 ```objc
 void exampleA() {
@@ -29,7 +29,7 @@ void exampleA() {
 	
 首先这个 Block 引用了普通外部变量，所以这个 Block 是在栈上面创建的；Block 是在 exampleA() 函数内创建的，然后创建完马上调用，这个时候 exampleA() 并没有执行完，所以这个栈 Block 是存在的，不会被 pop 出栈。故在 MRC 和 ARC 上面都可以正确执行
 	
-## 3. 下面代码在 MRC 环境 和 ARC 环境运行的情况
+## 下面代码在 MRC 环境 和 ARC 环境运行的情况
 
 ```objc
 void exampleB_addBlockToArray(NSMutableArray *array) {
@@ -51,7 +51,7 @@ void exampleB() {
 	
 ARC 正常，MRC 崩溃。修复方法就是加 copy，如果不懂点[这里](https://ioscaff.com/articles/221)
 
-## 4. 下面代码在 MRC 环境 和 ARC 环境运行的情况
+## 下面代码在 MRC 环境 和 ARC 环境运行的情况
 
 ```objc
 void exampleC_addBlockToArray(NSMutableArray *array) {
@@ -72,7 +72,7 @@ void exampleC() {
 	
 全局 Block，没有任何问题
 
-## 5. 下面代码在 MRC 环境 和 ARC 环境运行的情况
+## 下面代码在 MRC 环境 和 ARC 环境运行的情况
 
 ```objc
 typedef void (^dBlock)();
@@ -90,7 +90,7 @@ void exampleD() {
 	
 MRC 编译器可检查出来，会编译失败；ARC 没问题
 
-## 6. 下面代码在 MRC 环境 和 ARC 环境运行的情况
+## 下面代码在 MRC 环境 和 ARC 环境运行的情况
 
 ```objc
 typedef void (^eBlock)();
@@ -110,7 +110,7 @@ void exampleE() {
 	
 MRC 编译通过，调用异常；ARC 没问题
 
-## 7. ARC 环境下输入结果
+## ARC 环境下输入结果
 
 ```objc
  __block NSString *key = @"AAA";
@@ -141,7 +141,7 @@ NSLog(@"%@ --- %@ --- %@ --- %@",a,m,n,p);
 + 再用堆区地址将 3 存进去
 + 变量 p 用堆区地址来取值，故为 3
 
-## 8. Block 为什么用 Copy 修饰
+## Block 为什么用 Copy 修饰
 对于这个问题，得区分 MRC 环境 和 ARC 环境；首先，通过上面小节可知，Block 引用了普通外部变量，都是创建在栈区的；对于分配在栈区的对象，我们很容易会在释放之后继续调用，导致程序奔溃，所以我们使用的时候需要将栈区的对象移到堆区，来延长该对象的生命周期。
 
 对于 MRC 环境，使用 Copy 修饰 Block，会将栈区的 Block 拷贝到堆区
@@ -150,14 +150,14 @@ NSLog(@"%@ --- %@ --- %@ --- %@",a,m,n,p);
 
 所以，Block 不是一定要用 Copy 来修饰的，在 ARC 环境下面 Strong 和 Copy 修饰效果是一样的
 
-## 9. 使用block和使用delegate完成委托模式有什么优点
+## 使用block和使用delegate完成委托模式有什么优点
 委托模式在设计模式中是适配器模式中的对象适配器，Objective-C 中使用 id 类型指向一切对象，使委托模式在 iOS 中的实现更为方便
 
 使用block实现委托模式，其优点是回调的 block 代码块定义在委托对象函数内部，使代码更为紧凑
 
 适配对象不再需要实现具体某个 protocol，代码更为简洁
 
-## 10. 以下代码有问题吗
+## 以下代码有问题吗
 
 ```objc
 int a = 7;
@@ -169,7 +169,7 @@ printf("%d", myBlock());
 
 有问题，会出现 2 处编译错误，第一处是 a 不能被赋值，除非添加 `__block`；第二处是 myBlock 没有返回值，无法被打印
 
-## 11. 以下代码有问题吗
+## 以下代码有问题吗
 ```objc
 id ret;
 dispatch_sync(self.concurrentQueue, ^{
