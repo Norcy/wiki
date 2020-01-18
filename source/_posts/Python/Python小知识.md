@@ -50,7 +50,7 @@ def generateMarkdown(jsonData):
 OutputFile = ''
 
 def generateMarkdown(jsonData):
-	global OutputFile
+    global OutputFile
     OutputFile = '123'
 ```
 

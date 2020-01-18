@@ -40,3 +40,5 @@ Cat.prototype.eat = function(){alert("吃老鼠")};
 2. 类变量和方法定义在 prototype 上
 
 	构造函数有一个 prototype 对象，该对象的所有属性和方法，都会被构造函数的实例继承。因此在这里定义类变量和方法可以实现不同对象之间的数据共享
+
++ 参考：[Javascript 面向对象编程（一）：封装](http://www.ruanyifeng.com/blog/2010/05/object-oriented_javascript_encapsulation.html)
