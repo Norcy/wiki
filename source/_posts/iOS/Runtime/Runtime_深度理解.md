@@ -165,4 +165,4 @@ methodForSelector 返回的是方法的 IMP，如果找不到该 IMP，则会返
 
 
 ## Runtime 如何实现 weak 属性
-[weak 的实现原理](https://norcy.github.io/wiki/iOS/weak 的实现原理/)
+[weak 的实现原理](../weak 的实现原理/)

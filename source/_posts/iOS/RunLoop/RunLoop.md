@@ -205,7 +205,7 @@ struct __CFRunLoopMode {
 };
 ```
 
-其中 _commonModes 其实并不是一个真正的模式，可以看到它是 Modes 而不是 Mode，是一个模式的集合
+其中 `_commonModes` 其实并不是一个真正的模式，可以看到它是 Modes 而不是 Mode，是一个模式的集合
 
 一个 Mode 可以将自己标记为 "Common" 属性，对应的方法是 `CFRunLoopAddCommonMode(CFRunLoopRef runloop, CFStringRef modeName);`
 
@@ -214,7 +214,7 @@ struct __CFRunLoopMode {
 kCFRunLoopDefaultMode 默认是 "Common" 的
 
 # RunLoop 内部逻辑
-![](RunLoop.png)
+![](http://ww1.sinaimg.cn/large/99e3e31egy1gb0wa37px1j20ou1hz770.jpg)
 
 [流程图源文件](https://www.processon.com/view/link/5d22043ce4b0fdb331d5a8ba)
 

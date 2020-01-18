@@ -1,5 +1,7 @@
 [TOC]
 
++ [Runtime 脑图](http://naotu.baidu.com/file/30a56f1e1bbb7af7f876353dda6f6b2c)
+
 # 概念
 
 [Class、id、`objc_object` 定义源码](https://opensource.apple.com/source/objc4/objc4-750/runtime/objc.h.auto.html)
@@ -416,9 +418,9 @@ Objective-C 的消息机制与 C++ 等静态编译语言不同，提供动态性
 [《Objective-C 与 Runtime：为什么是这样？》（R.I.P）](http://www.cocoachina.com/articles/13336)
 
 # Runtime 应用
-## [Swizzle Method](https://norcy.github.io/wiki/iOS/%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2/)
+## [Swizzle Method](../%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2/)
 ## [自定义 KVO 实现](http://liuduo.me/2018/02/07/kvo-imp/)
-## [给分类添加属性](https://norcy.github.io/wiki/iOS/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/)
+## [给分类添加属性](../%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/)
 ## 打印类的所有属性值
 ```objc
 - (NSString *)description
