@@ -1,7 +1,8 @@
 [TOC]
 
-[本文对应的源码地址](https://opensource.apple.com/source/CF/CF-1153.18/CFRunLoop.c.auto.html)
-[本文对应的源码地址](https://opensource.apple.com/source/CF/CF-1153.18/CFRunLoop.h.auto.html)
+[本文对应的源码地址——CFRunLoop.h](https://opensource.apple.com/source/CF/CF-1153.18/CFRunLoop.h.auto.html)
+[本文对应的源码地址——CFRunLoop.c](https://opensource.apple.com/source/CF/CF-1153.18/CFRunLoop.c.auto.html)
+
 
 ## 数据结构
 ### CFRunLoop
@@ -67,7 +68,7 @@ typedef struct {
 
 1. 一个 Source 可以被加入到多个 RunLoop
 2. CFRunLoopSource 包含了 Source0/Source1，union 中所有成员变量的起始地址都是一样的，Source0 和 Source 共占同一段内存的结构，`_context` 变量的大小取决于 Source0 和 Source1 的最大大小
-3. Source0 比 Source1 对了 schedule 和 cancle 方法？；而 Source1 比 Source0 多了接受 Port 消息的方法。所以说 Source1 是基于 Port 的
+3. Source0 比 Source1 多了 schedule 和 cancle 方法？；而 Source1 比 Source0 多了接受 Port 消息的方法。所以说 Source1 是基于 Port 的
 
 ### CFRunLoopObserver
 ```c

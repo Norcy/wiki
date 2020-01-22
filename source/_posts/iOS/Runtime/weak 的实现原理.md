@@ -64,6 +64,7 @@ private:
 
 public:
     weak_table_t weak_table;
+    RefcountMap refcnts;    // 这个是负责引用计数的
 
     static SideTable *tableForPointer(const void *p) 
     {
@@ -83,6 +84,8 @@ SideTable 有一个成员 `table_buf`，它是 static 的，全局唯一
 由 tableForPointer 的源码我们可以知道，只是根据对象的地址来获取 `table_buf` 中的其中一张 SideTable
  
 由此可见，SideTable 并不是和 obj 对象一一对应，而是全局有多份，多个对象可能共享同一个 SideTable
+
+另外，可以看到 SideTable 还负责相关对象的引用计数
 
 
 ```cpp
