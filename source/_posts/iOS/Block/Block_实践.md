@@ -55,16 +55,16 @@ ARC 正常，MRC 崩溃。修复方法就是加 copy，如果不懂点[这里](h
 
 ```objc
 void exampleC_addBlockToArray(NSMutableArray *array) {
-  [array addObject:^{
-    printf("Cn");
-  }];
+    array addObject:^{
+        printf("Cn");
+    }];
 }
 	
 void exampleC() {
-  NSMutableArray *array = [NSMutableArray array];
-  exampleC_addBlockToArray(array);
-  void (^block)() = [array objectAtIndex:0];
-  block();
+    NSMutableArray *array = [NSMutableArray array];
+    exampleC_addBlockToArray(array);
+    void (^block)() = [array objectAtIndex:0];
+    block();
 }
 	
 //调用：exampleC();
