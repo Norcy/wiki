@@ -1,5 +1,5 @@
 ---
-title: Hexo特性
+title: Hexo 特性
 ---
 
 ## Travis CI 自动构建
@@ -61,4 +61,4 @@ title: Hexo特性
 
 
 ## 一些坑
-如果使用了分割线，则生成 html 失败
+如果使用了分割线，则生成 html 失败（已经第二次踩坑）
