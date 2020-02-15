@@ -77,8 +77,6 @@ RewriteRule ^MiniPro/fmlist/([0-9]+)$  ./MiniPro/RestController.php?fm=single&id
 
 需要注意的是 SiteRestHandler.php 这个文件中的 `$this ->setHttpHeaders($requestContentType, $statusCode);` 这句代码需要注释才能工作
 
----
-
 **如果要读取 POST 参数**
 使用 `$_POST` 是读取不到的，可使用
 
@@ -88,8 +86,6 @@ $postData = json_decode(file_get_contents('php://input'), true);
 
 来获取 POST 参数
 
-
----
 
 我自己实现的例子：https://github.com/Norcy/SmallFrequence.git
 
