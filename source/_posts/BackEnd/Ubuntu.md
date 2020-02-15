@@ -1,4 +1,5 @@
 ## 禁止 Apache 显示目录索引
+
 ```sh
 sudo vim /etc/apache2/apache2.conf
 ```
