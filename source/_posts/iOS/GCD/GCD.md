@@ -307,12 +307,90 @@ dispatch_resume(queue);
 + 一般在内存警告后取消队列中的操作
 + 为了保证 scorllView 在滚动的时候流畅，通常在滚动开始时，暂停队列中的所有操作，滚动结束后，恢复操作
 
+
+### `dispatch_group_enter` 和 `dispatch_group_leave`
+假如有一个耗时操作 A 和 2 个网络请求 B、C，现在需要等到 ABC 都完成后刷新页面
+
+注意如果网络请求的代码不使用 `dispatch_group_enter` 而使用 `dispatch_group_async` 是有问题的
+
+```objc
+// 错误的示例
+// B 网络请求
+dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [self sendRequestWithCompletion:^(id response) {
+        number += 2;
+    }];
+});
+```
+
+问题在于，加入队列中的任务是一个网络请求，它是异步的，因此这个任务会被立刻完成（尽管此时网络请求还没回来）
+
+对于 **group 多任务中的异步任务，我们需要使用 `dispatch_group_enter` 和 `dispatch_group_leave` 实现**
+
+```objc
+- (void)testGCDEnter
+{
+	dispatch_group_t group = dispatch_group_create();
+
+	__block NSInteger number = 0;
+
+	// A 耗时操作
+	dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+	    sleep(3);
+	    number += 1;
+	});
+
+	// B 网络请求
+	dispatch_group_enter(group);
+	[self sendRequestWithCompletion:^(id response) {
+	    number += 2;
+	    dispatch_group_leave(group);
+	}];
+
+	// C 网络请求
+	dispatch_group_enter(group);
+	[self sendRequestWithCompletion:^(id response) {
+	    number += 3;
+	    dispatch_group_leave(group);
+	}];
+
+	dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+	    NSLog(@"%zd", number);
+	});
+}
+
+- (void)sendRequestWithCompletion:(void (^)(id response))completion
+{
+    //模拟一个网络请求
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        sleep(1);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completion) completion(nil);
+        });
+    });
+}
+```
+
+当调用 `dispatch_group_create` 的时候，生成的 group 内部会维护一个信号量。
+
++ 当调用 `dispatch_group_enter` 的时候，信号量会减 1；
++ 当调用 `dispatch_group_leave` 的时候，信号量会加 1；此时会判断信号量是否恢复为初始值；如果是则调用 `dispatch_group_notify`
++ 当调用 `dispatch_group_async` 的时候，其内部实际上也调用了 `dispatch_group_enter` 和 `dispatch_group_leave`
+
+注意：
+
+1. `dispatch_group_enter` 必须在 `dispatch_group_leave` 之前出现
+2. `dispatch_group_enter` 和 `dispatch_group_leave` 必须成对出现
+
+更多资料可参考：[深入理解GCD之dispatch_group](https://juejin.im/post/5c761be8f265da2d993d9578)
+
+
 ### `dispatch_once`
 单例
 
 ### `dispatch_semaphore`
 少用，待补充
-### Dispatch IO
+### dispatch iO
 少用，待补充
 	
 ## 相关链接
