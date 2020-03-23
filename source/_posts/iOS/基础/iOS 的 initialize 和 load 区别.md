@@ -154,14 +154,14 @@ static void call_class_loads(void)
 IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
     bool initialize, bool cache, bool resolver)
 {
-	...// 省略部分代码
+    // 省略部分代码
     if (initialize && !cls->isInitialized())
-	{
-        ...// 省略部分代码
-		_class_initialize(_class_getNonMetaClass(cls, inst));
-        ...// 省略部分代码
-	}
-	...// 省略部分代码
+    {
+        // 省略部分代码
+        _class_initialize(_class_getNonMetaClass(cls, inst));
+        // 省略部分代码
+    }
+    // 省略部分代码
 }
 ```
 
@@ -173,28 +173,28 @@ IMP lookUpImpOrForward(Class cls, SEL sel, id inst,
 ```objc
 void _class_initialize(Class cls)
 {
-	...// 省略部分代码
+    // 省略部分代码
     Class supercls;
-	BOOL reallyInitialize = NO;
-	supercls = cls->superclass;
-	if (supercls && !supercls->isInitialized())
-	{
-		_class_initialize(supercls);
-	}
+    BOOL reallyInitialize = NO;
+    supercls = cls->superclass;
+    if (supercls && !supercls->isInitialized())
+    {
+        _class_initialize(supercls);
+    }
 
-	if (!cls->isInitialized() && !cls->isInitializing())
-	{
-		cls->setInitializing();
-		reallyInitialize = YES;
-	}
+    if (!cls->isInitialized() && !cls->isInitializing())
+    {
+        cls->setInitializing();
+        reallyInitialize = YES;
+    }
 
-	if (reallyInitialize)
-	{
-		...// 省略部分代码
-		((void (*)(Class, SEL))objc_msgSend)(cls, SEL_initialize);
-		...// 省略部分代码
-	}
-	...// 省略部分代码
+    if (reallyInitialize)
+    {
+        // 省略部分代码
+        ((void (*)(Class, SEL))objc_msgSend)(cls, SEL_initialize);
+        // 省略部分代码
+    }
+    // 省略部分代码
 }
 ```
 
@@ -260,7 +260,7 @@ Main 函数开始执行
 
 1. **类的加载顺序由 Compile Sources 确定**，即 Daughter > Other > Son > Father，分类的加载是另外一个时机
 2. 第一个加载的类是 Daughter，由于没有实现 load，所以没有任何关于 Daughter 的输出，同时也可以看出，**一个类没有实现 load，加载它时不会调用父类的 load**
-3. 第二个加载的类是 Other，由于在其 load 的中向本类发送了消息，所以导致 initialzie 先于 load 被调用，可以看出，**initialize 调用的时机不是在 main 函数之后，而是在向该类发送第一个消息之前**；第一行输出是 Other 分类的 initialize 方法， Other 自己的 intialize 永远没机会被调用，是因为**分类的 intialize 会覆盖本类**
+343. 第二个加载的类是 Other，由于在其 load 的中向本类发送了消息，所以导致 initialzie 先于 load 被调用，可以看出，**initialize 调用的时机不是在 main 函数之后，而是在向该类发送第一个消息之前**；第一行输出是 Other 分类的 initialize 方法， Other 自己的 intialize 永远没机会被调用，是因为**分类的 innitialize 会覆盖本类**
 4. 第三个加载的类是 Son，加载 Son 的时候会优先加载 Father，说明**子类的 load 一定是晚于父类**；同 Other，Father 优先输出了分类的 initialize，再输出 load，那为什么是 `Category_1` 而不是 `Category_2` 的 initialze 呢，因为 `Category_2` 在 Compile Sources 中是晚于 `Category_1`，因此覆盖了本类和 `Category_1` 的方法。即**分类的 initialzie 覆盖本类时，以 Compile Sources 中最后一个分类为准**
 5. 接下来终于轮到 Son 自己加载了，可以看到 Son+Category 的 load 的方法并没有在此时执行，说明**分类的 load 确实晚于主类**
 6. 最后一个要加载的主类是 Father，而由于 Father 刚刚已经加载过了，因此不会再次调用 load 方法，说明**一个类的 load 方法系统最多只会调用一次**
@@ -270,6 +270,12 @@ Main 函数开始执行
 
 
 # 延伸思考
+## 为什么分类的 load 方法不会被覆盖本类，而 innitialize 会呢
+因为 load 的时候 Runtime 还没有初始化完毕；load 的调用是直接函数调用，而 initialize 是属于消息发送，需要依赖 Runtime
+
+## 分类实现的普通方法，是如何覆盖本类的
+
+
 ## 为什么方法交换要写在 load
 我们可以从 load 的特点得到：
 
@@ -298,8 +304,8 @@ load 是线程安全的，最多也被系统调用一次，添加 `dispatch_once
 
 - (void)viewWillAppear_1:(BOOL)animated
 {
-	NSLog(@"%s", __FUNCTION__);
-	[self viewWillAppear_1:animated];
+    NSLog(@"%s", __FUNCTION__);
+    [self viewWillAppear_1:animated];
 }
 
 // UIViewController+Category2.m
@@ -313,8 +319,8 @@ load 是线程安全的，最多也被系统调用一次，添加 `dispatch_once
 
 - (void)viewWillAppear_2:(BOOL)animated
 {
-	NSLog(@"%s", __FUNCTION__);
-	[self viewWillAppear_2:animated];
+    NSLog(@"%s", __FUNCTION__);
+    [self viewWillAppear_2:animated];
 }
 ```
 

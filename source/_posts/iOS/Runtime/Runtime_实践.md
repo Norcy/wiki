@@ -1,3 +1,91 @@
+## super 的本质
+[《Objective-C Runtime初探：self super》](https://www.cnblogs.com/chenyg32/p/4811516.html)
+
+```objc
+@interface A : NSObject
+- (void)f;
+@end
+
+@interface B : A
+- (void)f;
+- (void)g;
+@end
+
+@interface C : B
+- (void)f;
+@end
+```
+
+```objc
+@implementation A
+- (void)f
+{
+    NSLog(@"A");
+}
+@end
+
+
+@implementation B
+- (void)f
+{
+    NSLog(@"B");
+}
+
+- (void)g
+{
+    [self f];
+    [super f];
+    NSLog(@"%@", [self class]);
+    NSLog(@"%@", [super class]);
+}
+@end
+
+@implementation C
+- (void)f
+{
+    NSLog(@"C");
+}
+@end
+```
+
+请问，下面代码输出什么？
+
+```objc
+C *c = [[C alloc] init];
+[c g];
+```
+
+答案：CACC
+
+## NSObject 分类的 -test 与 Person 的无实现 +test
+问：假如 Person 类声明了 `+ (void)test` 方法，但是没实现，而 NSObject 的分类实现了 `- (void)test` 方法；此时调用 Person 的 test 类方法，会发生什么事？
+
+```objc
+// Person.h
+@interface Person : NSObject
++ (void)test;   // 没有实现
+@end
+
+// NSObject+Runtime.m
+@implementation NSObject (Runtime)
+- (void)test
+{
+    NSLog(@"NSObject's test");
+}
+@end
+
+[[Person class] test];  // 会发生什么？
+```
+
+答：虽然 Person 没有实现这个类方法，但是最终会调用 NSObject 的 test 实例方法。
+
+对于类方法，消息发送从 Person 类的 isa 指针指向的元类开始查找方法，沿着继承链向上查找，最终找到 NSObject 元类，找不到，继续查找 NSObject 的类对象，最终发现了 test 方法，进而进行调用
+
+本题的考点是：
+
+1. NSObject 元类的父类就是 NSObject 类对象
+2. 查找方法的 Key 是 @selector，并不包括其是实例方法还是类方法；或者说实例方法和类方法的区别就在于查找的继承链，而不在于方法本身
+
 ## Runtime 怎么添加属性、方法
 ```objc
 class_addIvar           // 添加成员变量
@@ -176,64 +264,3 @@ BOOL res10 = [[Person class] isMemberOfClass:[Person class]];   // NO
 关于 res8，当调用者是 [NSObject class] 时，调用的是 `+ (BOOL)isMemberOfClass:(Class)cls`；self 是 NSObject 的类对象，`object_getClass` 返回的是 NSObject 元类，而传入的 cls 是 NSObject 类对象。不相等，返回 NO
 
 res10 与 res8 同理
-
-
-
-## super 的本质
-[《Objective-C Runtime初探：self super》](https://www.cnblogs.com/chenyg32/p/4811516.html)
-
-```objc
-@interface A : NSObject
-- (void)f;
-@end
-
-@interface B : A
-- (void)f;
-- (void)g;
-@end
-
-@interface C : B
-- (void)f;
-@end
-```
-
-```objc
-@implementation A
-- (void)f
-{
-    NSLog(@"A");
-}
-@end
-
-
-@implementation B
-- (void)f
-{
-    NSLog(@"B");
-}
-
-- (void)g
-{
-    [self f];
-    [super f];
-    NSLog(@"%@", [self class]);
-    NSLog(@"%@", [super class]);
-}
-@end
-
-@implementation C
-- (void)f
-{
-    NSLog(@"C");
-}
-@end
-```
-
-请问，下面代码输出什么？
-
-```objc
-C *c = [[C alloc] init];
-[c g];
-```
-
-答案：CACC
