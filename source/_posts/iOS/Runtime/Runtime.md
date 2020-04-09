@@ -8,6 +8,8 @@
 
 [`objc_class`、`objc_method` 定义源码](https://opensource.apple.com/source/objc4/objc4-750/runtime/runtime.h.auto.html)
 
+[`category_t` 定义源码](https://opensource.apple.com/source/objc4/objc4-750/runtime/objc-runtime-new.h.auto.html)
+
 ## 实例对象（objc_object）
 ```objc
 typedef struct objc_object *id;
@@ -254,7 +256,7 @@ typedef id (*IMP)(id, SEL, ...);
 
 先了解函数指针的概念
 
-> typedef 返回类型(*函数指针名)(参数表)
+> typedef 返回类型(`*`函数指针名)(参数表)
 
 
 ```c
@@ -289,7 +291,7 @@ struct category_t {
 };
 ```
 
-### 引申思考：如何在分类中添加属性
+### 引申思考：[如何在分类中添加属性](../如何为分类添加属性)
 可以看出，分类中可以添加实例方法，类方法，甚至可以实现协议，添加属性，但不可以添加成员变量
 
 instanceProperties 的存在是我们可以通过 `objc_setAssociatedObject` 和 `objc_getAssociatedObject` 向分类中增加实例变量的原因，不过这个和一般的实例变量是不一样的
