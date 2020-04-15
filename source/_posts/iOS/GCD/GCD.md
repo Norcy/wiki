@@ -140,55 +140,8 @@ new3 3
 
 # 常用 API
 ## `dispatch_set_target_queue`
+见 [dispatch_set_target_queue](../dispatch_set_target_queue)
 
-1. 改变队列优先级
-
-	`dispatch_queue_create` 创建的队列，无论是串行还是并发，其优先级都是 `DISPATCH_QUEUE_PRIORITY_DEFAULT`，使用 `dispatch_set_target_queue` 可以改变队列优先级
-	
-	```objc
-	dispatch_queue_t serialQueue = dispatch_queue_create("", NULL);
-	dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-	dispatch_set_target_queue(serialQueue, globalQueue);
-	```
-	
-	第一个参数如果是主队列或者是全局并发队列则后果未知
-
-2. 让多个串行队列之间也能串行地执行任务
-
-	如果创建多个串行队列，它们之间其实是并行处理的。如果都对它们分别使用 dispatch_set_target_queue，指定为某一个串行队列，那么它们的任务将在目标串行队列上串行处理
-	
-	```objc
-	dispatch_queue_t mySerialDispatchQueue1 = dispatch_queue_create("com.example.gcd.MySerialDispatchQueue1", NULL);
-	dispatch_queue_t mySerialDispatchQueue2 = dispatch_queue_create("com.example.gcd.MySerialDispatchQueue2", NULL);
-	dispatch_queue_t mySerialDispatchQueue3 = dispatch_queue_create("com.example.gcd.MySerialDispatchQueue3", NULL);	
-
-	dispatch_queue_t targetDispatchQueue = dispatch_queue_create("com.example.gcd.TargetDispatchQueue", NULL);
-
-	dispatch_set_target_queue(mySerialDispatchQueue1, targetDispatchQueue);
-	dispatch_set_target_queue(mySerialDispatchQueue2, targetDispatchQueue);
-	dispatch_set_target_queue(mySerialDispatchQueue3, targetDispatchQueue);
-	
-	dispatch_async(mySerialDispatchQueue1, ^{
-	    NSLog(@"串行队列1的任务 %@", [NSThread currentThread]);
-	});
-	
-	dispatch_async(mySerialDispatchQueue2, ^{
-	    NSLog(@"串行队列2的任务 %@", [NSThread currentThread]);
-	});
-	
-	dispatch_async(mySerialDispatchQueue3, ^{
-	    NSLog(@"串行队列3的任务 %@", [NSThread currentThread]);
-	});
-	```
-	
-	执行结果：
-	
-	```
-	串行队列1的任务 targetDispatchQueue所在的线程
-	串行队列2的任务 targetDispatchQueue所在的线程
-	串行队列3的任务 targetDispatchQueue所在的线程
-	```
-	
 ## `dispatch_after`
 注意 `dispatch_after` 并不是再指定时间后执行处理，而只是在指定时间追加任务到 Dispatch Queue
 

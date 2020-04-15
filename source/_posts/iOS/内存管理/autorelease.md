@@ -124,3 +124,29 @@ id obj = [[NSObject alloc] init];
 // 等同于 obic_autoreleasePoolPop(pool)
 [pool drain];
 ```
+
+
+## AutoreleasePool 的底层实现
+1. AutoreleasePool 是由一个个 AutoreleasePoolPage 组成的双向链表
+2. AutoreleasePoolPage 内部维护一个栈；栈满的时候会新建一个 AutoreleasePoolPage 节点
+3. AutoreleasePool Push 时会压入一个边界对象表示一个 AutoreleasePool 的开始，Pop 时会清理堆栈直到遇到一个边界对象；边界对象是界定 AutoreleasePool 的分割线
+
+![](https://user-gold-cdn.xitu.io/2018/5/23/1638c0ede96e603e)
+
+## AutoreleasePool 与 RunLoop
+App 启动后，苹果在主线程 RunLoop 里注册了两个 Observer，区别是优先级不同
+
+第一个 Observer 优先级最高，保证创建释放池发生在其他所有回调之前，监视了一个事件：
+
++ Entry（即将进入 Loop），其回调内会调用 `_objc_autoreleasePoolPush()` 创建自动释放池。
+
+第二个 Observer 优先级最低，保证其释放池子发生在其他所有回调之后，监视了两个事件：
+
++ BeforeWaiting（准备进入休眠）时调用 `_objc_autoreleasePoolPop()` 和 `_objc_autoreleasePoolPush()` 释放旧的池并创建新池；
++ Exit(即将退出 Loop) 时调用 `_objc_autoreleasePoolPop()` 来释放自动释放池。
+
+
+在主线程执行的代码，通常是写在诸如事件回调、Timer 回调内的。这些回调会被 RunLoop 创建好的 AutoreleasePool 环绕着，所以不会出现内存泄漏，开发者也不必显示创建 Pool 了
+
+## 参考文章
++ [AutoreleasePool 底层实现原理](https://juejin.im/post/5b052282f265da0b7156a2aa)

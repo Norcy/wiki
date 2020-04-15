@@ -57,6 +57,12 @@ NSLog(@"%p isa: %@", str7, [str7 class]);
 0x600002e128c0 isa: __NSCFString
 ```
 
+## NSString 与引用计数
++ `__NSCFConstantString` 的引用计数无限大
++ `__NSTaggedPointerString` 的引用计数无限大
++ `__NSCFString` 的引用计数正常，对一个 `__NSCFString` 进行 copy 操作会使得该对象的引用计数 +1
+
+> 可以通过 `po @(CFGetRetainCount((__bridge CFTypeRef)(s)))` 查看其引用计数
 
 ### 一道面试题
 
@@ -75,4 +81,6 @@ while (n--)
 1. 会挂吗？会，因为是 nonatomic
 2. 如果改为 atomic 会挂吗？不会
 3. 如果只是赋值改为 @"a"，会挂吗？不会，因为变成了 `__NSTaggedPointerString`，不会调用其 setter
+
+
 
