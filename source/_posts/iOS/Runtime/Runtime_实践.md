@@ -116,9 +116,9 @@ class_replaceProperty   // 替换属性
 
 添加实例变量会影响类结构体中的 `objc_ivar_list` 和 `instance_size`
 
-因为编译后的类已经注册在 Runtime 中，类结构体中的 objc_ivar_list 实例变量的链表和 instance_size 实例变量的内存大小已经确定，同时 Runtime 会调用 class_setIvarLayout 或 class_setWeakIvarLayout 来处理 strong weak 引用，所以不能向存在的类中添加实例变量
+因为编译后的类已经注册在 Runtime 中，类结构体中的 `objc_ivar_list` 实例变量的链表和 `instance_size` 实例变量的内存大小已经确定，同时 Runtime 会调用 `class_setIvarLayout` 或 `class_setWeakIvarLayout` 来处理 strong weak 引用，所以不能向存在的类中添加实例变量
 
-运行时创建的类是可以添加实例变量，调用 class_addIvar 函数，但是得在调用 objc_allocateClassPair 之后，objc_registerClassPair 之前，原因同上。 
+运行时创建的类是可以添加实例变量，调用 `class_addIvar` 函数，但是得在调用 `objc_allocateClassPair` 之后，`objc_registerClassPair` 之前，原因同上。 
 
 ## 类和分类的同名方法
 + 如果分类中有和原有类同名的方法, 会优先调用分类中的方法，即 分类 > 原类

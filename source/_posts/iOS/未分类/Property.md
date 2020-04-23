@@ -34,17 +34,36 @@
 > 声明 Block 时，使用 strong 和 retain 会有截然不同的效果。strong 会等于 copy，而 retain 竟然等于 assign
 
 ### 关于 copy 与 mutableCopy
++ 非集合类
+
 ```objc
 NSString *s = @"123";
-NSString *s1 = [s copy];          // s1 与 s 是同个对象
-NSString *s2 = [s mutableCopy];   // s2 是新对象
+NSString *s1 = [s copy];          // 浅复制：s1 与 s 是同个对象
+NSString *s2 = [s mutableCopy];   // 深复制：s2 是新对象
 
 NSMutableString *m = [@"123" mutableCopy];  
-NSMutableString *m1 = [m copy];         // m1 是新对象
-NSMutableString *m2 = [m mutableCopy];  // m2 是新对象
+NSMutableString *m1 = [m copy];         // 深复制：m1 是新对象
+NSMutableString *m2 = [m mutableCopy];  // 深复制：m2 是新对象
 ```
 
 结果，s1 是浅复制，没有生成新的对象；其他情况都是深复制，产生了新对象
+
++ 集合类
+
+
+```objc
+NSArray *a = @[@"123"];
+NSString *a1 = [a copy];          // 浅复制：a1 与 a 是同个对象
+NSString *a2 = [a mutableCopy];   // 单层深复制：a2 是新对象，但集合里的元素仍然是一样
+
+NSMutableString *b = [@[@"123"] mutableCopy];  
+NSMutableString *b1 = [b copy];         // 单层深复制：b1 是新对象，但集合里的元素仍然是一样
+NSMutableString *b2 = [mb mutableCopy]; // 单层深复制：b2 是新对象，但集合里的元素仍然是一样
+```
+
+结果，a1 是浅复制，没有生成新的对象；其他情况都是 单层深复制，产生了新对象；所谓单层深复制，指的是虽然该指针指向的对象是新产生的，但是集合内部的元素仍然是一样的
+
+更多可以参考：[iOS 集合的深复制与浅复制](https://www.zybuluo.com/MicroCai/note/50592)
 
 ## MRC 与 ARC 下的 setter 实现
 ```objc
