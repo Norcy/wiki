@@ -23,13 +23,15 @@
 + weak 修饰的成员变量是用 `__weak` 修饰的；assign 生成的成员变量是用 `__unsafe_unretained`
 
 ### 默认属性是哪些
-+ 原子性默认为 atomic，这就是我们一直需要手动写 nonatomic 的原因
-+ 对于 Objective-C 对象，默认为 strong；对于基本类型，默认为 assign
++ 基本数据类型默认关键字是 atomic、readwrite、assign 
++ 普通的 Objective-C 对象默认关键字是 atomic、readwrite、strong
 
 ### 常见的修饰
 + NSString/NSArray: copy（why）
 + NSMutableString/NSMutableArray: strong（why）
 + block: copy/strong（如果是 MRC 只能用 copy）
+
+> 声明 Block 时，使用 strong 和 retain 会有截然不同的效果。strong 会等于 copy，而 retain 竟然等于 assign
 
 ### 关于 copy 与 mutableCopy
 ```objc

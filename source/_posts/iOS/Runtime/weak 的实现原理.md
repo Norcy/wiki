@@ -1,6 +1,7 @@
 ## 本文解决的问题
 + weak 的代码实现原理
 + 当对象释放的时候，如何实现将 weak 指针置为 nil
++ weak 指针的线程安全
 
 ## 阅读本文的前提
 ```objc
@@ -231,10 +232,89 @@ void weak_clear_no_lock(weak_table_t *weak_table, id referent_id)
 
 系统会把 weakObj 会放入一个 hash 表中。 用 obj 的内存地址作为 key，当 obj 的引用计数为 0 的时候会执行其 dealloc，此时会在这个 weak 表中搜索，找到所有以 &obj 为 key 的对象，设置为 nil
 
+## weak 指针的线程安全
+问题：当一个对象正在 delloc 时，如果在另一个线程获取了 weak 指针，这时获取到的 weak 指针有没有可能是野指针？
+
+结论：不可能是野指针。weak 的访问是线程安全的
+
+```objc
+Person *obj = [[Person alloc] init];
+id __weak weakObj = obj;
+NSLog(@"%@", weakObj);
+```
+
+通过 `clang -rewrite-objc MyBlock.c` 重写后得到的伪代码
+
+```objc
+id weakObj;
+objc_initWeak(&weakObj, obj);
+
+// 注意 NSLog(@"%@", weakObj) 转为以下代码
+id tmp = objc_loadWeakRetained(&obj);
+NSLog(@"%@", tmp);
+objc_release(tmp);
+```
+
+当我们访问 weakObj 的时候，编译器会转为 `objc_loadWeakRetained`
+
+```objc
+id objc_loadWeakRetained(id *location)
+{
+    id obj;
+    id result;
+    Class cls;
+    SideTable *table;
+    
+ retry:
+    obj = *location;
+    if (!obj) return nil;
+    if (obj->isTaggedPointer()) return obj;
+    
+    table = &SideTables()[obj];
+    
+    table->lock();
+    if (*location != obj) {
+        table->unlock();
+        goto retry;
+    }
+    
+    result = obj;
+
+    cls = obj->ISA();
+    if (! cls->hasCustomRR()) {
+        // 一般情况下会走到这里
+        if (! obj->rootTryRetain()) {
+            result = nil;
+        }
+    }
+    else {
+        // 此处省略不重要的代码...
+    }
+        
+    table->unlock();
+    return result;
+}
+```
+
+1. 获取 weak 指针时，会调用 `objc_loadWeakRetained`
+2. 不讨论 isTaggedPointer 这种特殊情况
+3. hasCustomRR 在重写 retain/release/autorelease/retainCount/_tryRetain/_isDeallocating/retainWeakReference/allowsWeakReference 等方法时会返回true，一般情况会返回 false。这里只讨论返回 false 的情况
+4. rootTryRetain 会尝试对该对象进行 retain，里面会判断该对象是否正在 deallocating，如果是则返回 nil
+5. 通俗概括以上代码：获取 weak 时调用 `objc_loadWeakRetained`，获取过程会加锁。如果该对象已经释放或正在释放则返回 nil，否则对该对象进行 retain 并返回。因此我们得出结论：对 weak 指针的访问是线程安全的
+6. 那么问题来了，既然有 retian，那什么时候 release 呢？答案是 ARC 下会在 weak 指针访问完成后，自动插 release 代码，如下
+
+```objc
+// 注意 NSLog(@"%@", weakObj) 转为以下代码
+id tmp = objc_loadWeakRetained(&obj);
+NSLog(@"%@", tmp);
+objc_release(tmp);
+```
+
 ## 参考
 + [Runtime如何实现weak属性？](http://solacode.github.io/2015/10/21/Runtime%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0weak%E5%B1%9E%E6%80%A7%EF%BC%9F/)
 + [objc-weak.h 源码](https://opensource.apple.com/source/objc4/objc4-647/runtime/objc-weak.h)
 + [SiteTable 源码](https://opensource.apple.com/source/objc4/objc4-647/runtime/NSObject.mm)
++ [详解获取weak对象的过程](https://www.codenong.com/j5defc55351882512327/)
 
 
 

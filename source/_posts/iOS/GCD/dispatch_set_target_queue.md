@@ -103,7 +103,7 @@ dispatch_async(mySerialDispatchQueue2, ^{
 
 以上这个例子中，队列 1 和队列 2 的目标队列都是一个串行队列，主线程执行完毕后，队列 2 有任务 1 和任务 3，队列 1 有任务 2。GCD 开始会优先处理了队列 2 的任务 1，继而继续处理了任务 3；处理完队列 2 之后再处理队列 1 的任务 2
 
-## 如何利用 GCD 实现一个优先队列
+### 如何利用 GCD 实现一个优先队列
 ```objc
 dispatch_queue_t low = dispatch_queue_create("low",DISPATCH_QUEUE_SERIAL);
 dispatch_queue_t high = dispatch_queue_create("high",DISPATCH_QUEUE_SERIAL);
@@ -131,3 +131,7 @@ dispatch_async(high,^{
 `dispatch_set_target_queue(low, high)` 可以实现将所有的 low 队列的任务全部移到 high 队列处理，因此可以保证，处理 low 队列任务的时候，high 队列中现存的任务一定是优先于 low 队列。解决的是执行 low 的时候，high 的存量问题，保证了 low 一定要排队尾。
 
 `dispatch_suspend` 保证添加 high 任务时，会暂停 low 队列，直到该任务完成才恢复。解决的是 high 任务的增量问题，保证了 high 可以插队
+
+
+## 参考资料
++ [如何利用 GCD 实现一个优先队列](https://www.jianshu.com/p/20bffaa5526b)
