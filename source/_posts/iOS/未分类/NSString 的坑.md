@@ -78,9 +78,47 @@ while (n--)
 }
 ```
 
-1. 会挂吗？会，因为是 nonatomic
-2. 如果改为 atomic 会挂吗？不会
-3. 如果只是赋值改为 @"a"，会挂吗？不会，因为变成了 `__NSTaggedPointerString`，不会调用其 setter
+可能挂在这里
+
+```sh
+#0  0x00007fff51a9033a in __pthread_kill ()
+#1  0x00007fff51b3ae60 in pthread_kill ()
+#2  0x00007fff51a1fb7c in abort ()
+#3  0x00007fff51b1ba63 in malloc_vreport ()
+#4  0x00007fff51b1bde6 in malloc_zone_error ()
+#5  0x00007fff23d9f945 in _CFRelease ()
+#6  0x000000010dcd4e0f in -[ViewController setStr:]
+```
+
+原因是多个线程调用 string 的 setter 时，当 `_str` 引用计数为 1 时，release 被调用了，过度释放造成 crash
+
+```objc
+- (void)setStr:(NSString *)str
+{
+    if (_str != str)
+    {
+        [_str release]; // arc 自动加上
+        _str = [str copy];
+    }
+}
+```
+
++ 改为 `self.str = [NSString stringWithFormat:@"abcdedfgh"];` 就不会挂了，因为 `__NSTaggedPointerString` 的引用计数无限大，多次 release 也没事
++ 同理，改为 `self.str = @"abcdedfgh"` 也不会挂，因为 `__NSCFConstantString` 的引用计数无限大
++ 改为 atomic 也可以防止 crash
+
+另外在 autoreleasepool pop 的时候也会调用 release，也可能会挂，堆栈如下
+
+```sh
+#0  0x00007fff50aed94b in objc_release ()
+#1  0x00007fff50aef077 in AutoreleasePoolPage::releaseUntil(objc_object**) ()
+#2  0x00007fff50aeef96 in objc_autoreleasePoolPop ()
+#3  0x0000000101ed1e77 in _dispatch_last_resort_autorelease_pool_pop ()
+#4  0x0000000101ee3825 in _dispatch_root_queue_drain ()
+#5  0x0000000101ee3ca6 in _dispatch_worker_thread2 ()
+#6  0x00007fff51b379f7 in _pthread_wqthread ()
+#7  0x00007fff51b36b77 in start_wqthread ()
+```
 
 
 

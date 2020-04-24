@@ -235,7 +235,30 @@ void weak_clear_no_lock(weak_table_t *weak_table, id referent_id)
 ## weak 指针的线程安全
 问题：当一个对象正在 delloc 时，如果在另一个线程获取了 weak 指针，这时获取到的 weak 指针有没有可能是野指针？
 
-结论：不可能是野指针。weak 的访问是线程安全的
+以下的代码例子模拟了这样一个过程，多个线程正在访问 weakObj，其中一个线程对 self.obj 释放了
+
+```objc
+// @property (nonatomic, strong) NSObject *obj;
+self.obj = [NSObject new];
+int n = 500;
+while (n--)
+{
+    __weak NSObject *weakObj = self.obj;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if (n == 480)
+        {
+            self.obj = nil;
+        }
+        int m = 1000;
+        while (m--)
+        {
+            NSLog(@"%@----%@", weakObj, @(n));
+        }
+    });
+}
+```
+
+结论：不会挂，不可能是野指针。weak 的访问是线程安全的
 
 ```objc
 Person *obj = [[Person alloc] init];

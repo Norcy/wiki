@@ -31,7 +31,7 @@ dispatch_async(queue, ^{
 }
 ```
 	
-输出 1、3，因为子线程没有开启 RunLoop
+输出 1、3，因为子线程没有开启 RunLoop；注意即使是 afterDelay 为 0，也是会放到下个 RunLoop 去做
 
 ## 如何实现多读单写？
 
