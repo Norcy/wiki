@@ -11,13 +11,13 @@ print(len(sys.argv)) ## 参数个数
 getopt 模块是专门用来处理命令行参数的，里面的提供了2个函数和一个类，我们主要使用getopt函数，原型为:
 
 ```py
-def getopt(args， shortopts， longopts = []):
+def getopt(args, shortopts, longopts = []):
 ```
 
 调用语句为:
 
 ```py
-opts， args = getopt.getopt(sys.argv[1:]， "ho:"， ["help"， "output="]) 
+opts, args = getopt.getopt(sys.argv[1:], "ho:", ["help"， "output="]) 
 ```
 
 ### 参数解释
