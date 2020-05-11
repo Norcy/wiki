@@ -133,3 +133,51 @@ $ sudo a2enmod ssl
 // 然后，重启Apache 
 $ sudo /etc/init.d/apache2 restart     // 这时浏览器应该就可访问了
 ```
+
+
+
+## 基础知识
+1. 网页文件存放在 /var/www/html
+
+## 以指定用户执行命令
+由于权限全部给了 www-data，所以使用 ubuntu 账户进行 git 操作的时候，需要添加 sudo 或者 `sudo -u www-data git push`
+
+切换用户
+
+```sh
+sudo -i
+su - www-data
+```
+
+正确的操作姿势是以 www-data 操作
+
+.git 目录全部改为 www-data:www-data
+
+
+## 文件上传与下载
+1. 下载 wx 文件夹 到本地
+
+```sh
+scp -r [-P 端口号] ubuntu@111.230.246.127:/var/www/html/PublicAccount ~/Desktop/wx/
+```
+
++ 上传 test.txt 到 www 目录
+
+```sh
+scp [-r] [-P 端口号] /var/www/test.txt  root@192.168.0.101:/var/www/
+```
+
+## ubuntu 的终端文件名显示乱码或问号 
+直接修改当前用户目录 下的 .bashrc 问件，在最后添加如下：
+
+```sh
+export LC_ALL=C
+export LANG="zh_CN.utf8"
+export LC_ALL="zh_CN.utf8"
+export LC_CTYPE="zh_CN.utf8"
+```
+
+## 定时任务
+/etc/crontab
+
+不需要重启 crontab 服务，也不用 crontab -e 来添加任务
