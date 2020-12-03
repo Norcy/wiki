@@ -1,3 +1,25 @@
+## 更新 apache2 版本
+```sh
+cp -rf /etc/apache2/sites-available/ /tmp/apache2-available
+cp -rf /etc/apache2/sites-enabled/ /tmp/apache2-enabled
+ls -al /etc/apache2/sites-enabled/
+
+apache2 -version
+# 官方源没有最新版本，需要引入一个新的第三方源
+sudo add-apt-repository ppa:ondrej/apache2
+sudo apt update && apt list --upgradable
+sudo apt-get install --only-upgrade apache2
+apache2 -version
+ls -al /etc/apache2/sites-enabled/
+# 确认没问题后移除第三方源
+sudo add-apt-repository -r ppa:ondrej/apache2
+# 重启 Apache 服务
+/etc/init.d/apache2 restart
+```
+
+
+参考：[Ubuntu 升级 apache 版本](https://www.cnblogs.com/duoxuan/p/12552692.html)
+
 ## 禁止 Apache 显示目录索引
 
 ```sh

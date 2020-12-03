@@ -67,3 +67,34 @@ import json
 with open('data.json', 'w') as f:
     json.dump(myJsonData, f, ensure_ascii=False)
 ```
+
+## 优雅的写法
+1. 列出 1 到 10 的平方列表
+
+```py
+L=[]
+for x in range(1,11):
+    L.append(x*x)
+print(L)
+```
+
+优雅
+
+```py
+>>> [x*x for x in range(1,11)]
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+```
+
+2. 只取列表中的偶数
+
+```py
+>>> [x*x for x in range(1,11) if x%2==0]
+[4, 16, 36, 64, 100]
+```
+
+3. 双重循环
+
+```py
+>>> [m+n for m in 'ABC' for n in'abc']
+['Aa', 'Ab', 'Ac', 'Ba', 'Bb', 'Bc', 'Ca', 'Cb', 'Cc']
+```
