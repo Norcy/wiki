@@ -3,6 +3,7 @@
 
 需要根据[指引](https://docs.sentry.io/platforms/react-native/advanced-setup/)对 Xcode 工程进行配置，除此之外，还针对 Debug 模式不上传 Sentry，防止浪费时间和资源
 
+生成 sourcemap 文件
 
 ```sh
 export NODE_BINARY=node
@@ -76,6 +77,17 @@ sed -i '' 's/.*.ttf\",//g' Paxxword.xcodeproj/project.pbxproj
 
 ## 热更新
 + [react-native-code-push](https://github.com/microsoft/react-native-code-push)
+
+```sh
+# 安装
+yarn global add appcenter-cli
+# 登录
+appcenter login
+# 列出 app
+appcenter apps show
+# 设置当前 App
+appcenter apps set-current Nx/Paxxword
+```
 
 常用命令
 
