@@ -9,6 +9,7 @@
     "hexo": "^3.9.0",
     "hexo-asset-file": "^1.0.3",
     "hexo-autonofollow": "^1.0.1",
+    "hexo-cli": "^4.2.0",
     "hexo-deployer-git": "^0.3.1",
     "hexo-directory-category": "^1.0.5",
     "hexo-generator-archive": "^0.1.5",

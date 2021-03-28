@@ -77,6 +77,13 @@ ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
+ansi-styles@^4.1.0:
+  version "4.3.0"
+  resolved "https://npm.corp.kuaishou.com/ansi-styles/-/ansi-styles-4.3.0.tgz#edd803628ae71c04c85ae7a0906edad34b648937"
+  integrity sha1-7dgDYornHATIWuegkG7a00tkiTc=
+  dependencies:
+    color-convert "^2.0.1"
+
 anymatch@^1.3.0:
   version "1.3.2"
   resolved "https://npm.corp.kuaishou.com/anymatch/-/anymatch-1.3.2.tgz#553dcb8f91e3c889845dfdba34c77721b90b9d7a"
@@ -289,7 +296,7 @@ bindings@^1.5.0:
   dependencies:
     file-uri-to-path "1.0.0"
 
-bluebird@^3.2.2, bluebird@^3.4.0, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.5.2, bluebird@^3.5.3, bluebird@^3.7.2:
+bluebird@^3.2.2, bluebird@^3.4.0, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.5.2, bluebird@^3.5.3, bluebird@^3.5.5, bluebird@^3.7.2:
   version "3.7.2"
   resolved "https://npm.corp.kuaishou.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha1-nyKcFb4nJFT/qXOs4NvueaGww28=
@@ -417,6 +424,14 @@ chalk@^2.4.1, chalk@^2.4.2:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
+
+chalk@^4.0.0:
+  version "4.1.0"
+  resolved "https://npm.corp.kuaishou.com/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
+  integrity sha1-ThSHCmGNni7dl92DRf2dncMVZGo=
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
 
 cheerio@0.22.0:
   version "0.22.0"
@@ -558,10 +573,22 @@ color-convert@^1.9.0:
   dependencies:
     color-name "1.1.3"
 
+color-convert@^2.0.1:
+  version "2.0.1"
+  resolved "https://npm.corp.kuaishou.com/color-convert/-/color-convert-2.0.1.tgz#72d3a68d598c9bdb3af2ad1e84f21d896abd4de3"
+  integrity sha1-ctOmjVmMm9s68q0ehPIdiWq9TeM=
+  dependencies:
+    color-name "~1.1.4"
+
 color-name@1.1.3:
   version "1.1.3"
   resolved "https://npm.corp.kuaishou.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
   integrity sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=
+
+color-name@~1.1.4:
+  version "1.1.4"
+  resolved "https://npm.corp.kuaishou.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
+  integrity sha1-wqCah6y95pVD3m9j+jmVyCbFNqI=
 
 command-exists@^1.2.8:
   version "1.2.9"
@@ -1214,6 +1241,11 @@ has-flag@^3.0.0:
   resolved "https://npm.corp.kuaishou.com/has-flag/-/has-flag-3.0.0.tgz#b5d454dc2199ae225699f3467e5a07f3b955bafd"
   integrity sha1-tdRU3CGZriJWmfNGfloH87lVuv0=
 
+has-flag@^4.0.0:
+  version "4.0.0"
+  resolved "https://npm.corp.kuaishou.com/has-flag/-/has-flag-4.0.0.tgz#944771fd9c81c81265c4d6941860da06bb59479b"
+  integrity sha1-lEdx/ZyByBJlxNaUGGDaBrtZR5s=
+
 has-value@^0.3.1:
   version "0.3.1"
   resolved "https://npm.corp.kuaishou.com/has-value/-/has-value-0.3.1.tgz#7b1f58bada62ca827ec0a2078025654845995e1f"
@@ -1293,6 +1325,22 @@ hexo-cli@^2.0.0:
     resolve "^1.10.0"
     tildify "^1.2.0"
 
+hexo-cli@^4.2.0:
+  version "4.2.0"
+  resolved "https://npm.corp.kuaishou.com/hexo-cli/-/hexo-cli-4.2.0.tgz#74647bc72a90b9cebf04af5bc70839ab281a305d"
+  integrity sha1-dGR7xyqQuc6/BK9bxwg5qygaMF0=
+  dependencies:
+    abbrev "^1.1.1"
+    bluebird "^3.5.5"
+    chalk "^4.0.0"
+    command-exists "^1.2.8"
+    hexo-fs "^3.0.1"
+    hexo-log "^2.0.0"
+    hexo-util "^2.0.0"
+    minimist "^1.2.5"
+    resolve "^1.11.0"
+    tildify "^2.0.0"
+
 hexo-deployer-git@^0.3.1:
   version "0.3.1"
   resolved "https://npm.corp.kuaishou.com/hexo-deployer-git/-/hexo-deployer-git-0.3.1.tgz#26b085ecc50e2cc99ecd33d56c254c5544c02d21"
@@ -1353,7 +1401,7 @@ hexo-fs@^1.0.0, hexo-fs@^1.0.2:
     escape-string-regexp "^1.0.5"
     graceful-fs "^4.1.11"
 
-hexo-fs@^3.1.0:
+hexo-fs@^3.0.1, hexo-fs@^3.1.0:
   version "3.1.0"
   resolved "https://npm.corp.kuaishou.com/hexo-fs/-/hexo-fs-3.1.0.tgz#2052ff72c68cda2c577a87aa0ea7980ae503fa99"
   integrity sha1-IFL/csaM2ixXeoeqDqeYCuUD+pk=
@@ -1435,6 +1483,13 @@ hexo-log@^0.2.0:
   dependencies:
     chalk "^1.1.1"
     hexo-bunyan "^1.0.0"
+
+hexo-log@^2.0.0:
+  version "2.0.0"
+  resolved "https://npm.corp.kuaishou.com/hexo-log/-/hexo-log-2.0.0.tgz#1dcc8e960029b08b21994fe2c56c4e3d6346e893"
+  integrity sha1-HcyOlgApsIshmU/ixWxOPWNG6JM=
+  dependencies:
+    chalk "^4.0.0"
 
 hexo-pagination@0.0.2:
   version "0.0.2"
@@ -2590,7 +2645,7 @@ resolve-url@^0.2.1:
   resolved "https://npm.corp.kuaishou.com/resolve-url/-/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
   integrity sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
 
-resolve@^1.10.0, resolve@^1.8.1:
+resolve@^1.10.0, resolve@^1.11.0, resolve@^1.8.1:
   version "1.20.0"
   resolved "https://npm.corp.kuaishou.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
   integrity sha1-YpoBP7P3B1XW8LeTXMHCxTeLGXU=
@@ -2934,6 +2989,13 @@ supports-color@^5.3.0:
   dependencies:
     has-flag "^3.0.0"
 
+supports-color@^7.1.0:
+  version "7.2.0"
+  resolved "https://npm.corp.kuaishou.com/supports-color/-/supports-color-7.2.0.tgz#1b7dcdcb32b8138801b3e478ba6a51caa89648da"
+  integrity sha1-G33NyzK4E4gBs+R4umpRyqiWSNo=
+  dependencies:
+    has-flag "^4.0.0"
+
 swig-extras@0.0.1:
   version "0.0.1"
   resolved "https://npm.corp.kuaishou.com/swig-extras/-/swig-extras-0.0.1.tgz#b503fede372ab9c24c6ac68caf656bcef1872328"
@@ -2973,6 +3035,11 @@ tildify@^1.2.0:
   integrity sha1-3OwD9V3Km3qj5bBPIYF+tW5jWIo=
   dependencies:
     os-homedir "^1.0.0"
+
+tildify@^2.0.0:
+  version "2.0.0"
+  resolved "https://npm.corp.kuaishou.com/tildify/-/tildify-2.0.0.tgz#f205f3674d677ce698b7067a99e949ce03b4754a"
+  integrity sha1-8gXzZ01nfOaYtwZ6melJzgO0dUo=
 
 tiny-emitter@^2.0.0:
   version "2.1.0"
