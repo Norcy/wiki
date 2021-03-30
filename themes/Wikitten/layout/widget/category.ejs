@@ -95,6 +95,7 @@
                                         var str = post.path.substring(0, index); 
                                         index = str.lastIndexOf("\/");
                                         str = str.substring(index+1, str.length);
+                                        str = decodeURI(str)
                                     %>
                                     <%=str%>
                                 <% } %>

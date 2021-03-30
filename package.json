@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.9.0"
+    "version": "5.4.0"
   },
   "dependencies": {
-    "hexo": "^3.9.0",
+    "hexo": "^5.4.0",
     "hexo-asset-file": "^1.0.3",
     "hexo-autonofollow": "^1.0.1",
-    "hexo-cli": "^4.2.0",
     "hexo-deployer-git": "^3.0.0",
     "hexo-directory-category": "^1.0.5",
     "hexo-generator-archive": "^0.1.5",
