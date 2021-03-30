@@ -2,6 +2,8 @@
 
 + [Runtime 脑图](http://naotu.baidu.com/file/30a56f1e1bbb7af7f876353dda6f6b2c)
 
+![](RunTime/test333.jpeg)
+
 # 概念
 
 [Class、id、`objc_object` 定义源码](https://opensource.apple.com/source/objc4/objc4-750/runtime/objc.h.auto.html)
