@@ -1,7 +1,5 @@
 [TOC]
 
-![](RunTime/test333.jpeg)
-
 + [Runtime 脑图](http://naotu.baidu.com/file/30a56f1e1bbb7af7f876353dda6f6b2c)
 
 # 概念
