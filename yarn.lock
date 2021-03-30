@@ -862,7 +862,7 @@ entities@1.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.0.0.tgz#b2987aa3821347fcde642b24fdfc9e4fb712bf26"
   integrity sha1-sph6o4ITR/zeZCsk/fyeT7cSvyY=
 
-entities@^1.1.1, entities@^1.1.2, entities@~1.1.1:
+entities@^1.1.1, entities@~1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
@@ -1204,14 +1204,6 @@ has@^1.0.3:
   integrity sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   dependencies:
     function-bind "^1.1.1"
-
-hexo-asset-file@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/hexo-asset-file/-/hexo-asset-file-1.0.3.tgz#634c7ee3c167cafc2386c26b3bef9307c5983c6d"
-  integrity sha512-uiBlxc74h+yEYXo85pfbNOiju69HBATTuahyUIx6EtIcpaD1Pulp+kBP4RfiCS9WFvpeJXxy5eafQrT4+5oPkQ==
-  dependencies:
-    cheerio "^0.19.0"
-    entities "^1.1.2"
 
 hexo-autonofollow@^1.0.1:
   version "1.0.1"
