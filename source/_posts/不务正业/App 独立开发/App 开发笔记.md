@@ -78,6 +78,7 @@ sed -i '' 's/.*.ttf\",//g' Paxxword.xcodeproj/project.pbxproj
 ## 热更新
 + [react-native-code-push](https://github.com/microsoft/react-native-code-push)
 
+### 安装
 ```sh
 # 安装
 yarn global add appcenter-cli
@@ -89,25 +90,31 @@ appcenter apps show
 appcenter apps set-current Nx/Paxxword
 ```
 
-常用命令
-
-```sh
-# 新增模式
-appcenter codepush deployment add Release
-appcenter codepush deployment add Beta
-# 列出生效的 JS 包
-appcenter codepush deployment list
-# 列出生效的 JS 包的 Key
-appcenter codepush deployment list -k
-# 发布
-appcenter codepush release-react -d Release -t 1.0.0 --description "Test Release"
-# 发布历史
-appcenter codepush deployment history Release
-```
-
 客户端需要修改的地方
 
 1. 代码只要改 AppDelegate 就行
 2. 新增 Beta 模式
 3. 新增 CODEPUSH_KEY 编译选项，Beta 和 Release 的 Key 不同
 4. Info.plist 新增 CodePushDeploymentKey，值为 $(CODEPUSH_KEY)
+
+
+```sh
+# 新增模式
+appcenter codepush deployment add Release
+appcenter codepush deployment add Beta
+```
+
+### 热修复
+```sh
+# 发布
+appcenter codepush release-react -d Release -t 1.0.0 --description "Test Release"
+
+# 列出生效的 JS 包
+appcenter codepush deployment list
+# 列出生效的 JS 包的 Key
+appcenter codepush deployment list -k
+# 发布历史
+appcenter codepush deployment history Release
+```
+
+**注意这里的版本号是 Native App 的版本号，每次热修复的时候都需要注意这个值**
