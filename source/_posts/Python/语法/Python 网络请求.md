@@ -1,4 +1,5 @@
-# https://segmentfault.com/a/1190000010901374
+## 示例代码
+```python
 import urllib.request
 import urllib.parse
 import requests
@@ -16,8 +17,12 @@ def useRequests():
     r = requests.get(url)
     jsonResult = r.json();
     pprint(jsonResult)
-    #print(jsonResult["books"][0]['image'])
 
 if __name__ == "__main__":
     # useUrllib()
     useRequests()
+```
+
+
+## 参考链接
++ [Python3中进行HTTP请求的4种方式](https://segmentfault.com/a/1190000010901374)
