@@ -59,3 +59,15 @@ console.log(NativeModules.KRNBasic.myKey);  // 输出 myValue
 该方法的作用是让 RN 引擎知道，你的 init 方法或 constantsToExport 方法在什么线程中执行。
 
 如果你不实现这个方法，你的 init 或 constantsToExport 将会在子线程中执行
+
+
+## Bridge 方法回调
+```objc
+RCT_EXPORT_METHOD(open:(id)obj success:(RCTResponseSenderBlock)success fail:(RCTResponseSenderBlock)fail)
+```
+
+每个方法最多支持两个 RCTResponseSenderBlock 参数，一个用于 success，一个用于 fail，且这两个方法只能回调一个
+
+且无法将 RCTResponseSenderBlock 放到 Object 中
+
+https://github.com/facebook/react-native/issues/9213

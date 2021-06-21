@@ -1,3 +1,7 @@
+## useRef
+https://zh-hans.reactjs.org/docs/hooks-reference.html#useref
+https://zhuanlan.zhihu.com/p/105276393
+
 ## setState 的时候，如果值是一个对象，记得拷贝一下 slice()，否则即使对象的值改了，state 也不会变化
 
 ```js
@@ -36,7 +40,6 @@ const onPageDataUpdate = async (newPageData) => {
 	setPageData(newPageData)	// 只更新 pageData，然后等待 useEffect 的更新
 }
 ```
-
 
 ## setState 的四种用法
 1. 接受一个 Object
