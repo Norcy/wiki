@@ -41,6 +41,7 @@ Release 下的 Fatal 错误，如果不实现 RN 的 Fatal 回调，默认情况
 
 在 JS 的全局区域写几个字母，比如
 
+```js
 const store = createStore(
     rootReducer,
     applyMiddleware(thunkMiddleware, promiseMiddleware),
@@ -50,6 +51,7 @@ asd
 xax
 
 const persistor = persistStore(store);
+```
 
 ### 如何制造 krn_bundle_load_result 的失败
 运行时修改 path 为空
