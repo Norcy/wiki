@@ -84,9 +84,7 @@ struct objc_class : objc_object {
 
 ## 元类
 
-![](https://user-gold-cdn.xitu.io/2018/4/1/1628088a3e4f0167)
-
-<!--![](http://yulingtianxia.com/resources/Runtime/class-diagram.jpg)-->
+![](http://yulingtianxia.com/resources/Runtime/class-diagram.jpg)
 
 上图可以看出：
 
