@@ -1,0 +1,34 @@
+<%
+    switch (type) {
+        case 'category':
+            title = page.category;
+            icon = 'folder';
+            break;
+        case 'tag':
+            title = '#' + page.tag;
+            icon = 'tag';
+            break;
+    }
+%>
+<div class="timeline timeline-wrap">
+  <div class="timeline-row timeline-row-major">
+    <span class="node"><i class="fa fa-<%= icon %>"></i></span>
+    <h1 class="title"><%= title %></h1>
+  </div>
+  <% page.posts.each(function (post, i) { %>
+  <div class="timeline-row">
+    <span class="node"></span>
+    <div class="content">
+      <%- partial('post/title', { post: post, index: true, class_name: 'timeline-article-title' }) %>
+    </div>
+  </div>
+  <% }); %>
+</div>
+<% if (page.total > 1) { %>
+<nav id="page-nav">
+  <%- paginator({
+            prev_text: '< ',
+            next_text: ' >'
+        }) %>
+</nav>
+<% } %>

@@ -1,0 +1,41 @@
+<% 
+var use_categories_as_default_index = theme.customize.use_categories_as_default_index;
+var random_index_file = theme.customize.random_index_file;
+if (use_categories_as_default_index) { %>
+<%- partial('categories') %>
+<% 
+} else {
+    var indexArticle;
+    if (random_index_file) {
+        var posts = [];
+        site.posts.forEach(function(item){
+            posts.push(item);
+        });
+        indexArticle = posts[Math.floor(Math.random()*posts.length)];
+    } else {
+        var index_file = theme.customize.default_index_file;
+        if (index_file) {
+            var query = {"source": `_posts/${index_file}`};
+            indexArticle = site.posts.find(query).first();
+        }
+    }
+
+    if (indexArticle) { %>
+<%- partial('common/article', { post: indexArticle, index: false }) %>
+<%- partial('common/toc', { post: indexArticle, index: false }) %>
+<% } else {
+        page.posts.each(function(post) { %>
+<%- partial('common/article', { post: post, index: true }) %>
+<% });
+}
+        
+    if (use_categories_as_default_index && page.total > 1) { %>
+<nav id="page-nav">
+  <%- paginator({
+            prev_text: '&laquo; ' + __('nav.prev'),
+            next_text: __('nav.next') + ' &raquo;'
+        }) %>
+</nav>
+<% }
+
+} %>

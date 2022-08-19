@@ -1,0 +1,138 @@
+@import "nib"
+@import "_variables"
+@import "_util/mixin"
+@import "_util/grid"
+
+global-reset()
+
+input, button
+    margin: 0
+    padding: 0
+    &::-moz-focus-inner
+        border: 0
+        padding: 0
+
+html, body, #container
+
+
+body
+    color: color-default
+    @media (prefers-color-scheme: dark) {
+        color: color-default-dark
+    }
+    background: color-background
+    @media (prefers-color-scheme: dark) {
+        background: color-background-dark
+    }
+    font: font-size font-sans
+    -webkit-text-size-adjust: 100%
+
+a
+    color: sidebar-color-link
+    @media (prefers-color-scheme: dark) {
+        color: sidebar-color-link-dark
+    }
+    text-decoration: none
+    &:visited
+        color: sidebar-color-link
+        @media (prefers-color-scheme: dark) {
+            color: sidebar-color-link-dark
+        }
+    &:hover
+        color: sidebar-color-link-current
+
+code
+    color: #e96900
+    font-size: 0.8em
+    border-radius: 2px
+    width: 100%
+    font-family: font-mono
+    background-color: code-background-color
+    overflow-x: auto
+    @media (prefers-color-scheme: dark) {
+        background-color: code-background-color-dark
+    }
+
+.outer
+    clearfix()
+    display: flex
+    height: calc(100% - 64px)
+    width: 100%
+    overflow-x: hidden
+    @media mq-mobile
+        flex-direction: column
+        padding: 0
+    @media mq-mini
+        flex-direction: column
+        padding: 0
+    margin-top: header-height
+
+.left, .alignleft
+    float: left
+
+.right, .alignright
+    float: right
+
+.clear
+    clear: both
+
+.logo
+    width: logo-width
+    height: logo-height
+    background-repeat: no-repeat
+    background-image: url(logo-url)
+    background-size: logo-width logo-height
+
+
+#container
+    flex: 1
+    display: flex !important;
+
+#main
+    display: flex !important;
+    overscroll-behavior: contain
+    flex-direction: column
+    flex: 1
+    width: 100%
+    overflow-x: hidden
+    @media mq-normal
+        padding-left: 290px
+        margin-right: 240px
+    @media mq-tablet
+        padding-left: 290px
+        max-width: calc(100% - 290px)
+        
+@import "_extend"
+@import "_partial/header"
+@import "_partial/profile"
+@import "_partial/article"
+@import "_partial/comment"
+@import "_partial/archive"
+@import "_partial/timeline"
+@import "_partial/footer"
+@import "_partial/sidebar"
+@import "_partial/insight"
+@import "_highlight/index"
+
+if sidebar is left
+    #profile
+        float: right
+
+
+#theme-mode
+  cursor pointer
+  width 16px
+  z-index 100
+  font-size 20px
+
+::-webkit-scrollbar
+    @media (prefers-color-scheme: dark) {
+        background-color: #2B2B2B
+    }
+    
+::-webkit-scrollbar-thumb
+    border-radius: 10px
+    margin: 4px
+    @media (prefers-color-scheme: dark) {
+        background-color: #6B6B6B;
+    }

@@ -1,0 +1,43 @@
+<% if (post.link) { %>
+    <% if (post.title) { %>
+        <h1 itemprop="name">
+        <a class="<%= class_name %>" href="<%- url_for(post.link) %>" target="_blank" itemprop="url"><%= post.title %></a>
+    </h1>
+    <% } else { %>
+        <h1 itemprop="name">
+            <a class="<%= class_name %>" href="<%- url_for(post.path) %>">
+                <%
+                    var index = post.path.lastIndexOf("\/");  
+                    var str = post.path.substring(0, index); 
+                    index = str.lastIndexOf("\/");
+                    str = str.substring(index+1, str.length);
+                %>
+                <%=str%>
+            </a>
+        </h1>
+    <% } %>
+<% } else if (post.title) { %>
+    <% if (index) { %>
+        <h1 itemprop="name">
+            <a class="<%= class_name %>" href="<%- url_for(post.path) %>">
+                <%= post.title %>
+            </a>
+        </h1>
+    <% } else { %>
+        <h1 class="<%= class_name %>" itemprop="name">
+            <%= post.title %>
+        </h1>
+    <% } %>
+<% } else { %>
+    <h1 itemprop="name">
+        <a class="<%= class_name %>" href="<%- url_for(post.path) %>">
+            <%
+                var index = post.path.lastIndexOf("\/");  
+                var str = post.path.substring(0, index); 
+                index = str.lastIndexOf("\/");
+                str = str.substring(index+1, str.length);
+            %>
+            <%=str%>
+        </a>
+    </h1>
+<% } %>

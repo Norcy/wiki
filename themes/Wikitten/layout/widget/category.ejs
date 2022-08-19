@@ -1,0 +1,256 @@
+<% if (site.categories.length) { %>
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-<%- theme.customize.category_perExpand ? 'up' : 'down' %> fa-2x"></i>
+    </a>
+  </h3>
+
+  <% 
+      function listCategories(categories, posts) {
+          let customCategories = getCustomCategories();
+          
+          function getCustomCategories() {
+            var use_categories_as_default_index = theme.customize.use_categories_as_default_index;
+            let ret = []
+            <!-- page.path 为 categories/tech/ 或 tech/Others/计算机基础/Git/ -->
+            let pageRootDir = page.path.split('/')[0]
+            <!-- 兼容 category 的逻辑 -->
+            const pageRootDir2 = page.path.split('/')[1]
+            <!-- 兼容指定首页为具体页面的情况，但优先级低于 categories 为首页情况 -->
+            if (!use_categories_as_default_index) {
+              const isHomePage = page.path.split('/').length == 1;
+              if (isHomePage) {
+                pageRootDir = theme.customize.default_index_file.split('/')[0];
+              }
+            }
+            // console.log(page.path, pageRootDir, pageRootDir2)     
+            for (var key in theme.customize.nav_categories) {
+              let value = theme.customize.nav_categories[key]
+              for (const item of value) {
+                if (item == pageRootDir || item == pageRootDir2) {
+                  ret = value;
+                  break;
+                }
+              }
+            }
+
+            if (ret.length == 0) {
+              let allCategories = categories.find({}).data;
+              for (const item of allCategories) {
+                ret.push(item.name)
+              }
+            }
+            // console.log('getCustomCategories ', ret)
+            return ret;
+          }
+
+          function layArticles(posts) {
+              var classifiedArticles = {'_root': []};
+              var sortPosts = [];
+              posts.forEach(function(post,i){
+                sortPosts.push(post)
+              })
+              sortPosts.sort(function(a, b){
+                return a.date - b.date
+              });
+              sortPosts.forEach(function(post){
+                  var last_post_cat;
+                  var post_info = {
+                    "title": post.title,
+                    "path": url_for(post.path),
+                    "_id": post._id
+                  };
+                  if (post.categories.length) {
+                    last_cat_id = post.categories.data.slice(-1)[0]['_id'];
+                    if(!classifiedArticles[last_cat_id]) classifiedArticles[last_cat_id] = [];
+                    classifiedArticles[last_cat_id].push(post_info);
+                  } else {
+                    classifiedArticles['_root'].push(post_info);
+                  }
+              });
+              return classifiedArticles;
+          }
+          function prepareQuery(categories, parent) {
+              var query = {};
+              if (parent) {
+                  query.parent = parent;
+              } else {
+                  query.parent = {$exists: false};
+              }
+              return categories.find(query).sort('name', 1).filter(function(cat) {
+                  return cat.length;
+              });
+          }
+          function hierarchicalList(tree, parent, classifiedArticles, shouldShow) {
+            if (!shouldShow) {
+              return null
+            }
+            if (!tree.name) {
+              tree = {"name": "_root", "_id": "_root", "children": [], "articles": classifiedArticles['_root']};
+              shouldShow = false
+            }
+
+            prepareQuery(categories, parent).forEach(function(cat, i) {
+                var now_category = {
+                    "_id": cat._id, 
+                    "name": cat.name, 
+                    "children": [],
+                    "articles": classifiedArticles[cat._id]
+                };
+                if(is_post() && now_category.articles) {
+                    now_category.articles.forEach(function(post, i) {
+                        if(page._id == post._id) now_category["selected"] = true;
+                    });
+                }
+                var childTree = hierarchicalList(now_category, cat._id, classifiedArticles, customCategories.includes(cat.name) || shouldShow);
+                if (childTree) {
+                  if(childTree.selected) {tree["selected"] = true};
+                  tree.children.push(childTree);
+                }
+            });
+
+            return tree
+          }
+          var classifiedArticles = layArticles(posts);
+          var categoriesTree = hierarchicalList({}, null, classifiedArticles, true);
+          return categoriesTree;
+      }
+  %>
+  <% 
+      function visitTreePosts(branch, perExpand, depth) {
+        if (depth == 0) {
+          if (branch.children && branch.children.length) {
+            branch.children.forEach(function(category){
+              visitTreePosts(category, perExpand, depth+1)
+            })
+          }
+          return;
+        }
+        %>
+  <ul class="unstyled" id="tree" <% if(perExpand) { %>style="display: block;" <% } %>> <%
+          if(branch.children && branch.children.length) {
+              branch.children.forEach(function(category){
+              %>
+    <li class="directory<%- category.selected ? ' open' : '' %>">
+      <a href="#" data-role="directory">
+        <%- category.name %>
+        &nbsp;
+        <i class="fa fa-caret<%- (perExpand || category.selected) ? '-down' : '-right' %>"></i>
+      </a>
+      <% visitTreePosts(category, perExpand, depth+1) %>
+    </li>
+    <%  
+              });
+          } 
+          if(branch.articles && branch.articles.length) {
+              branch.articles.forEach(function(post){
+                // 分类目录下的 index 文件不展示
+                if (depth == 1 && post.path.split('/').includes('index')) {
+                  return
+                }
+                  %>
+    <li class="file<%- (is_post() && post._id == page._id) ? ' active' : '' %>">
+      <a href="<%- post.path %>">
+        <% if (post.title) { %>
+        <%- post.title %>
+        <% } else {         
+          var index = post.path.lastIndexOf("\/");  
+          var str = post.path.substring(0, index); 
+          index = str.lastIndexOf("\/");
+          str = str.substring(index+1, str.length);
+          str = decodeURI(str)
+                              %>
+        <%=str%>
+        <% } %>
+      </a>
+    </li> <%
+              });
+          }
+        %>
+  </ul> <%
+      }
+  %>
+  <%
+        var categoriesTree = listCategories(site.categories, site.posts);
+        visitTreePosts(categoriesTree, theme.customize.category_perExpand, 0);
+  %>
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+<% } %>
