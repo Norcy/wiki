@@ -243,6 +243,12 @@ Objective-C 中的 selector 是 SEL 的一个实例对象
 我们可以用 `@selector()` 返回的是一个 SEL 类型的方法选择器
 
 
+### 引申思考：关于声明
+一个类如果只是声明了方法但是没有实现，其 `objc_class` 的 methodLists 不会有。声明仅仅只是告诉编译器存在这样一个方法，并不会真正影响 `objc_class` 里面的内容
+
+另一个角度看，methodLists 里面存的元素是 `objc_method`，而一个 `objc_method` 的构成是 SEL 和 IMP，只声明不实现，IMP 不会存在
+
+
 ## 方法实现（IMP）
 ```objc
 typedef id (*IMP)(id, SEL, ...); 
@@ -300,7 +306,7 @@ instanceProperties 的存在是我们可以通过 `objc_setAssociatedObject` 和
 id objc_msgSend(id self, SEL op, ...)
 ```
 
-Runtime 时执行的流程是这样的：
+以实例方法为例，Runtime 时执行的流程是这样的：
 
 1. 通过 obj 的 isa 指针找到它的类对象（obj 是一个 id，即 `objc_object` 指针，有 isa 指针）
 2. 在类对象的方法列表中寻找 foo（`objc_class` 的 methodLists）
