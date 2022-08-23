@@ -112,12 +112,12 @@ NSMutableString *b2 = [mb mutableCopy]; // 单层深复制：b2 是新对象，�
 ```
 
 ## @synthesize
+跟 @property 功能类似，告诉编译器自动添加 setter/getter，以及添加成员变量。现在开发中很少用到。
 
-@synthesize 告诉编译器自动添加 setter/getter，以及添加成员变量
+用途：
 
-如果不指定实例变量的名字，默认为添加下划线：`@syntheszie var = _var;`
-
-使用场景：协议中声明的属性，实现类需要使用 @synthesize 自动合成
+1. 为实例变量重命名 `@syntheszie var = _var2;`
+2. 使用场景：协议中声明的属性，实现类里面编译器会提示使用 @synthesize 来消除警告
 
 见 [如何为协议添加属性](https://norcy.github.io/wiki/tech/iOS/Runtime/如何为协议添加属性)
 
