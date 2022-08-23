@@ -8,7 +8,7 @@ UIEvent 包含最常见的三种事件：Touch Events(触摸事件)、Motion Eve
 ## Hit-Test 机制
 如图，我点击了 E，Hit-Test 机制是如何找到这个 View 呢？
 
-![Hit-Test](https://user-gold-cdn.xitu.io/2018/1/12/160e94dac2ffc35c)
+![Hit-Test](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/1/12/160e94dac2ffc35c~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 ```objc
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
@@ -59,7 +59,7 @@ UIEvent 包含最常见的三种事件：Touch Events(触摸事件)、Motion Eve
 
 用户触摸屏幕后，系统通过 Hit-Test 机制找到响应的 UIView，即 FirstResponder；如果该 UIResponder 不处理该事件，则会交给它 的下一个 UIResponder，如果该 UIResponder 处理则停止，否则继续递归直到响应链结束
 
-![](https://user-gold-cdn.xitu.io/2018/1/12/160e94dac3b40720)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/1/12/160e94dac3b40720~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 1. UIView 的 nextResponder 属性，如果有管理此 view 的 UIViewController 对象，则为此 UIViewController 对象；否则 nextResponder 即为其 superview
 2. UIViewController 的 nextResponder 属性为其管理 view 的 superview

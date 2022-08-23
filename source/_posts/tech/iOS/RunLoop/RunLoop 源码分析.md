@@ -331,7 +331,7 @@ while (nextFireTSR <= currentTSR)
 }
 ```
 
-![](https://user-gold-cdn.xitu.io/2017/9/11/2569c785d146789bc9bb56be09afb31d)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/9/11/2569c785d146789bc9bb56be09afb31d~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 ## CFArmNextTimerInMode
 

@@ -217,7 +217,7 @@ dispatch_async(queue, reading4);
 
 writing 之前添加的 reading 任务顺序是不确定的；writing 一定会等到之前添加的所有 reading 任务结束之后才执行；writing 之后添加的任务一定会在 writing 结束之后再执行，如下图
 
-![](https://user-gold-cdn.xitu.io/2018/2/24/161c6258a0c04a71)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/2/24/161c6258a0c04a71~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 `dispatch_barrier_sync` 与 `dispatch_barrier_async` 的区别在于，会等待其队列中的任务执行完毕再返回
 

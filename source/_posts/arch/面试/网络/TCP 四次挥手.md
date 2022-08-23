@@ -1,6 +1,6 @@
 ## 四次挥手的过程
 
-![](https://user-gold-cdn.xitu.io/2019/10/8/16da9fd28b49f652)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2019/10/8/16da9fd28b49f652~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 TCP 三次握手，一定是客户端先发起连接；而 TCP 四次挥手，发起中断连接的既可以是客户端，也可以是服务器。
 

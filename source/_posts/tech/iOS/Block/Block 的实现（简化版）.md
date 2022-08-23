@@ -193,7 +193,7 @@ block_struct blk = _Block_copy(temp);  // 这是一个在堆上的 Block，会�
 blk.FuncPtr(blk);   // 堆 Block 内部操作的是自己的 block_val，其 forwarding 指向自己
 ```
 
-![](https://user-gold-cdn.xitu.io/2017/1/19/037a2462d7a467a6ebab119237476a9e)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/037a2462d7a467a6ebab119237476a9e~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 ## 捕获对象
 ### `__strong` 类型的对象

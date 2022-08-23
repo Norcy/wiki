@@ -131,7 +131,7 @@ id obj = [[NSObject alloc] init];
 2. AutoreleasePoolPage 内部维护一个栈；栈满的时候会新建一个 AutoreleasePoolPage 节点
 3. AutoreleasePool Push 时会压入一个边界对象表示一个 AutoreleasePool 的开始，Pop 时会清理堆栈直到遇到一个边界对象；边界对象是界定 AutoreleasePool 的分割线
 
-![](https://user-gold-cdn.xitu.io/2018/5/23/1638c0ede96e603e)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/5/23/1638c0ede96e603e~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 ## AutoreleasePool 与 RunLoop
 App 启动后，苹果在主线程 RunLoop 里注册了两个 Observer，区别是优先级不同

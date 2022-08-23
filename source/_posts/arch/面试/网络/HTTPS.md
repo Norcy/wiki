@@ -83,7 +83,7 @@ HTTPS 主要分为两个过程：
 
 其中握手阶段的流程图如下：
 
-<!-- ![](https://user-gold-cdn.xitu.io/2018/1/21/16117c2bdbee0af3) -->
+<!-- ![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/1/21/16117c2bdbee0af3~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp) -->
 ![HTTPS.png](http://ww1.sinaimg.cn/large/99e3e31egy1gb5jiuow58j20it0i2myg.jpg)
 
 我们看看整个流程：

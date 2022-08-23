@@ -489,7 +489,7 @@ __Block_byref_obj_0 *__forwarding;
 ## Block 的类型
 我们先来看看一个由 C/C++/OBJC 编译的程序占用内存分布的结构：
 
-![](https://user-gold-cdn.xitu.io/2017/1/19/b5e9425e0b836fcca8d66b398dea079a)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/b5e9425e0b836fcca8d66b398dea079a~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 block有三种类型：
 
@@ -497,7 +497,7 @@ block有三种类型：
 + 栈块(`_NSConcreteStackBlock`)
 + 堆块(`_NSConcreteMallocBlock`)
 
-![](https://user-gold-cdn.xitu.io/2017/1/19/84cac3e5509d66965b53755b9a09b441)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/84cac3e5509d66965b53755b9a09b441~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 它们的内存分配如上图
 
@@ -514,12 +514,12 @@ block有三种类型：
 2. 没有截获任何局部变量（即使定义在函数内部）
 
 ### `_NSConcreteStackBlock`
-![](https://user-gold-cdn.xitu.io/2017/1/19/65f6b6c8a14d8642d021cc3715914099)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/65f6b6c8a14d8642d021cc3715914099~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 栈上的 Block，如果其作用域结束，该 Block 就被废弃，如同一般的局部变量。同时，因为 `__block` 变量是被 Block 持有，所以它也会跟着 Block 一起被废弃
 
 ### `_NSConcreteMallocBlock`
-![](https://user-gold-cdn.xitu.io/2017/1/19/ec4b312e57622669e1b354f511792f3d)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/ec4b312e57622669e1b354f511792f3d~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 为了解决栈块在其变量作用域结束之后被废弃（释放）的问题，我们可以把 Block 复制到堆中延长其生命周期
 
@@ -539,7 +539,7 @@ blk_t func(int rate) {
 
 将 Block 从栈上复制到堆上相当消耗 CPU，所以当 Block 设置在栈上也能够使用时，就不要复制了，因为此时的复制只是在浪费 CPU 资源
 
-![](https://user-gold-cdn.xitu.io/2017/1/19/037a2462d7a467a6ebab119237476a9e)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/037a2462d7a467a6ebab119237476a9e~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 栈 Block 复制到堆之后，它的 `__forwarding` 指针会指向堆 Block
 
@@ -563,7 +563,7 @@ blk();
 ```
 
 ### 对各种类型的 Block 执行 copy 操作
-![](https://user-gold-cdn.xitu.io/2017/1/19/55894ad603f738c74317edde741fb680)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/55894ad603f738c74317edde741fb680~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 ### 编译器自动 copy 和不自动 copy 的情况
 自动 copy 的情况

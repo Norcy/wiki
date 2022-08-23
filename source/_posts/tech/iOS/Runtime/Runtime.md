@@ -322,7 +322,7 @@ id objc_msgSend(id self, SEL op, ...)
 
 什么是消息转发呢，主要分为以下三个阶段
 
-![](https://user-gold-cdn.xitu.io/2018/4/1/1628088a3e48a485)
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/4/1/1628088a3e48a485~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 ## 动态方法解析
 第一个阶段 Runtime 会调用 `+resolveInstanceMethod:` 或者 `+resolveClassMethod:`（取决于是实例方法还是类方法），让你有机会提供一个函数实现。如果你添加了函数并返回YES， 那运行时系统就会重新启动一次消息发送的过程
