@@ -562,49 +562,51 @@ blk();
 ++(val.__forwarding->val);
 ```
 
-### 对各种类型的 Block 执行 copy 操作
-![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/55894ad603f738c74317edde741fb680~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
+### 关于 Block 类型的进一步阐释
+ARC 下，对于堆 Block 和栈 Block 的判断会更复杂，因为大多数情况下 ARC 会帮忙做 Copy
 
-### 编译器自动 copy 和不自动 copy 的情况
-自动 copy 的情况
+比如
 
 1. Block 作为函数返回值返回的时候
 2. Cocoa 框架的方法，方法中含有 usingBlock 等（如 NSArray 的 enumerateObjectUsingBlock）
 3. GCD 的 API
-
-不自动 copy 的情况：
-
-1. 向函数参数传递 Block
+4. 被 strong 变量引用到的 block
+5. **捕获到局部变量的时候，会自动 Copy 一下（所以大部分情况都是堆 Block 了）**
+6. **block 方法是参数的时候，依然是会触发 copy。（Xcode 13.4.1 验证如此，网上的答案都过时了）**
 
 ```objc
-- (NSArray *)getBlockArray
-{
-    int val = 10;
-    // 不会自动 copy
-    return [NSArray arrayWithObjects:^{NSLog(@"%d", val);}, ^{NSLog(@"%d", val);}, nil];
-    // 手动 copy
-    // return [NSArray arrayWithObjects:[^{NSLog(@"%d", val);} copy],
-            [^{NSLog(@"%d", val);} copy], nil];
-    // 会自动 copy
-    // return @[^{NSLog(@"%d", val);}, ^{NSLog(@"%d", val);}];
+- (void)testMethod:(void (^)(int num))block {
+    NSLog(@"%@",block); // __NSMallocBlock__
 }
 
 - (void)main
 {
-    NSArray *array = [self getBlockArray];
-    
-    typedef void (^blk_t)(void);
-    
-    blk_t blk = (blk_t)[array firstObject];
-    
-    blk();
+    int var = 3;
+    void (^blk)() = ^{
+        NSLog(@"%@", @(var));
+    };
+
+    __weak void (^blk2)() = ^{
+        NSLog(@"%@", @(var));
+    };
+
+    NSLog(@"%@", blk);  // __NSMallocBlock__
+    NSLog(@"%@", blk2);  // __NSStackBlock__
+    NSLog(@"%@", ^{
+        NSLog(@"%@", @(var));   // __NSMallocBlock__
+    });
+    [self testMethod:^(int num) {
+        NSLog(@"var=%d",var);
+    }];
 }
 ```
 
-+ arrayWithObjects 这个方法返回的数组，将不会包含有效的 Block，执行 blk() 时会 crash
-+ 手动 copy 将可以解决 crash 问题
-+ 字面量的写法返回的数组，将不会导致 crash（实测如此，待求证）
+ARC 下，反而要创建一个栈 Block 更困难了，比如专门使用 weak 修饰的 block，但是没什么实际用途
 
+因而随着 ARC 的完善，考察 Block 的类型判断跟考察 MRC 一样，越来越没有意义了
+
+### 对各种类型的 Block 执行 copy 操作
+![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/1/19/55894ad603f738c74317edde741fb680~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 ### 栈 Block 何时会从栈复制到堆
 1. 对 Block 调用 copy
