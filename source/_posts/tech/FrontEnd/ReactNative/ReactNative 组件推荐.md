@@ -12,6 +12,6 @@
 + 快速给指定位置添加子节点
     + [react-native-root-siblings](https://github.com/magicismight/react-native-root-siblings)
 + Switch 开关
-    + [split](https://app.split.io/org/a83e47e0-1470-11ed-b07b-b263733ad10d/ws/a84e7480-1470-11ed-b07b-b263733ad10d/help/guides/sdk)
+    + [split](https://help.split.io/hc/en-us/articles/4406066357901-React-Native-SDK)
     
 请参考 [openbase 排名](https://openbase.com/categories/js-react-native)
