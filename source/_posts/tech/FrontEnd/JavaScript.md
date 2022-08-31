@@ -49,3 +49,31 @@ Cat.prototype.eat = function(){alert("吃老鼠")};
 ```js
 const newArray = JSON.parse(JSON.stringify(array));
 ```
+
+
+## JS Fetch 请求使用 `application/x-www-form-urlencoded` 的坑
+body 参数必须自己手动编码，否则会出错
+
+```js
+var details = {
+    'userName': 'test@gmail.com',
+    'password': 'Password!',
+    'grant_type': 'password'
+};
+
+var formBody = [];
+for (var property in details) {
+  var encodedKey = encodeURIComponent(property);
+  var encodedValue = encodeURIComponent(details[property]);
+  formBody.push(encodedKey + "=" + encodedValue);
+}
+formBody = formBody.join("&");
+
+fetch('https://example.com/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+  },
+  body: formBody
+})
+```
