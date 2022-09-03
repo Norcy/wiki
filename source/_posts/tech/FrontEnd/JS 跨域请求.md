@@ -7,7 +7,7 @@ Access to fetch at 'http://192.168.2.103:8888/guess.php?reset=1' from origin 'ht
 :8888/guess.php?reset=1:1          
 ```
 
-## 解决方法（只针对 Get 请求）
+## 解决方法 1：只针对 Get 请求，需要服务端配合
 注意 fetch 方法中添加 `mode:no-cors` 不可行
 
 只是 Get 请求，可以用 JSONP 的方式来解决
@@ -48,4 +48,11 @@ $ret = ['state' => 0];
 $tmp = json_encode($ret);
 $callback = isset($_GET['callback']) ? trim($_GET['callback']) : '';
 echo $callback . '(' . $tmp .')';  
+```
+
+## 解决方法 2：临时关闭浏览器的 CORS 防御策略
+```sh
+cd /Applications/Google\ Chrome.app/Contents/
+mkdir MyCORS
+open -n /Applications/Google\ Chrome.app --args --disable-web-secruity --user-data-dir='/Applications/Google Chrome.app/Contents/MyCORS'
 ```
