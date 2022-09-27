@@ -159,6 +159,10 @@ $ sudo a2enmod ssl
 $ sudo /etc/init.d/apache2 restart     // 这时浏览器应该就可访问了
 ```
 
+## Ubuntu Apache2 更新 HTTPS 证书
+1. 到腾讯云申请新的证书，填写域名（不用包含 www），域名验证方式选择`自动 DNS 验证` 即可秒生效。显示已签发后下载证书
+2. 重复上面配置步骤的 Step 1、2、5、6 即可
+3. 点击 Chrome 地址栏前面的加密标志，可以查看证书时间以此判断是否生效
 
 
 ## 基础知识
