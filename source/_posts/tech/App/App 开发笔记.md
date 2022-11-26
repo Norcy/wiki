@@ -141,9 +141,11 @@ appcenter login
     appcenter codepush deployment list -k
     ```
 
-3. 修改 AppDelegate，详情请参考[官方文档](https://github.com/microsoft/react-native-code-push/blob/master/docs/setup-ios.md)
+3. 【iOS】修改 AppDelegate，详情请参考[官方文档](https://github.com/microsoft/react-native-code-push/blob/master/docs/setup-ios.md)
 
-4. Info.plist 新增 CodePushDeploymentKey，值为第二步获取到的 CODEPUSH_KEY
+4. 【iOS】Info.plist 新增 CodePushDeploymentKey，值为第二步获取到的 CODEPUSH_KEY
+
+注意：测试 CodePush 必须不能是 Debug 模式编译出来的 App，Debug 模式默认都会走本地 Server
 
 
 ### 热更新步骤
