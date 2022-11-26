@@ -167,14 +167,14 @@ appcenter login
     
     ```sh
     # 发布
-    appcenter codepush release-react -d Release -m -t "1.0.0" --description "Message"
+    appcenter codepush release-react -d Release -t "1.0.0" --description "Message"
     ```
 
     > **注意这里的版本号是 Native App 的版本号，每次热修复的时候都需要注意这个值**
 
     > 注意如果要覆盖 >=2.0.0 < 3.0.0 的版本，请不要使用 "~2.0.0"，覆盖不到 2.1.0，应该使用 ">=2.0.0"
 
-    > -m 表示 Mandatory，强制更新，表示越快越好
+    > 你可以使用 -m 表示 Mandatory，强制更新，表示越快越好
 
 ### 附录
 ```sh
