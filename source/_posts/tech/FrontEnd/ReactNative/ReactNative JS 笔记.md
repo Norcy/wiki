@@ -299,6 +299,20 @@ useEffect(() => {
 }, [id, name])
 ```
 
+## useEffect 里面如何调用 async 函数
+```js
+useEffect(() => {
+    (async () => {
+      await initConnection();
+      console.log('iap initConnection finish');
+    })();
+
+    return () => {
+      endConnection();
+    };
+  }, []);
+```
+
 ## React Context 学习
 当主题设置、语言设置等类似需求时，使用 Context 是一个非常好的解决方案。Context 主要解决属性层层传递的问题，当数据源变更时，可以方便的通知到各个使用该属性的地方
 
