@@ -43,3 +43,4 @@
 + [索引——廖雪峰](https://www.liaoxuefeng.com/wiki/1177760294764384/1218728442198976)
 + [唯一索引](https://blog.51cto.com/u_57388/1868848)
 + [稀疏索引](https://juejin.cn/post/6956421181465427981)
++ [稀疏索引 2](https://zhuanlan.zhihu.com/p/261130303)
