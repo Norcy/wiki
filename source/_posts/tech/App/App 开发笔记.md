@@ -200,3 +200,12 @@ appcenter codepush deployment history Release
 正常编译真机能通过，但是 Archive 提示 `library not found for -lBVLinearGradient`，原因是 podfile 写的是最低系统版本是 iOS13，而 Xcode 中是 iOS10，而 Archive 是全部平台编译，所以就会导致编译 iOS10 的时候找不到对应的库。修改方法就是让这两处写法保持一致即可
 
 ### 每次 Archive 记得先修改 Build 号
+
+
+## AppStore 页面设置多语言
+方法 1：直接设置 CFBundleDevelopmentRegion 的值为 `zh_CN` 和 ``en_US
+
+方法 2：添加 lproj  文件
+
++ [【iOS】App Store介绍页中显示的语言列表如何设置](https://www.jianshu.com/p/92c21eb71537)
++ [如何添加 lproj 文件](https://www.jianshu.com/p/53328f4334e2)
