@@ -10,4 +10,7 @@
 3. Android Studio 的弹框中会提示 APK 地址
 
 ## 安装 APK 到手机
-USB 连接手机且打开手机的 USB 安装开关前提下，执行 `adb install xxx.apk` 即可
+USB 连接手机且打开手机的 USB 安装开关前提下
+
++ 发布时：执行 `adb install xxx.apk` 即可
++ 调试时：执行 `npx react-native run-android`
