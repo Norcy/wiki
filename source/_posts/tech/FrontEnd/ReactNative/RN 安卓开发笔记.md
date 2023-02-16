@@ -8,3 +8,6 @@
 1. 参考 https://reactnative.cn/docs/signed-apk-android 完成签名配置
 2. 点击 Android Studio 的 Build -> Generate Signed Bundle/APK -> APK -> 根据你的签名配置填好即可
 3. Android Studio 的弹框中会提示 APK 地址
+
+## 安装 APK 到手机
+USB 连接手机且打开手机的 USB 安装开关前提下，执行 `adb install xxx.apk` 即可
