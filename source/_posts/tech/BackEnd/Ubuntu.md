@@ -214,6 +214,8 @@ sudo lsof -i :3333 # 找到 pid
 kill -9 YourPid # 填入对应的 pid
 ```
 
+注意使用 pm2 保活后，kill 将不再生效，必须使用 `pm2 stop xx.js` 来结束
+
 
 ## 使用 NodeJs 作为后台服务器
 1. 环境配置，初始化一个 NodeJs 工程后，安装 express 模块
