@@ -205,3 +205,76 @@ export LANG="zh_CN.utf8"
 export LC_ALL="zh_CN.utf8"
 export LC_CTYPE="zh_CN.utf8"
 ```
+
+## 关闭 NodeJS 服务进程
+假如 NodeJS 服务的端口为 3333
+
+```sh
+sudo lsof -i :3333 # 找到 pid
+kill -9 YourPid # 填入对应的 pid
+```
+
+
+## 使用 NodeJs 作为后台服务器
+1. 环境配置，初始化一个 NodeJs 工程后，安装 express 模块
+
+```sh
+yarn init
+yarn add express
+```
+
+2. 创建 index.js ，实现基础的 post/get，以及指定路由
+
+```js
+import express from "express";
+
+const app = express();
+
+app.get("/a/test", (req, res) => {
+  res.send("hello world");
+});
+
+app.post("/a/pay", (req, res) => {
+  // 定义了一个post变量，用于暂存请求体的信息
+  var post = "";
+
+  // 通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
+  req.on("data", (chunk) => {
+    post += chunk;
+  });
+
+  // 在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
+  req.on("end", async () => {
+    post = JSON.parse(post);
+    console.log("post", post);
+	res.writeHead(200, { "Content-Type": "application/json" });
+	res.write(JSON.stringify(post));
+    res.end();
+  })
+});
+
+// 0.0.0.0 表示本机所有 IPv4 地址
+const hostname = "0.0.0.0";
+const port = 3333;
+app.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+```
+
+3. 本地调试成功后，部署到服务器，使用 pm2 进行保活
+
+```sh
+npm install -g pm2 # 如果没有，需要安装 pm2
+```
+
+保活命令，其中 js 是你的 NodeJs 入口
+
+```sh
+pm2 start index.js
+```
+
+```sh
+pm2 list # 查看当前保活的服务
+pm2 desc YourId # 根据 list 展示的 id 来查看对应的配置，可查看日志的路径等
+pm2 stop index.js # 结束指定服务
+```
