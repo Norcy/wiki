@@ -14,3 +14,9 @@ USB 连接手机且打开手机的 USB 安装开关前提下
 
 + 发布时：执行 `adb install xxx.apk` 即可
 + 调试时：执行 `npx react-native run-android`
+
+## 运行 Release 包
+点击 Build 控制台左边的 Build Variants，将 :app 的编译模式从 debug 改为 release，再运行即可
+
+
+## 
