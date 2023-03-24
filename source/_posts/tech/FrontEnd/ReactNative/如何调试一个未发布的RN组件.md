@@ -98,3 +98,4 @@ yarn add /path/to/my-package
 
 ## 参考
 + [《Linking Local Packages in React Native the Right Way》](https://medium.com/@alielmajdaoui/linking-local-packages-in-react-native-the-right-way-2ac6587dcfa2)
++ [解决 WML 失效](https://github.com/wix-incubator/wml/issues/48)
