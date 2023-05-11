@@ -77,3 +77,14 @@ fetch('https://example.com/login', {
   body: formBody
 })
 ```
+
+
+## 数组中如果含有 undefined，不会参加 sort 函数的排序，会默认被排到最后
+```js
+let years = [2011, undefined, 2012]
+years.sort((a, b) => {
+  // undefined 元素不会参与排序
+  return b-a; // 输出 [2012, 2011, undefined]
+  // return a-b; // 输出 [2011, 2012, undefined]
+});
+```
