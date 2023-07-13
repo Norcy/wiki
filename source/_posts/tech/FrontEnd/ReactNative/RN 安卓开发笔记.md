@@ -19,4 +19,5 @@ USB 连接手机且打开手机的 USB 安装开关前提下
 点击 Build 控制台左边的 Build Variants，将 :app 的编译模式从 debug 改为 release，再运行即可
 
 
-## 
+## 修改安卓版本号
+更改 `app/src/main/AndroidManifest.xml` 中的 versionName 字段
