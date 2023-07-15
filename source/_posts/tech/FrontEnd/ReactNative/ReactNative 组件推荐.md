@@ -9,7 +9,9 @@
     + [victory](https://github.com/FormidableLabs/victory)
     + [react-native-svg-charts](https://github.com/JesperLekland/react-native-svg-charts)
     + [react-native-echarts-wrappe](https://github.com/tomLadder/react-native-echarts-wrapper)
-
++ 轮播
+    + [react-native-snap-carousel](https://github.com/meliorence/react-native-snap-carousel)
+    + [react-native-reanimated-carousel](https://github.com/dohooo/react-native-reanimated-carousel)
 
 ## 未实践的组件推荐
 + 快速给指定位置添加子节点
