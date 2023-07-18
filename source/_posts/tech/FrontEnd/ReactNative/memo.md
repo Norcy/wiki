@@ -132,6 +132,51 @@ export default function App() {
 - 组件如果很简单，不建议使用 React.memo，并不能带来多大提升，而使用 React.memo 本身就有心智负担
 - React.memo 只能针对函数组件，对于普通函数的优化得用 useMemo
 
+## 配合 useCallback 完成优化
+https://juejin.cn/post/7107943235099557896
+
+改造前：刷新与 Child 无关的 Parent 属性时，Child 会触发渲染，原因是每次刷新时，传入 Child 的函数都会重新构建，而 Memo 比较的是函数的地址，所以会重刷 Child
+
+```js
+const calRef = useRef(null);
+return (
+  <MemoChild ref={(ref) => {chartRef.current = ref}} />;
+)
+```
+
+改造后：解决方法是使用 useCallback 保证函数地址不变，从而不会触发 Memo 的舒心。改造后刷新与 Child 无关的 Parent 属性时，Child 不再触发渲染
+
+```js
+const calRef = useRef(null);
+const setChartRef = useCallback((ref) => {
+  chartRef.current = ref;
+}, []);
+
+return (
+  <MemoChild ref={setChartRef} />;
+)
+```
+
+需要注意的是，使用 useCallback 会导致原函数捕捉的 state 不再改变，因此如果原函数需要读取 Parent 的 state 时，需要特殊处理下，有两种方法
+
++ 方法 1：将 state 作为原函数参数传入，在调用该函数时，传入最新的 state 即可
+
+```js
+const [count, setCount] = useState(0)
+const foo = useCallback((count) => console.log(count), [])
+```
+
++ 方法 2：将 state 作为 useCallback 的第二个依赖参数传入，这样当 state 改变时，useCallback 会重新触发原函数的生成
+
+```js
+const [count, setCount] = useState(0)
+const foo = useCallback(() => console.log(count), [count])
+```
+```
+
+
+
+
 ## useMemo
 
 某些场景下，我们只是希望 component 的局部不要重新渲染，而不是整个组件不重新渲染，此时就得用到 useMemo；另外 React.memo 针对的是函数式组件，如果要优化普通的函数执行，则得依赖 useMemo
