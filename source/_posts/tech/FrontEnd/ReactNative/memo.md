@@ -172,8 +172,6 @@ const foo = useCallback((count) => console.log(count), [])
 const [count, setCount] = useState(0)
 const foo = useCallback(() => console.log(count), [count])
 ```
-```
-
 
 
 
