@@ -21,7 +21,9 @@ upstream	git@origin.git (push)
 
 6. push 新提交到你的仓库，`git push`
 
-7. 清除 upstream 信息，等下次需要再设置，`git remote remove upstream`，清除后查看 `git remote -v`
+7. 有时候也需要推送 Tags，`git push --tags`
+
+8. 清除 upstream 信息，等下次需要再设置，`git remote remove upstream`，清除后查看 `git remote -v`
 
 ```sh
 origin	git@github.com:Norcy/react-native.git (fetch)
