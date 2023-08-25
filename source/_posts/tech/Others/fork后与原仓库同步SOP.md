@@ -27,3 +27,5 @@ upstream	git@origin.git (push)
 origin	git@github.com:Norcy/react-native.git (fetch)
 origin	git@github.com:Norcy/react-native.git (push)
 ```
+
+参考：https://github.com/selfteaching/the-craft-of-selfteaching/issues/67
