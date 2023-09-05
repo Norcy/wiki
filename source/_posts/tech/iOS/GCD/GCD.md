@@ -209,17 +209,34 @@ dispatch_queue_t queue = dispatch_queue_create("com.example.forBarrier", DISPATC
 dispatch_async(queue, reading1);
 dispatch_async(queue, reading2);
 dispatch_barrier_async(queue, writing1);
+dispatch_barrier_async(queue, writing2);
 dispatch_async(queue, reading3);
 dispatch_async(queue, reading4);
 ```
 
-执行结果可能为：reading2 -> reading1 -> writing1 -> reading3 -> reading4
+执行结果可能为：reading2 -> reading1 -> writing1 -> writing2 -> reading3 -> reading4
 
 writing 之前添加的 reading 任务顺序是不确定的；writing 一定会等到之前添加的所有 reading 任务结束之后才执行；writing 之后添加的任务一定会在 writing 结束之后再执行，如下图
 
 ![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/2/24/161c6258a0c04a71~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp)
 
 `dispatch_barrier_sync` 与 `dispatch_barrier_async` 的区别在于，会等待其队列中的任务执行完毕再返回
+
+writing1 一定先于 writing2，如果是两个写任务并发了，`dispatch_barrier_async` 也会保证同时只有一个生效，顺序是根据进入栅栏时的顺序决定的，并非由并发队列决定
+
+注意 `dispatch_barrier_async`` 必须配合自定义的并发队列使用，才能达到写互斥的效果，如下例
+
+```objc
+// dispatch_barrier_async 必须配合自定义的并发队列使用，才能达到写互斥的效果，以下输出是按顺序的
+dispatch_queue_t queue1 = dispatch_queue_create("com.example.forBarrier", DISPATCH_QUEUE_CONCURRENT);
+// 如果搭配全局并发队列，会退化为 dispatch_async，导致任务的执行顺序是不确定的，以下输出是不按顺序的
+dispatch_queue_t queue2 = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+int i = 9999;
+while (i--) {
+		dispatch_barrier_async(queue1, ^{
+				NSLog(@"%@", @(i));
+		});
+}```
 
 ## `dispatch_apply`
 用于重复执行任务，类似 for 循环，参数 Block 是带有 index 参数信息的，注意是同步执行的
