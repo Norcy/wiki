@@ -10,3 +10,20 @@ pointerEvents 会禁止所有手势
   <TextInput editable={isEdit}>
 </View>
 ```
+
+## 慎用 length 代替 bool
+```jsx
+{media.url?.length && _renderUrlButton()}
+```
+
+该代码 length 返回的是 int，用 int 来作为 && 的条件，是有问题的，会导致报错 
+
+```sh
+Text strings must be rendered within a <Text> component.
+```
+
+解决办法
+
+```jsx
+{media.url?.length > 0 && _renderUrlButton()}
+```
