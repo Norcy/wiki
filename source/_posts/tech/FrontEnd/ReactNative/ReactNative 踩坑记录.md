@@ -11,7 +11,7 @@ pointerEvents 会禁止所有手势
 </View>
 ```
 
-## 慎用 length 代替 bool
+## 在 JSX 中慎用 length 作为 && 的条件
 ```jsx
 {media.url?.length && _renderUrlButton()}
 ```
@@ -26,4 +26,18 @@ Text strings must be rendered within a <Text> component.
 
 ```jsx
 {media.url?.length > 0 && _renderUrlButton()}
+```
+
+
+如果是普通的 if 条件，或者是三元表达式就没问题
+
+```jsx
+{media.url?.length ? _renderUrlButton() : </>} // 没问题
+```
+
+```js
+// 这样也没问题
+if (media.url?.length && someCondition) {
+
+}
 ```
