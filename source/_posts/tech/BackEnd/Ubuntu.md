@@ -115,7 +115,7 @@ $postData = json_decode(file_get_contents('php://input'), true);
 ## Ubuntu Apache2 配置 HTTPS
 1. 申请 SSL 证书：包括 apache.crt apache.key server-chain.crt
 
-	> 注意，腾讯云下载的证书名字可能分别对应为 2_www.norcy.xyz.crt 3_www.norcy.xyz.key 1_root_bundle.crt
+	> 注意，腾讯云下载的证书名字可能分别对应为 norcy.xyz.crt norcy.xyz.key root_bundle.crt
 
 2. 拷贝证书到 /etc/apache2/cert 目录下
 3. 创建site-enabled 指向site-available的软链接
@@ -161,7 +161,7 @@ $ sudo /etc/init.d/apache2 restart     // 这时浏览器应该就可访问了
 
 ## Ubuntu Apache2 更新 HTTPS 证书
 1. 到腾讯云申请新的证书，填写域名（不用包含 www），域名验证方式选择`自动 DNS 验证` 即可秒生效。显示已签发后下载证书
-2. 重复上面配置步骤的 Step 1、2、5、6 即可
+2. 重复上面配置步骤的 Step 1、2、6 即可
 3. 点击 Chrome 地址栏前面的加密标志，可以查看证书时间以此判断是否生效
 
 
