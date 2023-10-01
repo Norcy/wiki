@@ -1,3 +1,14 @@
+## apache2 开机自动启动
+```sh
+# 先确保 apache2 的命令是可用的，关闭后网页无法访问
+sudo systemctl stop apache2
+# 开启后网页可访问
+sudo systemctl start apache2
+# 以上 2 个步骤没问题之后，就可以设置开机自启动
+sudo systemctl enable apache2
+```
+
+
 ## 更新 apache2 版本
 ```sh
 cp -rf /etc/apache2/sites-available/ /tmp/apache2-available
