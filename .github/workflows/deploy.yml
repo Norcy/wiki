@@ -49,8 +49,8 @@ jobs:
         uses: theme-keep/hexo-deploy-github-pages-action@master # 使用专门部署 Hexo 到 GitHub pages 的 action
         env:
           PERSONAL_TOKEN: ${{ secrets.HEXO_DEPLOY }} # secret 名
-          PUBLISH_REPOSITORY: $GH_REF
-          BRANCH: $DEPLOY_BRANCH
+          PUBLISH_REPOSITORY: ${{ env.GH_REF }}
+          BRANCH: ${{ env.DEPLOY_BRANCH }}
 
       # - name: Install dependencies
       #   run: |
