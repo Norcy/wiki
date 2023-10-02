@@ -17,3 +17,4 @@ Travis CI 开始收费，导致我的 [GitHub Page 的网站](https://norcy.gith
 ## 注意
 1. Token 不知道忘了勾选哪个权限导致 Push 时鉴权失败，勾选全部权限即解决了
 2. deploy 要真正要配置的只有 yml 中的 env 三个变量，以及 secret 的值
+3. 仓库的 Settings -> Pages 中的 Source 更改为 GitHub Actions
