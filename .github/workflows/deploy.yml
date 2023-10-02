@@ -18,7 +18,7 @@ env:
   GIT_EMAIL: chenyg32@gmail.com
   DEPLOY_REPO: norcy/norcy.github.io
   DEPLOY_BRANCH: master
-  GH_REF: Norcy/wiki.git
+  GH_REF: Norcy/wiki
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
