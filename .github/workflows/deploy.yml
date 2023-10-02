@@ -2,20 +2,21 @@
 
 name: CI
 
+env:
+  DEPLOY_BRANCH: master
+  PUBLISH_REPOSITORY: Norcy/wiki
+  SOURCE_BRANCH: HexoBackup
+
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "HexoBackup" branch
   push:
-    branches: ["HexoBackup"]
+    branches: ${{ env.SOURCE_BRANCH }}
   pull_request:
-    branches: ["HexoBackup"]
+    branches: ${{ env.SOURCE_BRANCH }}
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-env:
-  DEPLOY_BRANCH: master
-  GIT_NAME: Norcy/wiki
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -51,5 +52,5 @@ jobs:
         uses: theme-keep/hexo-deploy-github-pages-action@master # 使用专门部署 Hexo 到 GitHub pages 的 action
         env:
           PERSONAL_TOKEN: ${{ secrets.HEXO_DEPLOY }}
-          PUBLISH_REPOSITORY: ${{ env.GIT_NAME }}
+          PUBLISH_REPOSITORY: ${{ env.PUBLISH_REPOSITORY }}
           BRANCH: ${{ env.DEPLOY_BRANCH }}
