@@ -45,10 +45,10 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-    - name: Log
-      run: |
-        echo 'Hello'
-        echo ${{ secrets.HEXO_DEPLOY }}
+      - name: Log
+        run: |
+          echo 'Hello'
+          echo ${{ secrets.HEXO_DEPLOY }}
 
       - name: Build and Deploy
         uses: theme-keep/hexo-deploy-github-pages-action@master # 使用专门部署 Hexo 到 GitHub pages 的 action
