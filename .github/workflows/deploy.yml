@@ -1,0 +1,67 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "HexoBackup" branch
+  push:
+    branches: ["HexoBackup"]
+  pull_request:
+    branches: ["HexoBackup"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  GIT_USER: Norcy
+  GIT_EMAIL: chenyg32@gmail.com
+  DEPLOY_REPO: norcy/norcy.github.io
+  DEPLOY_BRANCH: master
+  GH_TOKEN: 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
+  GH_REF: github.com/Norcy/wiki.git
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    name: Build on node ${{ matrix.node_version }} and ${{ matrix.os }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [13.13.0]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: HexoBackup
+
+      - name: Use Node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Install dependencies
+        run: |
+          yarn
+
+      - name: Generate
+        run: |
+          hexo version
+          hexo clean
+          hexo generate
+
+      - name: Deploy
+        run: |
+          cd ./public
+          git init
+          git config user.name $GIT_USER
+          git config user.email $GIT_EMAIL
+          git add .
+          git commit -m "Travis Auto Update"
+          git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
