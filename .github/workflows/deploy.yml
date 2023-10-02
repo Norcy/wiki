@@ -14,11 +14,8 @@ on:
   workflow_dispatch:
 
 env:
-  GIT_USER: Norcy
-  GIT_EMAIL: chenyg32@gmail.com
-  DEPLOY_REPO: norcy/norcy.github.io
   DEPLOY_BRANCH: master
-  GH_REF: Norcy/wiki
+  GIT_NAME: Norcy/wiki
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -48,31 +45,11 @@ jobs:
       - name: Log
         run: |
           echo 'Hello'
-          echo ${{ secrets.HEXO_DEPLOY }}
+          echo 'World'
 
       - name: Build and Deploy
         uses: theme-keep/hexo-deploy-github-pages-action@master # 使用专门部署 Hexo 到 GitHub pages 的 action
         env:
           PERSONAL_TOKEN: ${{ secrets.HEXO_DEPLOY }}
-          PUBLISH_REPOSITORY: ${{ env.GH_REF }}
+          PUBLISH_REPOSITORY: ${{ env.GIT_NAME }}
           BRANCH: ${{ env.DEPLOY_BRANCH }}
-
-      # - name: Install dependencies
-      #   run: |
-      #     yarn
-
-      # - name: Generate
-      #   run: |
-      #     hexo version
-      #     hexo clean
-      #     hexo generate
-
-      # - name: Deploy
-      #   run: |
-      #     cd ./public
-      #     git init
-      #     git config user.name $GIT_USER
-      #     git config user.email $GIT_EMAIL
-      #     git add .
-      #     git commit -m "Travis Auto Update"
-      #     git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
