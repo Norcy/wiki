@@ -61,15 +61,26 @@ app.post("/test/post", (req, res) => {
   })
 });
 
-// 通用代码
-var privateKey = fs.readFileSync(privateKeyPath, 'utf8');
-var certificate = fs.readFileSync(certificatePath, 'utf8');
-var intermediate = fs.readFileSync(intermediatePath, 'utf8');
-var credentials = {key: privateKey, cert: certificate, ca: [intermediate]};
 
-https.createServer(credentials, app).listen(port, () => {
-  console.log(`Server running at https://0.0.0.0:${port}/`);
-});
+// 通用代码
+const DEV = false;
+
+if (!DEV) {
+  // 线上环境使用 HTTPS
+  var privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+  var certificate = fs.readFileSync(certificatePath, 'utf8');
+  var intermediate = fs.readFileSync(intermediatePath, 'utf8');
+  var credentials = {key: privateKey, cert: certificate, ca: [intermediate]};
+
+  https.createServer(credentials, app).listen(port, () => {
+    console.log(`Server running at https://0.0.0.0:${port}/`);
+  });
+} else {
+  // 本地使用 HTTP 调试
+  app.listen(port, () => {
+    console.log(`Server running at http://0.0.0.0:${port}/`);
+  });
+}
 ```
 
 注意事项：
@@ -87,6 +98,10 @@ https.createServer(credentials, app).listen(port, () => {
     本例子是使用腾讯云，有 `apache.key`、`apache.crt` 和 `server-chain.crt` 这三个文件，不用纠结后缀名，本质都是 txt
 
     其中最关键的是 `server-chain.crt` 这个中级证书，详见下面
+
+5. 如何本地调试？
+
+    将例子中的 DEV 改为 true，本地执行 `node index.js`，即可使用本地调试
 
 ### Step 3：后台保活
 默认情况下，NodeJs 起的服务会卡住当前的终端窗口，当我们关闭窗口或者断开服务器 ssh 连接时，该服务会同时中断。另外 NodeJs 服务如果代码逻辑抛出错误了，也可能会中断。为了实现以下两个目标，我们可以使用 pm2 来进行后台保活
