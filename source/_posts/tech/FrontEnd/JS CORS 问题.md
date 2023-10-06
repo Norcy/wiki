@@ -24,6 +24,17 @@ const options = {
 fetch("http://192.168.2.103:8888/guess.php", options)
 ```
 
+服务端的 NodeJS 代码如下
+
+```js
+import cors from 'cors';
+import express from 'express';
+const app = express();
+app.use(cors());
+```
+
+服务端的 PHP 代码如下
+
 ```php
 <?php
 header("Access-Control-Allow-Origin: *");
