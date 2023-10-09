@@ -42,6 +42,8 @@ wml disable [linkId]
 
 跟普通的原生组件类似，你需要安装原生依赖，然后重新安装 App
 
+如果该组件是新增的，记得在 package.json 中引用到，版本写为 "*" 就可以了，不然 pod install 的时候找不到该组件
+
 ```sh
 npx pod-install # For iOS
 ```
