@@ -21,11 +21,13 @@ watchman watch `yarn global dir`/node_modules/wml/src # 确保能被 watchman �
 
 ### Step 2. 开始使用 wml
 ```sh
-wml add /path/to/my-package /path/to/my-project/node_modules #指定复制规则
+wml add /path/to/my-package /path/to/my-project/node_modules/my-package #指定复制规则
 wml start # 开始监听并复制
 ```
 
 start 之后记得随意修改下组件，这样就能触发自动复制
+
+记得 `node_modules` 后面还需要加上组件名字
 
 附录 wml 其他常用方法
 
