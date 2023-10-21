@@ -19,6 +19,12 @@ yarn global add wml # 全局安装 wml
 watchman watch `yarn global dir`/node_modules/wml/src # 确保能被 watchman 监听
 ```
 
+如果安装之后，wml 依然提示找不到，原因可能是 iTerm 的配置文件的 Path 里面没有包含 yarn global 的执行路径，只需要在 ~/.zshrc 中添加以下代码即可
+
+```sh
+PATH="$PATH:`yarn global bin`"
+```
+
 ### Step 2. 开始使用 wml
 ```sh
 wml add /path/to/my-package /path/to/my-project/node_modules/my-package #指定复制规则
