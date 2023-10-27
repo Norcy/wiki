@@ -144,7 +144,7 @@ return (
 )
 ```
 
-改造后：解决方法是使用 useCallback 保证函数地址不变，从而不会触发 Memo 的舒心。改造后刷新与 Child 无关的 Parent 属性时，Child 不再触发渲染
+改造后：解决方法是使用 useCallback 保证函数地址不变，从而不会触发 Memo 的刷新。改造后刷新与 Child 无关的 Parent 属性时，Child 不再触发渲染
 
 ```js
 const calRef = useRef(null);
