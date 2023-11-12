@@ -25,9 +25,17 @@ const foo: {[key: string]: string} = {
 ```
 
 ## useRef
-```ts
+```tsx
 const allPageData = useRef<UIRecord[]>([]);
 allPageData.current // 此时为 UIRecord[]
+```
+
+```tsx
+const listRef = useRef<FlatList|null>();
+<FlatList
+  ref={(ref) => (listRef.current = ref)}
+/>
+listRef.current?.scrollToOffset(0)
 ```
 
 ## type
