@@ -68,7 +68,7 @@ helloWorld/package.json
 因此我们总结下在插件使用 dependencies 声明依赖库的特点：
 
 + 如果用户显式依赖了核心库，则可以忽略各插件的 peerDependencies 声明；
-+ 如果用户没有显式依赖核心库，则按照插件 peerDependencies 中声明的版本将库安装到项目根目录中；
++ 如果用户没有显式依赖核心库，则打包会报错
 + 当用户依赖的版本、各插件依赖的版本之间不相互兼容，会报错让用户自行修复；
 
 最后，如果你是组件的开发者，在开发组件时需要把 packageA 加到 devDependencies，这样你在开发时才能读到这个 packageA 这个库，因为 peerDependencies 在 yarn 的时候是不会帮你安装依赖的
