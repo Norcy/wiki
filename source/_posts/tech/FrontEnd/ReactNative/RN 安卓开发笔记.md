@@ -31,3 +31,19 @@ USB 连接手机且打开手机的 USB 安装开关前提下
 ```sh
 adb shell am start -a android.intent.action.VIEW -d https://www.qq.com
 ```
+
+## 命令行打包 apk 失败
+参考 [官方文档](https://reactnative.cn/docs/0.72/signed-apk-android)，执行 `./gradlew assembleRelease` 时报错
+
+```sh
+:compileReleaseKotlin FAILED
+Kotlin could not find the required JDK tools in the Java installation. Make sure Kotlin compilation is running on a JDK, not JRE
+```
+
+修改 `~/.zshrc` 的 `JAVA_HOME` 为 Android Studio 即可
+
+```sh
+export JAVA_HOME=/Applications/"Android Studio.app"/Contents/jbr/Contents/Home
+# export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
+export PATH=$JAVA_HOME/bin:$PATH
+```
