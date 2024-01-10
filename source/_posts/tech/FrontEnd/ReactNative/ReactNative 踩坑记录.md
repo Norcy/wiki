@@ -1,3 +1,37 @@
+## ScrollView 如何让内容撑满
+```js
+<ScrollView
+contentContainerStyle={{ flexGrow: 1 }}
+>
+</ScrollView>
+```
+
+如何实现上拉加载
+
+```js
+<ScrollView
+contentContainerStyle={{ flexGrow: 1 }}
+>
+<!-- 你的数据 -->
+...
+<!-- 占位 -->
+<View style={{flex: 1, width: '100%'}}></View>
+<View>
+<Text
+  style={{
+    marginTop: 30,
+    position: 'absolute',
+    textAlign: 'center',
+    width: '100%',
+    color: 'gray',
+  }}>
+  {'继续上拉查看时间轴↑'}
+</Text>
+</View>
+</ScrollView>
+```
+
+
 ## FlatList 的 Header 中的 TextInput，每次输入后总是会失去焦点
 如果 Header 中含有 TextInput，则不能返回一个渲染函数，否则 TextInput 会每次输入完，重新渲染，从而失去焦点。
 https://github.com/facebook/react-native/issues/13365
