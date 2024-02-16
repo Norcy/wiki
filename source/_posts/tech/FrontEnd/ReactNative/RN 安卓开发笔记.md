@@ -47,3 +47,10 @@ export JAVA_HOME=/Applications/"Android Studio.app"/Contents/jbr/Contents/Home
 # export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
 export PATH=$JAVA_HOME/bin:$PATH
 ```
+
+## 无线调试
+[Android 无线调试教程](https://www.cnblogs.com/qianguyihao/p/3824988.html)
+
+如果提示 `adb pair` 找不到，可能是 adb 版本过低导致，可通过 `adb --version` 确认版本，30 以上的版本即可使用
+
+如果版本太低，需要更新 adb，打开 Android Studio 的设置，【Android SDK】-> 【SDK Tools】->【Android SDK Platform-Tools】勾选后确认即可更新
