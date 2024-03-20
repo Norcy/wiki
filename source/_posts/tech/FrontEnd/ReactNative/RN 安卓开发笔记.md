@@ -49,10 +49,13 @@ export PATH=$JAVA_HOME/bin:$PATH
 ```
 
 ## 无线调试
-[Android 无线调试教程](https://www.cnblogs.com/qianguyihao/p/3824988.html)
-
-记得先插线，确保手机上允许 USB 调试，再进行 `adb connect ip:port` 命令
+1. 先插线，确保手机上允许 USB 调试，然后可以断开线
+2. 打开手机的无线调试，记住该页面展示的 IP 和 Port
+3. `adb connect IP:Port`
+4. `yarn run android`
 
 如果提示 `adb pair` 找不到，可能是 adb 版本过低导致，可通过 `adb --version` 确认版本，30 以上的版本即可使用
 
 如果版本太低，需要更新 adb，打开 Android Studio 的设置，【Android SDK】-> 【SDK Tools】->【Android SDK Platform-Tools】勾选后确认即可更新
+
+详见 [Android 无线调试教程](https://www.cnblogs.com/qianguyihao/p/3824988.html)
