@@ -66,3 +66,8 @@ upload_to_app_store 函数添加 precheck_include_in_app_purchases: false
 
 解决方法：
 新增 increment_build_number(xcodeproj: "iRead.xcodeproj")
+
+## 报错
+提示 error: exportArchive: No profiles for 'com.norcy.xxx' were found
+
+解决方法：Xcode Settings-> Accounts-> 选择 Apple IDs-> 选择你的 Team -> Download Manual Profiles
