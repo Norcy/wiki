@@ -19,10 +19,36 @@ Unable to upload archive. Failed to get authorization for username
 
 解决方法：
 1. 打开 http://appleid.apple.com/
-2. 创建一个 App 专用密码并复制
+2. 创建一个 App 专用密码并复制，记为 A
 3. 修改 Fastfile，在 before_all 中添加用户名和专属密码的配置，注意写的位置
+4. 如果你需要避免 2 次密码验证，可以先写死 Session，方法为运行 `fastlane spaceauth -u user@email.com`
+
+```rb
+default_platform(:ios)
+
+platform :ios do
+  desc "Setting User and specific password"
+  before_all do
+    ENV['FASTLANE_USER'] = 'user@email.com'
+    ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD'] = 'A'
+    ENV['FASTLANE_SESSION'] = 'B'
+  end
+
+  desc "Push a new release build to the App Store"
+  lane :release do
+    ...
+  end
+end
+```
 
 参考： https://stackoverflow.com/questions/54341690/sign-in-with-the-app-specific-password-you-generated-if-you-forgot-the-app-spec
+
+## 报错
+卡在输入 6 位二次验证的数字密码，提示 `Please enter the 6 digit code` 然后不动
+
+解决方法：
+
+得用 `fastlane spaceauth -u user@email.com` 这个方式进行重新登录
 
 ## 报错
 ```sh
@@ -40,24 +66,3 @@ upload_to_app_store 函数添加 precheck_include_in_app_purchases: false
 
 解决方法：
 新增 increment_build_number(xcodeproj: "iRead.xcodeproj")
-
-## 最终成果
-```rb
-default_platform(:ios)
-
-platform :ios do
-  desc "Setting User and specific password"
-  before_all do
-    ENV['FASTLANE_USER'] = 'xxx'
-    ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD'] = 'xxx'
-  end
-
-  desc "Push a new release build to the App Store"
-  lane :release do
-    increment_build_number(xcodeproj: "iRead.xcodeproj")
-    increment_version_number(bump_type: "minor", xcodeproj: "iRead.xcodeproj")
-    build_app(workspace: "iRead.xcworkspace", scheme: "iRead")
-    upload_to_app_store(skip_metadata: false, skip_screenshots: true, precheck_include_in_app_purchases: false)
-  end
-end
-```
