@@ -70,4 +70,10 @@ upload_to_app_store 函数添加 precheck_include_in_app_purchases: false
 ## 报错
 提示 error: exportArchive: No profiles for 'com.norcy.xxx' were found
 
-解决方法：Xcode Settings-> Accounts-> 选择 Apple IDs-> 选择你的 Team -> Download Manual Profiles
+解决方法：
+
+build_app 中添加 xcargs: "-allowProvisioningUpdates" 参数
+
+```rb
+build_app(xcargs: "-allowProvisioningUpdates")
+```
