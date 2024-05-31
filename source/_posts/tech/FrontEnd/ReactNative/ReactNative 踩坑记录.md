@@ -1,3 +1,13 @@
+## di18n 失效
+字符串中只要出现 "." 就会失效，比如
+
+```tsx
+// 翻译失败
+i18n.t("该文件的后缀名不对，应该为 .db")
+// 翻译成功
+i18n.t("该文件的后缀名不对，应该为 db")
+```
+
 ## ScrollView 如何让内容撑满
 ```js
 <ScrollView
@@ -75,3 +85,4 @@ if (media.url?.length && someCondition) {
 
 }
 ```
+
