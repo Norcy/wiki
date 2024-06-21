@@ -86,3 +86,28 @@ if (media.url?.length && someCondition) {
 }
 ```
 
+
+## TextInput cursor 不对的问题
+TextInput 在 multiline，首次 focus 时，cursor 不是在手指的位置，而是在文本末尾
+
+解决方法：
+
+```tsx
+const inputRef = React.useRef<TextInput | null>();
+
+useEffect(() => {
+  // 完美解决安卓首次 focus 聚焦到 Text 末尾的问题
+  setTimeout(() => {
+    if (Platform.OS === 'android') {
+      inputRef.current?.focus();
+      inputRef.current?.blur();
+    }
+  }, 10);
+}, []);
+
+<TextInput
+  multiline={true}
+  ref={(ref) => (inputRef.current = ref)}
+/>
+```
+
