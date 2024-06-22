@@ -87,7 +87,60 @@ if (media.url?.length && someCondition) {
 ```
 
 
-## TextInput cursor 不对的问题
+## Android TextInput 键盘弹出出现空白问题
+1. AndroidMainfest.xml 修改 windowSoftInputMode 从 adjustPan 改为 adjustResize，即 `android:windowSoftInputMode="adjustResize"`
+2. KeyboardAvoidingView 的 behavior 选择 height 而不是 padding
+
+```tsx
+<KeyboardAvoidingView
+behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+...
+```
+
+## Android TextInput 第二次键盘弹起时，cursor 正确，但是没有自动自动滚动到 cursor，必须先输入一下之后才会滚动
+
+解决方法：模拟用户操作 cursor
+
+```tsx
+const cursorPosition = React.useRef(0);
+
+useEffect(() => {
+  const unsubscribe = Keyboard.addListener('keyboardDidShow', (e) => {
+    if (Platform.OS === 'android') {
+      setTimeout(() => {
+        inputRef.current?.setNativeProps({
+          selection: {
+            start: cursorPosition.current,
+            end: cursorPosition.current,
+          },
+        });
+        // 必须设置回来，不然 cursor 永远不对
+        inputRef.current?.setNativeProps({
+          selection: {},
+        });
+      }, 10);
+    }
+  });
+  
+  return () => {
+    unsubscribe.remove();
+  };
+}, []);
+
+<TextInput
+  onSelectionChange={({
+    nativeEvent: {
+      selection: {start, end},
+    },
+  }) => {
+    cursorPosition.current = start;
+  }}
+>
+```
+
+
+
+## Android TextInput cursor 不对的问题
 TextInput 在 multiline，首次 focus 时，cursor 不是在手指的位置，而是在文本末尾
 
 解决方法：
