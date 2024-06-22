@@ -164,3 +164,49 @@ useEffect(() => {
 />
 ```
 
+## iOS TextInput 在换行时会滚动到顶部
+复现路径1：文本超过一屏，最好全部是中文，最后一行倒数几个是英文，输入一个个英文，会发现换行时，TextInput 自动滚动到顶部，再输入一下才会滚回来
+
+复现路径2：文本超过一屏，最好全部是中文，最后一行倒数几个留空，一次性输入大段文字（可通过拼音转汉字或者粘贴实现）确保换行，此时也会复现，也是再输入一下才会滚回来
+
+思路：因为再输入一下才会滚回来，所以模拟用户输入可以解决该问题。每次当新换行时，输入一个零宽字符，再延时移除，即可解决该问题
+
+```tsx
+const oldHeight = React.useRef(-1);
+const ZeroWidthCharRegex = /[\u200B]/;
+const [comment, setComment] = useState('');
+
+<TextInput
+  onTextChange={(name, value) => {
+    if (Platform.OS == 'ios' && ZeroWidthCharRegex.test(value)) {
+      // 如果打字过快，可能会走到这，需要移除零宽字符
+      value = value.replace(ZeroWidthCharRegex, '');
+    }
+    setComment(value);
+  }}
+  onContentSizeChange={({
+    nativeEvent: {
+      contentSize: {width, height},
+    },
+  }) => {
+    if (Platform.OS == 'ios' && height > oldHeight.current) {
+      const currentValue = comment;
+      if (!ZeroWidthCharRegex.test(currentValue)) {
+        // 新增零宽字符
+        // console.log('新增零宽字符');
+        // 第一个 timeout 是为了解决大段拼音转文字后，出现回滚顶部的情况
+        setTimeout(() => {
+          setComment(comment + '\u200B');
+          // 第二个 timeout 是为了增加零宽字符后，不要立刻移除，否则不会触发 TextInput 的自动滚动
+          setTimeout(() => {
+            // 移除零宽字符
+            // console.log('移除零宽字符');
+            setComment(comment.replace(ZeroWidthCharRegex, ''));
+          }, 10);
+        }, 10);
+      }
+    }
+    oldHeight.current = height;
+  }}
+/>
+```
