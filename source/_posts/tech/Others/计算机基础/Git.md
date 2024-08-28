@@ -60,13 +60,50 @@ git commit --amend
 ```
 
 ## 撤销
-### 撤销本地未 add 的更改
-```bash
-git clean -df
+### 撤销所有文件的 add 操作
+```sh
+grh # 推荐使用别名
+# 或者
+git reset HEAD
 ```
-### 撤销本地已 add 没 commit 的更改
-```bash
-git reset --hard
+
+### 撤销某个文件的 add 操作
+```sh
+grh model # 推荐使用别名
+# 或者
+git reset HEAD modal/a.ts
+```
+
+注意：如果该目录下只有这个文件，那么可以只传目录名
+
+### 撤销所有文件的修改（无论是否 add）
+```sh
+grhh # 推荐使用别名
+# 或者
+git reset HEAD -- hard
+```
+
+### 撤销单个文件的修改（无论是否 add）
+```sh
+grhh model # 推荐使用别名
+# 或者
+git reset HEAD model
+git restore model
+```
+
+注意：如果该目录下只有这个文件，那么可以只传目录名
+
+其中别名的定义为
+
+```sh
+grhf() {
+    targetFile="."
+    if [ $# -gt 0 ] ; then
+        targetFile=$*
+    fi
+    grh "$targetFile"
+    g restore "$targetFile"
+}
 ```
 
 
