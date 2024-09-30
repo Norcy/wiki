@@ -168,6 +168,9 @@ RewriteRule ^.* https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
 $ sudo a2enmod ssl
 // 然后，重启Apache 
 $ sudo /etc/init.d/apache2 restart     // 这时浏览器应该就可访问了
+// 可选，记得重启一下 pm2 服务
+$ j pay
+$ yarn restart
 ```
 
 ## Ubuntu Apache2 更新 HTTPS 证书
