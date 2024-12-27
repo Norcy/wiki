@@ -126,9 +126,15 @@ $postData = json_decode(file_get_contents('php://input'), true);
 ## Ubuntu Apache2 配置 HTTPS
 1. 申请 SSL 证书：包括 apache.crt apache.key server-chain.crt
 
-	> 注意，腾讯云下载的证书名字可能分别对应为 norcy.xyz.crt norcy.xyz.key root_bundle.crt
+	> 注意，腾讯云下载时选择 Apache（crt文件、key文件）类型，证书名字可能分别对应为 norcy.xyz.crt norcy.xyz.key root_bundle.crt
+	
 
 2. 拷贝证书到 /etc/apache2/cert 目录下
+
+	```sh
+	scp -r ~/Desktop/norcy.xyz_apache ubuntu@111.230.246.127:/etc/apache2/cert/
+	```
+
 3. 创建site-enabled 指向site-available的软链接
 
 ```sh
