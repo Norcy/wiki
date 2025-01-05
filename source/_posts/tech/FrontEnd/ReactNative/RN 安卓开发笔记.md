@@ -1,9 +1,10 @@
-## 设置 IP 地址
+## USB 调试
 
 1. 连接 USB 后运行 `adb reverse tcp:8081 tcp:8081`
-2. console 按下 R 即可
+2. 执行 `yarn run android` 安装 APK
+3. console 按下 R 即可
 
-> 不需要通过摇一摇去设置
+> 不需要通过摇一摇去设置 IP
 
 ## 编译 APK
 
