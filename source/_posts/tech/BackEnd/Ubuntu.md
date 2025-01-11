@@ -225,3 +225,46 @@ export LANG="zh_CN.utf8"
 export LC_ALL="zh_CN.utf8"
 export LC_CTYPE="zh_CN.utf8"
 ```
+
+
+## ubuntu 免密登录
+1. 本地生成公钥和私钥
+
+```sh
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+默认保存位置为 ~/.ssh/id_rsa，id_rsa.pub 是公钥，如果已存在，则跳过此部分
+
+2. 将公钥添加到服务器的 authorized_keys 文件中
+
+```sh
+ssh-copy-id username@remote_host
+```
+
+3. 测试
+
+```sh
+ssh username@remote_host
+```
+
+如果失败，则到服务器上查看失败信息
+
+```sh
+sudo tail -f /var/log/auth.log
+```
+
+如果出现 `Authentication refused: bad ownership or modes for file /home/ubuntu/.ssh/authorized_keys`，则
+
+```sh
+chmod 600 ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chown -R ubuntu:ubuntu ~/.ssh
+chmod go-w ~
+sudo service ssh restart # 重启 ssh 服务
+```
+
+
+
+
+
