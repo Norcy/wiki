@@ -217,14 +217,71 @@ scp [-r] [-P 端口号] /var/www/test.txt  root@192.168.0.101:/var/www/
 ```
 
 ## ubuntu 的终端文件名显示乱码或问号 
-直接修改当前用户目录 下的 .bashrc 问件，在最后添加如下：
+直接修改当前用户目录下的 .zshrc 文件，在最后添加如下：
 
 ```sh
-export LC_ALL=C
+export LC_ALL="zh_CN.utf8"
 export LANG="zh_CN.utf8"
 export LC_ALL="zh_CN.utf8"
 export LC_CTYPE="zh_CN.utf8"
 ```
+
+然后 `source ~/.zshrc` 生效
+
+如果还是不行，可以打印 locale 命令，如果提示
+
+```sh
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_ALL to default locale: No such file or directory
+```
+
+解决方法为：
+
+1. 需要安装中文语言包
+
+```sh
+sudo locale-gen zh_CN.utf8
+```
+
+2. 设置语言环境
+
+```sh
+sudo vim /etc/locale.conf
+```
+
+添加
+
+```sh
+LANG=zh_CN.utf8
+```
+
+3. 更新语言环境配置
+
+```sh
+sudo update-locale LANG=zh_CN.utf8
+```
+
+4. 重新打印 locale 命令，如果打印以下则问题解决
+
+```sh
+LANG=zh_CN.utf8
+LANGUAGE=
+LC_CTYPE="zh_CN.utf8"
+LC_NUMERIC="zh_CN.utf8"
+LC_TIME="zh_CN.utf8"
+LC_COLLATE="zh_CN.utf8"
+LC_MONETARY="zh_CN.utf8"
+LC_MESSAGES="zh_CN.utf8"
+LC_PAPER="zh_CN.utf8"
+LC_NAME="zh_CN.utf8"
+LC_ADDRESS="zh_CN.utf8"
+LC_TELEPHONE="zh_CN.utf8"
+LC_MEASUREMENT="zh_CN.utf8"
+LC_IDENTIFICATION="zh_CN.utf8"
+LC_ALL=zh_CN.utf8
+```
+
 
 
 ## ubuntu 免密登录
