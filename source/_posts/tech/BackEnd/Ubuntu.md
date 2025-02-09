@@ -325,3 +325,45 @@ sudo service ssh restart # 重启 ssh 服务
 
 
 
+## ubuntu ssh 登录不一会就超时断开
+### 方法 1：修改 SSH 服务端配置（推荐）
+1. 编辑 SSH 服务端配置文件：
+
+```sh
+sudo vim /etc/ssh/sshd_config
+```
+
+2. 在文件末尾添加以下配置（调整数值）：
+
+```sh
+# 服务端每 60 秒向客户端发送一次保活信号
+ClientAliveInterval 60
+# 允许最多 3 次无响应后才断开连接（总时间 = 60 * 3 = 180 秒）
+ClientAliveCountMax 3
+```
+
+3. 保存文件并重启 SSH 服务：
+
+```sh
+sudo systemctl restart ssh
+# 或
+sudo service ssh restart
+```
+
+
+### 方法 2：修改 SSH 客户端配置
+如果无法修改服务端配置，可以在客户端设置保活参数：
+
+```sh
+vim ~/.ssh/config
+```
+
+添加以下内容（针对特定服务器或所有连接）：
+
+```sh
+Host *
+    ServerAliveInterval 60    # 客户端每 60 秒发送一次保活信号
+    ServerAliveCountMax 3     # 允许最多 3 次无响应后断开
+```
+
+3. 保存文件，后续 SSH 连接将使用此配置
