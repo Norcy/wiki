@@ -210,3 +210,19 @@ const [comment, setComment] = useState('');
   }}
 />
 ```
+
+
+## 拼音排序问题
+```js
+let a = '凯瑟琳';
+let b = '刘';
+let c = '加勒比';
+// 输出 -1，正确
+console.log(a.localeCompare(b, 'zh'));
+// 输出 -1，不对
+console.log(a.localeCompare(c, 'zh'));
+// 输出 -1，不对
+console.log(b.localeCompare(c, 'zh'));
+```
+
+浏览器的输出是对的，但是 React Native 的输出不对，猜测与 React Native 的 JSCore 有关。必要时可通过 pinyin-pro 这个库来解决
