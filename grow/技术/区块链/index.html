@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="区块链记账原理哈希函数 特点:  同样的原始信息用同一个哈希函数总能得到相同的摘要信息 原始信息任何微小的变化都会哈希出面目全非的摘要信息 从摘要信息无法逆向推算出原始信息   作用：  简化信息：很好理解，哈希后的信息变短了。 标识信息：可以使用AC4635D34DEF来标识原始信息，摘要信息也称为原始信息的id。 隐匿信息：账本是AC4635D34DEF这样一条记录，原始信息被隐匿。 验证信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/grow/%E6%8A%80%E6%9C%AF/%E5%8C%BA%E5%9D%97%E9%93%BE/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="区块链记账原理哈希函数 特点:  同样的原始信息用同一个哈希函数总能得到相同的摘要信息 原始信息任何微小的变化都会哈希出面目全非的摘要信息 从摘要信息无法逆向推算出原始信息   作用：  简化信息：很好理解，哈希后的信息变短了。 标识信息：可以使用AC4635D34DEF来标识原始信息，摘要信息也称为原始信息的id。 隐匿信息：账本是AC4635D34DEF这样一条记录，原始信息被隐匿。 验证信息">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-03-31T08:50:17.451Z">
+<meta property="article:modified_time" content="2025-03-31T08:49:14.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link " href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/grow">成长</a>
+        
+        <a class="main-nav-link " href="/wiki/categories/fina">金融</a>
+        
+        <a class="main-nav-link " href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/grow">成长</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/fina">金融</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        技术
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/grow/%E6%8A%80%E6%9C%AF/%E3%80%8A%E7%A8%8B%E5%BA%8F%E5%91%98%E4%BF%AE%E7%82%BC%E4%B9%8B%E9%81%93%E3%80%8B%E5%B0%8F%E6%8A%84/">
+        
+        《程序员修炼之道》小抄
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/grow/%E6%8A%80%E6%9C%AF/%E5%8C%BA%E5%9D%97%E9%93%BE/">
+        
+        区块链
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        管理
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/grow/%E7%AE%A1%E7%90%86/%E7%AA%81%E7%A0%B4%EF%BC%9A%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E7%BB%83%E5%B0%B1%E9%A2%86%E5%AF%BC%E5%8A%9B/">
+        
+        突破：程序员如何练就领导力
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        职业
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/grow/%E8%81%8C%E4%B8%9A/%E5%A5%94%E8%B7%91%E5%90%A7%E7%A8%8B%E5%BA%8F%E5%91%98/">
+        
+        奔跑吧程序员
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%81%8C%E4%B8%9A/%E6%AF%8F%E5%91%A8%E5%B7%A5%E4%BD%9C%204%20%E5%B0%8F%E6%97%B6/">
+        
+        每周工作 4 小时
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%81%8C%E4%B8%9A/%E7%99%BE%E4%B8%87%E5%AF%8C%E7%BF%81%E5%BF%AB%E8%BD%A6%E9%81%93/">
+        
+        百万富翁快车道
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        视野
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/grow/%E8%A7%86%E9%87%8E/%E5%BF%83%E7%90%86%E6%95%88%E5%BA%94/">
+        
+        心理效应
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%A7%86%E9%87%8E/%E6%80%AA%E8%AF%9E%E8%A1%8C%E4%B8%BA%E5%AD%A6/">
+        
+        怪诞行为学
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%A7%86%E9%87%8E/%E6%97%B6%E9%97%B4%E7%9A%84%E5%BD%A2%E7%8A%B6/">
+        
+        时间的形状
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%A7%86%E9%87%8E/%E8%BF%91%E4%BA%BA%E6%9B%BE%E5%9B%BD%E8%97%A9/">
+        
+        近人曾国藩
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%A7%86%E9%87%8E/%E9%9D%9E%E6%9A%B4%E5%8A%9B%E6%B2%9F%E9%80%9A/">
+        
+        非暴力沟通
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        认知
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E3%80%8A%E5%BE%AE%E4%B9%A0%E6%83%AF%EF%BC%9A%E7%AE%80%E5%8D%95%E5%88%B0%E4%B8%8D%E5%8F%AF%E8%83%BD%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E6%B3%95%E5%88%99%E3%80%8B/">
+        
+        《微习惯：简单到不可能失败的自我管理法则》
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E3%80%8A%E8%A2%AB%E8%AE%A8%E5%8E%8C%E7%9A%84%E5%8B%87%E6%B0%94%E3%80%8B/">
+        
+        《被讨厌的勇气》
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E5%85%83%E6%80%9D%E8%80%83/">
+        
+        元思考
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0/">
+        
+        刻意练习
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E5%9D%8F%E4%BA%8B%E6%83%85/">
+        
+        如何应对坏事情
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E5%BA%95%E5%B1%82%E9%80%BB%E8%BE%91/">
+        
+        底层逻辑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E5%BF%83%E6%99%BA/">
+        
+        心智
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E6%9C%AC%E8%83%BD/">
+        
+        本能
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E8%AE%A4%E7%9F%A5%E5%8D%87%E7%BB%B4/">
+        
+        认知升维
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/grow/%E8%AE%A4%E7%9F%A5/%E8%AF%BB%E4%B9%A6/">
+        
+        读书
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        随笔
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/grow/%E9%9A%8F%E7%AC%94/%E8%B6%81%E5%B9%B4%E8%BD%BB%EF%BC%8C%E5%A4%9A%E6%8A%98%E8%85%BE/">
+        
+        趁年轻，多折腾
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-grow/技术/区块链" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/grow/%E6%8A%80%E6%9C%AF/%E5%8C%BA%E5%9D%97%E9%93%BE/">
+            
+            区块链
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <h1 id="区块链记账原理"><a href="#区块链记账原理" class="headerlink" title="区块链记账原理"></a>区块链记账原理</h1><h2 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h2><ol>
+<li><p>特点:</p>
+<ul>
+<li>同样的原始信息用同一个哈希函数总能得到相同的摘要信息</li>
+<li>原始信息任何微小的变化都会哈希出面目全非的摘要信息</li>
+<li>从摘要信息无法逆向推算出原始信息</li>
+</ul>
+</li>
+<li><p>作用：</p>
+<ul>
+<li>简化信息：很好理解，哈希后的信息变短了。</li>
+<li>标识信息：可以使用AC4635D34DEF来标识原始信息，摘要信息也称为原始信息的id。</li>
+<li>隐匿信息：账本是AC4635D34DEF这样一条记录，原始信息被隐匿。</li>
+<li>验证信息：假如李四在还款时欺骗说，张三只借给李四10万，双方可以用AC4635D34DEF来验证原始信息</li>
+</ul>
+</li>
+</ol>
+<h2 id="区块链记账方法"><a href="#区块链记账方法" class="headerlink" title="区块链记账方法"></a>区块链记账方法</h2><p>第一个区块：</p>
+<pre><code>Hash(序号0、记账时间、交易记录) = 787635ACD
+</code></pre><p>第二个区块：</p>
+<pre><code>Hash(上一个Hash值、序号1、记账时间、交易记录) = 456635BCD
+</code></pre><p>第2个区块不仅包含了本账页信息，还间接的包含了第一个区块的信息。即最新的区块总是间接包含了所有之前的账页信息。</p>
+<p>所有这些区块组合起来就形成了一个总账本，叫做区块链，其特点是：</p>
+<ul>
+<li>便于验证（只要验证最后一个区块的Hash值就相当于验证了整个账本）</li>
+<li>不可更改（任何一个交易信息的更改，会让所有之后的区块的Hash值发生变化，这样在验证时就无法通过）</li>
+</ul>
+<h1 id="比特币所有权及隐私问题-非对称加密应用"><a href="#比特币所有权及隐私问题-非对称加密应用" class="headerlink" title="比特币所有权及隐私问题-非对称加密应用"></a>比特币所有权及隐私问题-非对称加密应用</h1><h2 id="地址与私钥"><a href="#地址与私钥" class="headerlink" title="地址与私钥"></a>地址与私钥</h2><p>交易信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;付款地址&quot;：&quot;2A39CBa2390FDe&quot;</span><br><span class="line">    &quot;收款地址&quot;：&quot;AAC9CBa239aFcc&quot;</span><br><span class="line">    &quot;金额&quot;：&quot;0.2btc&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比特币的账户是用地址来表示</p>
+<p>谁拥有某个地址的私钥，谁就能用这个地址进行支付。</p>
+<p>比特币地址和私钥是一个非对称的关系，私钥经过一序列运算（其中有两次Hash）之后，可以得到地址, 但是无法从地址反推得到私钥。</p>
+<h2 id="比特币交易过程"><a href="#比特币交易过程" class="headerlink" title="比特币交易过程"></a>比特币交易过程</h2><ol>
+<li><p>发送方对交易信息进行签名</p>
+<ol>
+<li><p>对交易进行hash，得到一个摘要信息（Hash值）</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hash(&#x27;</span><br><span class="line">    &#123;&quot;付款地址&quot;：&quot;2A39CBa2390FDe&quot;,</span><br><span class="line">    &quot;收款地址&quot;：&quot;AAC9CBa239aFcc&quot;,</span><br><span class="line">    &quot;金额&quot;：&quot;0.2btc&quot;</span><br><span class="line">    &#125;&#x27;) -&gt; 8aDB23CDEA6</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用私钥对交易摘要进行签名</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#参数1为交易摘要</span><br><span class="line">#参数2为私钥</span><br><span class="line">#返回签名信息</span><br><span class="line">sign(&quot;8aDB23CDEA6&quot;, &quot;J78sknJhidhLIqdngalket&quot;) -&gt; &quot;3cdferdadgadg&quot;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>发送方广播</p>
+<p> 广播的信息包含了交易原始信息（付款地址、收款地址、金额、代表交易摘要的 hash 值）和签名信息（即”3cdferdadgadg”）</p>
+</li>
+<li><p>所有接收方验证</p>
+<p> 验证过程实际是签名过程的逆运算</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#参数1为签名信息</span><br><span class="line">#参数2为付款方地址</span><br><span class="line">#返回交易摘要</span><br><span class="line">verify(&quot;3cdferdadgadg&quot;, &quot;2A39CBa2390FDe&quot;) -&gt; &quot;8aDB23CDEA6&quot;</span><br></pre></td></tr></table></figure>
+<p> 简单理解为付款地址为公钥，签名过程即为用私钥对交易摘要的加密过程，验证过程为用公钥解密的过程</p>
+</li>
+</ol>
+<h1 id="比特币如何挖矿（挖矿原理）"><a href="#比特币如何挖矿（挖矿原理）" class="headerlink" title="比特币如何挖矿（挖矿原理）"></a>比特币如何挖矿（挖矿原理）</h1><p>记账是把上一个Hash值、账本序号、交易时间、交易记录等信息计算Hash打包的过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hash(上一个Hash值、序号1、记账时间、交易记录) = 456635BCD</span><br></pre></td></tr></table></figure>
+<p>计算是需要消耗计算机资源的，完成记账的节点可以获得系统给与的一定数量的比特币奖励（给自己凭空增加一定数量的比特币），这个奖励的过程也就是比特币的发行过程，因此大家形象的把记账称为“挖矿”</p>
+<h2 id="记账的规则"><a href="#记账的规则" class="headerlink" title="记账的规则"></a>记账的规则</h2><p>由于记账是有奖励的，因此就出现大家争相记账，大家一起记账就会出现记账不一致的问题，比特币系统引入工作量证明来解决这个问题，规则如下：</p>
+<ul>
+<li>一段时间内（10分钟左右，具体时间会与密码学难题难度相互影响）只有一人可以记账成功</li>
+<li>通过解决密码学难题（即工作量证明）竞争获得唯一记账权</li>
+<li>其他节点复制记账结果</li>
+</ul>
+<h2 id="工作量证明"><a href="#工作量证明" class="headerlink" title="工作量证明"></a>工作量证明</h2><p>为了保证一段时间内只有一个人可以记账，就必须要提高记账的难度，提高难度的方法是要求Hash的结果必须以若干个0开头。为了满足这个条件，在进行Hash时会引入一个随机数变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 没有难度时为：Hash(上一个Hash值，交易记录集) = 456635BCD</span><br><span class="line">Hash(上一个Hash值，交易记录集，随机数) = 0000aFD635BCD</span><br></pre></td></tr></table></figure>
+<p>挖矿其实就是不断寻找随机数以满足条件，率先找到随机数的节点就获得此次记账的唯一记账权</p>
+<h2 id="挖矿成功"><a href="#挖矿成功" class="headerlink" title="挖矿成功"></a>挖矿成功</h2><p>在节点成功找到满足的Hash值之后，会马上对全网进行广播打包区块</p>
+<p>网络的节点收到广播打包区块，会立刻对其进行验证，如果验证通过，则表明已经有节点成功解迷，自己就不再竞争当前区块打包，而是选择接受这个区块，记录到自己的账本中，然后进行下一个区块的竞争猜谜</p>
+<p>网络中只有最快解谜的区块，才会添加的账本中，其他的节点进行复制，这样就保证了整个账本的唯一性</p>
+<h1 id="比特币如何达成共识"><a href="#比特币如何达成共识" class="headerlink" title="比特币如何达成共识"></a>比特币如何达成共识</h1><h2 id="去中心化共识"><a href="#去中心化共识" class="headerlink" title="去中心化共识"></a>去中心化共识</h2><p>实际上，比特币的共识由所有节点的4个独立过程相互作用而产生：</p>
+<ul>
+<li>每个节点（挖矿节点）依据标准对每个交易进行独立验证</li>
+<li>挖矿节点通过完成工作量证明，将交易记录独立打包进新区块</li>
+<li>每个节点独立的对新区块进行校验并组装进区块链</li>
+<li>每个节点对区块链进行独立选择，在工作量证明机制下选择累计工作量最大的区块链（最长链的选择）</li>
+</ul>
+<h2 id="最长链的选择"><a href="#最长链的选择" class="headerlink" title="最长链的选择"></a>最长链的选择</h2><p>两名矿工在几乎在相同的时间内，各自都算得了工作量证明解，便立即传播自己的“获胜”区块到网络中</p>
+<p>两个块都收到的节点，会把其中有更多工作量的一条会继续作为主链，另一条作为备用链保存（保存是因为备用链将来可能会超过主链难度称为新主链）</p>
+<p>如果该节点收到了第三个区块，是属于备用链的，那么备用链的长度超过主链，则原来的备用链变成主链</p>
+<p>比特币将区块间隔设计为10分钟，是在更快速的交易确认和更低的分叉概率间作出的妥协：</p>
+<ul>
+<li>如果挖矿的难度很低（即找随机数的难度很简单），则所有交易会确认得更快，但是同时算出的节点必然更多，导致分叉的概率就会增加</li>
+<li>如果挖矿的难度很高（即找随机数的难度很难），则同时算出的节点会更少，即分叉的概率降低，但是这个会导致每次交易的确认时间更长</li>
+</ul>
+<h1 id="UTXO"><a href="#UTXO" class="headerlink" title="UTXO"></a>UTXO</h1><p>未花费的交易输出：交易的输出是一笔钱，这笔钱从没有被花费过。因为这是找零得来的。</p>
+<blockquote>
+</blockquote>
+<p>一个钱包中有一个 10 元、一个 5 元，一共 15 元。当花 5 元买东西时，我们其实是要把 10 元和 5 元拿出去，然后得到找零的 10 元， 那这个时候之前的 10 元和 5 元因为已经花出去了就不再是 UTXO 了，新找零的 10 元成为新的 UTXO。因为找零的 10 元从没被花费过，所以称之为未花费的交易输出</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://8btc.com/article-4381-1.html">其实并没有什么比特币，只有 UTXO</a></li>
+</ul>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%B0%E8%B4%A6%E5%8E%9F%E7%90%86"><span class="toc-text">区块链记账原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%87%BD%E6%95%B0"><span class="toc-text">哈希函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BA%E5%9D%97%E9%93%BE%E8%AE%B0%E8%B4%A6%E6%96%B9%E6%B3%95"><span class="toc-text">区块链记账方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AF%94%E7%89%B9%E5%B8%81%E6%89%80%E6%9C%89%E6%9D%83%E5%8F%8A%E9%9A%90%E7%A7%81%E9%97%AE%E9%A2%98-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E5%BA%94%E7%94%A8"><span class="toc-text">比特币所有权及隐私问题-非对称加密应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E4%B8%8E%E7%A7%81%E9%92%A5"><span class="toc-text">地址与私钥</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%94%E7%89%B9%E5%B8%81%E4%BA%A4%E6%98%93%E8%BF%87%E7%A8%8B"><span class="toc-text">比特币交易过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AF%94%E7%89%B9%E5%B8%81%E5%A6%82%E4%BD%95%E6%8C%96%E7%9F%BF%EF%BC%88%E6%8C%96%E7%9F%BF%E5%8E%9F%E7%90%86%EF%BC%89"><span class="toc-text">比特币如何挖矿（挖矿原理）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E8%B4%A6%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">记账的规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E9%87%8F%E8%AF%81%E6%98%8E"><span class="toc-text">工作量证明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%96%E7%9F%BF%E6%88%90%E5%8A%9F"><span class="toc-text">挖矿成功</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%AF%94%E7%89%B9%E5%B8%81%E5%A6%82%E4%BD%95%E8%BE%BE%E6%88%90%E5%85%B1%E8%AF%86"><span class="toc-text">比特币如何达成共识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%BB%E4%B8%AD%E5%BF%83%E5%8C%96%E5%85%B1%E8%AF%86"><span class="toc-text">去中心化共识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E9%95%BF%E9%93%BE%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-text">最长链的选择</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UTXO"><span class="toc-text">UTXO</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
