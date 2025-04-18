@@ -3,8 +3,8 @@
 # Menus
 menu:
     技术: categories/tech
-    成长: categories/grow
-    金融: categories/fina
+    # 成长: categories/grow
+    # 金融: categories/fina
     归档: categories/arch
     # 全部: /archives
     # 全部: /categories
