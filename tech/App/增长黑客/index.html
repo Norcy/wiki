@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="书摘 活跃的免费用户的痛点将会是一个收费点。比如自动保存、一键排序等 用户调查的目标群体，最好是活跃用户而不是 “休眠用户”，因为活跃用户会对产品更加了解，所以在 App 内进行弹窗调研是一个不错的选择 上报数据要足够。分析关键行为，比如从下载到开会员经历了什么？从下载到弃坑经历了什么？如果能知道用户的关键信息会更好，比如性别、地区、年龄等  网飞通过分析客户观看的电影和节目发现凯文・史派西的电影">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/tech/App/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="书摘 活跃的免费用户的痛点将会是一个收费点。比如自动保存、一键排序等 用户调查的目标群体，最好是活跃用户而不是 “休眠用户”，因为活跃用户会对产品更加了解，所以在 App 内进行弹窗调研是一个不错的选择 上报数据要足够。分析关键行为，比如从下载到开会员经历了什么？从下载到弃坑经历了什么？如果能知道用户的关键信息会更好，比如性别、地区、年龄等  网飞通过分析客户观看的电影和节目发现凯文・史派西的电影">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-18T05:31:15.633Z">
+<meta property="article:modified_time" content="2025-04-18T05:30:32.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link " href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        App
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/App/App%20%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        App 开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/AppLink%20%E7%AC%94%E8%AE%B0/">
+        
+        AppLink 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E5%AE%89%E5%85%A8%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 安全实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud_Example/">
+        
+        LeanCloud_Example
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/RN%20Android%20%E5%8C%85%E4%BD%93%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        RN Android 包体优化最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/fastlane%20%E6%8E%A5%E5%85%A5%E7%AC%94%E8%AE%B0/">
+        
+        fastlane 接入笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/iOS%20%E6%8F%90%E5%AE%A1%E7%BC%BA%E5%B0%91%E5%90%88%E8%A7%84%E8%AF%81%E6%98%8E/">
+        
+        iOS 提审缺少合规证明
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/tech/App/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2/">
+        
+        增长黑客
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+        
+        开发问题记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E8%8B%B9%E6%9E%9C%E5%88%A0%E9%99%A4%E5%B8%90%E5%8F%B7/">
+        
+        苹果删除帐号
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        BackEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Linux%E7%A2%8E%E7%89%87/">
+        
+        Linux碎片
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Ubuntu/">
+        
+        Ubuntu
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%20NodeJS%20%E5%90%8E%E5%8F%B0%E6%9C%8D%E5%8A%A1/">
+        
+        如何构建一个 NodeJS 后台服务
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%AF%94%E8%BE%83%E7%AE%80%E5%8D%95%E5%9C%B0%E5%B1%95%E7%A4%BA%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E7%BD%91/">
+        
+        如何比较简单地展示一个静态网
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+        
+        定时任务
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        FrontEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        MiniApp
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/MiniApp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B8%A9%E5%9D%91/">
+        
+        小程序踩坑
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        ReactNative
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/!!%E7%9A%84%E5%A6%99%E7%94%A8/">
+        
+        !!的妙用
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/Android%20RN%20%E5%BC%95%E7%94%A8%20fork%20%E7%9A%84%E4%B8%89%E6%96%B9%E5%BA%93/">
+        
+        Android RN 引用 fork 的三方库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JS%20Object%20%E7%9A%84%E5%9D%91/">
+        
+        JS Object 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JSON.stringfy%20%E7%9A%84%E5%9D%91/">
+        
+        JSON.stringfy 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%20Text%20%E5%B1%9E%E6%80%A7/">
+        
+        RN 全局替换 Text 属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        RN 安卓开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20JS%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative JS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%BC%82%E5%B8%B8%E8%B0%83%E7%A0%94/">
+        
+        RN 异常调研
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20Native%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative Native 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E4%B8%AD%20fetch%20%E7%9A%84%E5%B7%A8%E5%9D%91/">
+        
+        ReactNative 中 fetch 的巨坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E7%BB%84%E4%BB%B6%E6%8E%A8%E8%8D%90/">
+        
+        ReactNative 组件推荐
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        ReactNative 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/TextInput%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%9D%91/">
+        
+        TextInput的一个小坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%E6%BB%91%E5%8A%A8%E4%B8%AD%E8%AF%AF%E7%82%B9%E5%87%BB%E9%97%AE%E9%A2%98%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/">
+        
+        ReactNative滑动中误点击问题优化方案
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/memo/">
+        
+        memo
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%20JS%20import%20%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/">
+        
+        如何在 JS import 绝对路径
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E9%87%8C%E6%A8%A1%E6%8B%9F%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
+        
+        如何在函数组件里模拟构造函数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%AA%E6%9C%AA%E5%8F%91%E5%B8%83%E7%9A%84RN%E7%BB%84%E4%BB%B6/">
+        
+        如何调试一个未发布的RN组件
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20%E6%A8%A1%E5%9D%97%E5%8C%96/">
+        
+        JS 模块化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/H5%E6%89%93%E5%BC%80%E5%A4%96%E9%93%BE%E5%A4%B1%E8%B4%A5/">
+        
+        H5打开外链失败
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20CORS%20%E9%97%AE%E9%A2%98/">
+        
+        JS CORS 问题
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%E5%8F%8C%E9%97%AE%E5%8F%B7%E7%94%A8%E6%B3%95/">
+        
+        JS双问号用法
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JavaScript/">
+        
+        JavaScript
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/RN%20TS%20%E5%AE%9E%E8%B7%B5/">
+        
+        RN TS 实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TS%20%E7%AC%94%E8%AE%B0/">
+        
+        TS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TSC%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        TSC 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/npx%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        npx 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/peerDependencies%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        peerDependencies 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/yarn%20%E6%97%B6%E6%8C%87%E5%AE%9A%20Node%20%E7%89%88%E6%9C%AC/">
+        
+        yarn 时指定 Node 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/">
+        
+        移动端适配
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%BB%99%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97%E6%89%93%E8%A1%A5%E4%B8%81/">
+        
+        给三方模块打补丁
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E8%8A%82%E6%B5%81%E4%B8%8E%E9%98%B2%E6%8A%96/">
+        
+        节流与防抖
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Others
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Python
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        周边
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%88%87%E6%8D%A2%20Mac%20Python%20%E7%89%88%E6%9C%AC/">
+        
+        切换 Mac Python 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E7%A5%9E%E5%99%A8/">
+        
+        参数解析神器
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        语法
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%8F%82%E6%95%B0/">
+        
+        Python 参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%B0%8F%E7%9F%A5%E8%AF%86/">
+        
+        Python 小知识
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+        
+        Python 文件操作
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">
+        
+        Python 网络请求
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/Python%20%E5%AE%9E%E6%88%98/">
+        
+        Python 实战
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Xcode
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        库
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/iOS%20%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+        
+        iOS 二进制文件分析之常用命令
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%8A%A8%E6%80%81%E5%BA%93%E5%92%8C%E9%9D%99%E6%80%81%E5%BA%93/">
+        
+        动态库和静态库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%BA%93%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96/">
+        
+        库体积优化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9/">
+        
+        编译选项
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/Cocoapods/">
+        
+        Cocoapods
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B7%BB%E5%8A%A0Xcode%E6%96%87%E4%BB%B6/">
+        
+        使用脚本添加Xcode文件
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%AE%9A%E4%BD%8D%E6%8A%80%E5%B7%A7/">
+        
+        内存泄漏定位技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E7%A7%BB%E9%99%A4StroyBoard/">
+        
+        新建工程移除StroyBoard
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        计算机基础
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/Git/">
+        
+        Git
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/RESTful%20API/">
+        
+        RESTful API
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%8E%9F%E7%A0%81,%20%E5%8F%8D%E7%A0%81,%20%E8%A1%A5%E7%A0%81/">
+        
+        原码, 反码, 补码
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">
+        
+        字符编码
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/GitHub%20Page%20%E4%BB%8E%20TravisCI%20%E8%BF%81%E7%A7%BB%E5%88%B0%20GitHub%20Action/">
+        
+        GitHub Page 从 TravisCI 迁移到 GitHub Action
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Hexo%20%E7%89%B9%E6%80%A7/">
+        
+        Hexo 特性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Mac%20%E5%AE%89%E8%A3%85%20Ruby%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        Mac 安装 Ruby 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/VSCode%20%E8%B0%83%E6%95%99/">
+        
+        VSCode 调教
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/fork%E5%90%8E%E4%B8%8E%E5%8E%9F%E4%BB%93%E5%BA%93%E5%90%8C%E6%AD%A5SOP/">
+        
+        fork后与原仓库同步SOP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E4%B8%BA%20Github%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/">
+        
+        如何为 Github 设置代理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%95%B4%E8%BF%81%E7%A7%BB%20Git%20%E4%BB%93%E5%BA%93/">
+        
+        如何完整迁移 Git 仓库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E6%9F%A5%E6%89%BE%E6%97%A5%E5%BF%97%E6%8A%80%E5%B7%A7/">
+        
+        查找日志技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">
+        
+        知识碎片
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        iOS
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Block
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block%20%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AE%80%E5%8C%96%E7%89%88%EF%BC%89/">
+        
+        Block 的实现（简化版）
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block/">
+        
+        Block
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block_%E9%9D%A2%E8%AF%95%E9%A2%98/">
+        
+        Block_面试题
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        GCD
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD/">
+        
+        GCD
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD_%E5%AE%9E%E8%B7%B5/">
+        
+        GCD_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/dispatch_set_target_queue/">
+        
+        dispatch_set_target_queue
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        RunLoop
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        
+        RunLoop 源码分析
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop/">
+        
+        RunLoop
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Runtime
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/Runtime/">
+        
+        Runtime
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/Runtime_%E5%AE%9E%E8%B7%B5/">
+        
+        Runtime_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/iOS%20%E7%9A%84%20initialize%20%E5%92%8C%20load%20%E5%8C%BA%E5%88%AB/">
+        
+        iOS 的 initialize 和 load 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/weak%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        weak 的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        关联对象的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%88%86%E7%B1%BB/">
+        
+        分类
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为分类添加属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2/">
+        
+        方法交换
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8D%8F%E8%AE%AE%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为协议添加属性
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        内存管理
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Weak-Strong%20Dance/">
+        
+        Weak-Strong Dance
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/autorelease/">
+        
+        autorelease
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/dealloc%20%E6%8E%A2%E7%A9%B6/">
+        
+        dealloc 探究
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        未分类
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVC/">
+        
+        KVC
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVO/">
+        
+        KVO
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/NSString%20%E7%9A%84%E5%9D%91/">
+        
+        NSString 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Native%20%E4%B8%8E%20JS%20%E4%BA%A4%E4%BA%92/">
+        
+        Native 与 JS 交互
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Property/">
+        
+        Property
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/UIView%20%E4%B8%8E%20CALayer%20%E5%8C%BA%E5%88%AB/">
+        
+        UIView 与 CALayer 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/block%20%E5%92%8C%20delegate%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        block 和 delegate 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%9D%91/">
+        
+        iOS 图片加载的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E6%B2%99%E7%9B%92%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/">
+        
+        iOS 沙盒目录结构
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E7%8A%B6%E6%80%81%E6%A0%8F/">
+        
+        iOS 状态栏
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E8%A7%A6%E6%91%B8%E6%9C%BA%E5%88%B6/">
+        
+        iOS 触摸机制
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%90%AF%E5%8A%A8/">
+        
+        启动
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%BC%B1%E5%BC%95%E7%94%A8%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1/">
+        
+        弱引用集合对象
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E6%9D%82/">
+        
+        杂
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/">
+        
+        离屏渲染
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-tech/App/增长黑客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/tech/App/%E5%A2%9E%E9%95%BF%E9%BB%91%E5%AE%A2/">
+            
+            增长黑客
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <h2 id="书摘"><a href="#书摘" class="headerlink" title="书摘"></a>书摘</h2><ol>
+<li>活跃的免费用户的痛点将会是一个收费点。比如自动保存、一键排序等</li>
+<li>用户调查的目标群体，最好是活跃用户而不是 “休眠用户”，因为活跃用户会对产品更加了解，所以在 App 内进行弹窗调研是一个不错的选择</li>
+<li><p>上报数据要足够。分析关键行为，比如从下载到开会员经历了什么？从下载到弃坑经历了什么？如果能知道用户的关键信息会更好，比如性别、地区、年龄等</p>
+<blockquote>
+<p>网飞通过分析客户观看的电影和节目发现凯文・史派西的电影和政治题材的电视剧都非常受用户欢迎。从而制作了《纸牌屋》</p>
+</blockquote>
+</li>
+<li><p>当转化率和用户好评数据不错时，说明已经拥有了一个出色的产品和一群忠实的活跃用户，此时需要做的是把注意力从改进产品转移到增加收入上</p>
+<blockquote>
+<p>Everpix 初期的付费率高达 12.4%，但此时他们选择打磨产品体验，新增了产品功能，比如发邮件提示用户去年今日拍的照片，提高了用户的日活。殊不知他们急需的不是提高日活，而是增加付费用户的数量。因为没有利用早期用户的热情来获得更快的增长，最后倒闭了。</p>
+</blockquote>
+</li>
+<li><p>增长技巧，要让分享产品这种体验变得不可或缺，或者至少让这种体验尽可能便捷、舒心</p>
+<blockquote>
+<p>Hotmail 的邮件签名就是用户体验的典范：只需要单击鼠标，完成一个非常简单的注册过程就能获得免费邮箱。Dropbox 的团队下了很大的功夫去完善他们的推荐计划，从欢迎页面的设计到发送和接受邀请，他们让每一个环节都简单而且有趣。他们最终设计出的推荐计划让邀请朋友的过程变得既轻松又愉快</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="AB-Test"><a href="#AB-Test" class="headerlink" title="AB Test"></a>AB Test</h2><ol>
+<li>小团队要选好能快速见效的实验，不要只局限于微小的UI改动，那是大公司做的事情</li>
+<li>AB 测试要多要快，测试得越多，可以分析的数据也就越多，而分析的数据越多，能够发现的规律也就越多</li>
+</ol>
+<h2 id="北极星指标"><a href="#北极星指标" class="headerlink" title="北极星指标"></a>北极星指标</h2><p>北极星指标是增长团队关注的唯一指标，其他指标都应围绕北极星指标</p>
+<ol>
+<li>WhatsApp 的北极星指标就是用户发送的信息数，而不是日活跃用户数。因为如果一个用户每天都使用它，但只用它发送了一条信息，就说明 WhatsApp 并不是他和亲朋好友联络的主要方式</li>
+<li>Airbnb 的北极星指标是客房的预定量</li>
+<li>已阅的北极星指标是月开通永久会员的数量？</li>
+<li>小频率的北极星指标是用户的听歌时长</li>
+</ol>
+<h2 id="啊哈时刻"><a href="#啊哈时刻" class="headerlink" title="啊哈时刻"></a>啊哈时刻</h2><ol>
+<li>“啊哈时刻” 就是产品使用户眼前一亮的时刻，是用户真正发现产品核心价值 —— 产品为何存在、他们为何需要它以及他们能从中得到什么的时刻。换句话说，就在这个时候，用户认识到这个产品对他们来说为什么不可或缺。如领取了免费的会员、达到了 100 条记录、一键制作了书单影单、新增了某个好用功能等</li>
+<li>“啊哈体验” 是可持续增长的必要元素，因为有了这个体验的用户会觉得产品太棒了，让人爱不释手并忍不住跟朋友分享，说明产品和市场需求匹配上了</li>
+<li>在啊哈时刻引导评论、分享，事半功倍</li>
+<li>一旦发现了啊哈时刻，就应该尽快引导用户去体验这一时刻</li>
+</ol>
+<h2 id="留存率"><a href="#留存率" class="headerlink" title="留存率"></a>留存率</h2><p>大多数 App 的月留存率为 10% 的用户，而好的能达到 60%</p>
+<h2 id="漏斗"><a href="#漏斗" class="headerlink" title="漏斗"></a>漏斗</h2><ul>
+<li><p>你应该全程跟踪用户的所有关键步骤，比如，小红书等媒体浏览量 =&gt; 网站 UV 或 AppStore UV =&gt; 打开用户数 =&gt; 注册用户数 =&gt; 激活用户数（发生记录） =&gt; 付费用户数</p>
+</li>
+<li><p>一个非常有效的措施是，在用户离开前询问用户为何不进入下一步。比如退出登录页面、退出付费页面、安卓监听如果没记录就退出 App 等场景</p>
+</li>
+</ul>
+<h2 id="新用户体验"><a href="#新用户体验" class="headerlink" title="新用户体验"></a>新用户体验</h2><p>新用户体验对转化率非常重要，应该被当成一个独立的产品</p>
+<p>一些有用的措施</p>
+<ol>
+<li>提供一键登录</li>
+<li>注册前让用户体验啊哈时刻，比如年度报告和日历页面的 demo 数据</li>
+<li>新用户体验游戏化。参考游戏激励机制，完成简单任务后就给奖励。比如记录第一条数据时给予鼓励动画或者授予徽章或任务进度动画，再如记录10条数据或连续3天使用即可解锁成就？徽章？优惠？主题？参考滴答清单的等级。钱迹的使用天数。</li>
+<li>问卷调查。让用户投入沉默成本，比如打开 App 时选择自己的喜好，建议提问不超过 5 个，让用户做选择题而是填空题</li>
+</ol>
+<blockquote>
+<p>人们放入产品的个人信息越多，他们对产品的忠诚度就会越高，这被称为储值(stored value)。就像把钱放进保险箱一样，将个人信息放进服务中会立刻让用户感到一种“所有权”​，这让他们愿意继续增加并保有那个价值。</p>
+</blockquote>
+<blockquote>
+<p>用户最开始只会看到一个页面，要求他们在上面选出自己感兴趣并且愿意关注的五个话题，例如露营、婚礼、驾驶运动和家装等。用户做出选择后，App将跳转到仅由用户所选话题内容构成的信息源，在那儿用户可以练习钉图和保存图片。这个改变将激活率提高了20%</p>
+</blockquote>
+<h2 id="触发物"><a href="#触发物" class="headerlink" title="触发物"></a>触发物</h2><p>触发物是指任何刺激人们采取行动的提示。常见的触发物包括 App 弹窗，Banner，系统 Push，商品标签，倒计时，邮件等</p>
+<p>触发物的一些常见用途如：提示用户注册、购买弹窗、新功能弹窗、资深用户奖励通知</p>
+<p>触发物的分类：</p>
+<ol>
+<li>协助型：比如用户在付费页面停留很久没下单，则弹窗提示是否遇到困难；或者退出付费页面时询问为什么不付费</li>
+<li>信号型：比如付费页面的真实用户评价、几秒前xx已下单</li>
+<li>刺激型：比如优惠倒计时标签、最低优惠标签、优惠弹窗</li>
+</ol>
+<p>六大原则：</p>
+<ul>
+<li>互惠：赠送会员，卖惨求分享</li>
+<li>承诺：分步骤引导，给过好评的人更容易分享</li>
+<li>认同：谁在几分钟前下单，用户好评</li>
+<li>稀缺：打折</li>
+<li>权威：暂时想不到</li>
+<li>喜好：好友推荐</li>
+</ul>
+<p>还有一个是终极必杀，让用户养成习惯，如利用 Push 通知、小组件、快捷指令等</p>
+<h2 id="病毒系数与病毒性"><a href="#病毒系数与病毒性" class="headerlink" title="病毒系数与病毒性"></a>病毒系数与病毒性</h2><p>病毒系数 K 的概念，平均一个用户能带来多少新用户。即</p>
+<p>病毒系数 K = 被邀新用户数 / 发出邀请的用户数 = 用户发出的邀请数 x 受邀比例</p>
+<ul>
+<li>K ＞ 1 时，新用户数量会越来越多</li>
+<li>K = 1 时，新用户数量取决于老用户的邀请数</li>
+<li>K &lt; 1 时，新用户数量会越来越少</li>
+</ul>
+<p>但是病毒系数 K 超过 1 几乎不可能实现，这就意味着，每位注册的新用户要成功将产品介绍给一位或者更多的人</p>
+<blockquote>
+<p>假设你有 25000 名用户，25% 的用户向别人发出了邀请。平均每人发出 5 份邀请，平均 10% 的受邀者接受邀请。这就意味着你获得了 3125 位新用户，也就是说病毒循环的第一圈用户数量就增长了 12.5%。这种结果对于任何一种营销而言都是巨大的成功。但这个推荐计划的病毒系数是：5×10%=0.5，远远低于病毒性定义中的 1.0</p>
+</blockquote>
+<p>病毒系数并不可靠，不如关心病毒性</p>
+<p>病毒性 = 单人邀请数 x 转化率 x 频率</p>
+<ul>
+<li>提高单人邀请数：鼓励分享朋友圈、小红书等大流量社区；提供双向奖励，即邀请人和被邀请人都有奖；</li>
+<li>提高转化率：优化分享海报或落地页</li>
+<li>提高频率：增加分享次数的提示或优化分享按钮的位置</li>
+</ul>
+<blockquote>
+<p>比如 Hotmail 的邮件签名里有注册链接。但由于邮件很少群发，所以单人邀请数不高；Hotmail 的转化率很高，这是因为当时人们从未听说过免费邮箱，所以对它很感兴趣；频率较高，因为大多数邮箱用户非常频繁地给朋友、家人和同事发邮件</p>
+</blockquote>
+<h2 id="分享奖励"><a href="#分享奖励" class="headerlink" title="分享奖励"></a>分享奖励</h2><p>用户完成推荐后得到的奖励不管是什么都必须与产品的核心价值相关；即使是现金奖励也应该类似优惠券的方式，而不是现金，这样才能获得更好的传播效果</p>
+<blockquote>
+<p>比如，Dropbox 的核心是存储并轻松分享文件，其分享奖励是获得更多的免费存储空间，就完全契合产品的核心价值</p>
+</blockquote>
+<blockquote>
+<p>比如，Airbnb 向邀请者和受邀者各提供 25 美元的现金奖励，供他们下次在 Airbnb 上预订房间时使用，而不是白白拿现金。这也符合产品核心价值</p>
+</blockquote>
+<h2 id="分享体验"><a href="#分享体验" class="headerlink" title="分享体验"></a>分享体验</h2><p>向用户发出分享邀请必须拿捏好分寸：提示语不能太强势，否则会被看成是过度营销而惹怒顾客，但同时又要确保用户能够看见提示语。把握这个分寸，最好的办法是尽可能地将提示无缝嵌入用户体验中</p>
+<p>更好的做法是将提示嵌入访问频率更高的地方，例如新用户体验或者主屏上</p>
+<h2 id="受邀体验"><a href="#受邀体验" class="headerlink" title="受邀体验"></a>受邀体验</h2><p>分享海报或落地页的体验非常重要。一个常见的错误是，受邀者回应了邀请而你却没有优化他们获得的体验。例如，还没有告诉受邀者这个产品是做什么的或者他们为什么应该加入就冒失地要求他们创建账户</p>
+<blockquote>
+<p>Airbnb 邀请的内容包含了邀请者的姓名和照片，还有专门写给受邀者说明奖励措施的一段话：“你的朋友摩根为你在 Airbnb 上的第一次旅行省去了 25 美元，Airbnb 是最好的旅行方式，一定要感谢你的朋友！” 它的行为召唤也很简洁醒目：一个写着 “领取奖励” 的大按钮。这样做的好处是双重的：受邀者将不仅更乐意回应邀请，他们自己也更愿意发送这样的推荐邀请，因为现在他们知道他们向朋友发送的不是垃圾信息，也不是过于强势的邀请</p>
+</blockquote>
+<p>好的文案是通过不断测试产生的</p>
+<blockquote>
+<p>Dropbox 发现，如果在分享文件的邀请中突出在线存储空间这项奖励，转化率反而会受到影响！但是如果欢迎页面强调的是这项服务如何促进协作和文件共享，转化率就会飙升。为什么呢？这是因为那些受邀者还没有产生想要获得在线存储空间的欲望，但是能够与邀请者或者任何其他人轻松分享文件这一点却能立刻使他们动心。如果 Dropbox 的增长团队没有进行试验，他们很有可能永远也意识不到这一点。</p>
+</blockquote>
+<blockquote>
+<p>领英也同样惊讶地发现，对提示语中建议用户邀请数量并进行测试，发现最优邀请数量是 4 份</p>
+</blockquote>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%A6%E6%91%98"><span class="toc-text">书摘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AB-Test"><span class="toc-text">AB Test</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%97%E6%9E%81%E6%98%9F%E6%8C%87%E6%A0%87"><span class="toc-text">北极星指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%95%8A%E5%93%88%E6%97%B6%E5%88%BB"><span class="toc-text">啊哈时刻</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%99%E5%AD%98%E7%8E%87"><span class="toc-text">留存率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%96%97"><span class="toc-text">漏斗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C"><span class="toc-text">新用户体验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E7%89%A9"><span class="toc-text">触发物</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%97%85%E6%AF%92%E7%B3%BB%E6%95%B0%E4%B8%8E%E7%97%85%E6%AF%92%E6%80%A7"><span class="toc-text">病毒系数与病毒性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E4%BA%AB%E5%A5%96%E5%8A%B1"><span class="toc-text">分享奖励</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E4%BA%AB%E4%BD%93%E9%AA%8C"><span class="toc-text">分享体验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%97%E9%82%80%E4%BD%93%E9%AA%8C"><span class="toc-text">受邀体验</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
