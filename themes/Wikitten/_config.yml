@@ -46,10 +46,10 @@ customize:
             - "tech"
         arch:
             - "arch"
-        fina:
-            - "fina"
-        grow:
-            - "grow"
+        # fina:
+        #     - "fina"
+        # grow:
+        #     - "grow"
 
 # Widgets
 widgets: # default use category only
