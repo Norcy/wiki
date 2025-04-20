@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Runtime 原理123456789struct category_t &amp;#123;     const char *name;                           &#x2F;&#x2F; 原类名，而不是分类名    &#x2F;&#x2F; 要扩展的类对象，编译期间是不会定义的，而是在 Runtime 阶段通过 name 对应到对应的类对象    classref_t cls;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="Runtime 原理123456789struct category_t &amp;#123;     const char *name;                           &#x2F;&#x2F; 原类名，而不是分类名    &#x2F;&#x2F; 要扩展的类对象，编译期间是不会定义的，而是在 Runtime 阶段通过 name 对应到对应的类对象    classref_t cls;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-20T05:50:42.955Z">
+<meta property="article:modified_time" content="2025-04-20T05:50:08.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link " href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        App
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/App/App%20%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        App 开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/AppLink%20%E7%AC%94%E8%AE%B0/">
+        
+        AppLink 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E5%AE%89%E5%85%A8%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 安全实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud_Example/">
+        
+        LeanCloud_Example
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/RN%20Android%20%E5%8C%85%E4%BD%93%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        RN Android 包体优化最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/fastlane%20%E6%8E%A5%E5%85%A5%E7%AC%94%E8%AE%B0/">
+        
+        fastlane 接入笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/iOS%20%E6%8F%90%E5%AE%A1%E7%BC%BA%E5%B0%91%E5%90%88%E8%A7%84%E8%AF%81%E6%98%8E/">
+        
+        iOS 提审缺少合规证明
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+        
+        开发问题记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E8%8B%B9%E6%9E%9C%E5%88%A0%E9%99%A4%E5%B8%90%E5%8F%B7/">
+        
+        苹果删除帐号
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        BackEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Linux%E7%A2%8E%E7%89%87/">
+        
+        Linux碎片
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Ubuntu/">
+        
+        Ubuntu
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%20NodeJS%20%E5%90%8E%E5%8F%B0%E6%9C%8D%E5%8A%A1/">
+        
+        如何构建一个 NodeJS 后台服务
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%AF%94%E8%BE%83%E7%AE%80%E5%8D%95%E5%9C%B0%E5%B1%95%E7%A4%BA%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E7%BD%91/">
+        
+        如何比较简单地展示一个静态网
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+        
+        定时任务
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        FrontEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        MiniApp
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/MiniApp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B8%A9%E5%9D%91/">
+        
+        小程序踩坑
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        ReactNative
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/!!%E7%9A%84%E5%A6%99%E7%94%A8/">
+        
+        !!的妙用
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/Android%20RN%20%E5%BC%95%E7%94%A8%20fork%20%E7%9A%84%E4%B8%89%E6%96%B9%E5%BA%93/">
+        
+        Android RN 引用 fork 的三方库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JS%20Object%20%E7%9A%84%E5%9D%91/">
+        
+        JS Object 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JSON.stringfy%20%E7%9A%84%E5%9D%91/">
+        
+        JSON.stringfy 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%20Text%20%E5%B1%9E%E6%80%A7/">
+        
+        RN 全局替换 Text 属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        RN 安卓开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%BC%82%E5%B8%B8%E8%B0%83%E7%A0%94/">
+        
+        RN 异常调研
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20JS%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative JS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E4%B8%AD%20fetch%20%E7%9A%84%E5%B7%A8%E5%9D%91/">
+        
+        ReactNative 中 fetch 的巨坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E7%BB%84%E4%BB%B6%E6%8E%A8%E8%8D%90/">
+        
+        ReactNative 组件推荐
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20Native%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative Native 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        ReactNative 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%E6%BB%91%E5%8A%A8%E4%B8%AD%E8%AF%AF%E7%82%B9%E5%87%BB%E9%97%AE%E9%A2%98%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/">
+        
+        ReactNative滑动中误点击问题优化方案
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/TextInput%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%9D%91/">
+        
+        TextInput的一个小坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/memo/">
+        
+        memo
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%20JS%20import%20%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/">
+        
+        如何在 JS import 绝对路径
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E9%87%8C%E6%A8%A1%E6%8B%9F%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
+        
+        如何在函数组件里模拟构造函数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%AA%E6%9C%AA%E5%8F%91%E5%B8%83%E7%9A%84RN%E7%BB%84%E4%BB%B6/">
+        
+        如何调试一个未发布的RN组件
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20%E6%A8%A1%E5%9D%97%E5%8C%96/">
+        
+        JS 模块化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/H5%E6%89%93%E5%BC%80%E5%A4%96%E9%93%BE%E5%A4%B1%E8%B4%A5/">
+        
+        H5打开外链失败
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20CORS%20%E9%97%AE%E9%A2%98/">
+        
+        JS CORS 问题
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%E5%8F%8C%E9%97%AE%E5%8F%B7%E7%94%A8%E6%B3%95/">
+        
+        JS双问号用法
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JavaScript/">
+        
+        JavaScript
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/RN%20TS%20%E5%AE%9E%E8%B7%B5/">
+        
+        RN TS 实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TS%20%E7%AC%94%E8%AE%B0/">
+        
+        TS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TSC%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        TSC 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/npx%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        npx 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/peerDependencies%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        peerDependencies 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/yarn%20%E6%97%B6%E6%8C%87%E5%AE%9A%20Node%20%E7%89%88%E6%9C%AC/">
+        
+        yarn 时指定 Node 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/">
+        
+        移动端适配
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%BB%99%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97%E6%89%93%E8%A1%A5%E4%B8%81/">
+        
+        给三方模块打补丁
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E8%8A%82%E6%B5%81%E4%B8%8E%E9%98%B2%E6%8A%96/">
+        
+        节流与防抖
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Others
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Python
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        周边
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%88%87%E6%8D%A2%20Mac%20Python%20%E7%89%88%E6%9C%AC/">
+        
+        切换 Mac Python 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E7%A5%9E%E5%99%A8/">
+        
+        参数解析神器
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        语法
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%8F%82%E6%95%B0/">
+        
+        Python 参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%B0%8F%E7%9F%A5%E8%AF%86/">
+        
+        Python 小知识
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+        
+        Python 文件操作
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">
+        
+        Python 网络请求
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/Python%20%E5%AE%9E%E6%88%98/">
+        
+        Python 实战
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Xcode
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        库
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/iOS%20%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+        
+        iOS 二进制文件分析之常用命令
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%8A%A8%E6%80%81%E5%BA%93%E5%92%8C%E9%9D%99%E6%80%81%E5%BA%93/">
+        
+        动态库和静态库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%BA%93%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96/">
+        
+        库体积优化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9/">
+        
+        编译选项
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/Cocoapods/">
+        
+        Cocoapods
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B7%BB%E5%8A%A0Xcode%E6%96%87%E4%BB%B6/">
+        
+        使用脚本添加Xcode文件
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%AE%9A%E4%BD%8D%E6%8A%80%E5%B7%A7/">
+        
+        内存泄漏定位技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E7%A7%BB%E9%99%A4StroyBoard/">
+        
+        新建工程移除StroyBoard
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        计算机基础
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/Git/">
+        
+        Git
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/RESTful%20API/">
+        
+        RESTful API
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%8E%9F%E7%A0%81,%20%E5%8F%8D%E7%A0%81,%20%E8%A1%A5%E7%A0%81/">
+        
+        原码, 反码, 补码
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">
+        
+        字符编码
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/GitHub%20Page%20%E4%BB%8E%20TravisCI%20%E8%BF%81%E7%A7%BB%E5%88%B0%20GitHub%20Action/">
+        
+        GitHub Page 从 TravisCI 迁移到 GitHub Action
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Hexo%20%E7%89%B9%E6%80%A7/">
+        
+        Hexo 特性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Mac%20%E5%AE%89%E8%A3%85%20Ruby%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        Mac 安装 Ruby 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/VSCode%20%E8%B0%83%E6%95%99/">
+        
+        VSCode 调教
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/fork%E5%90%8E%E4%B8%8E%E5%8E%9F%E4%BB%93%E5%BA%93%E5%90%8C%E6%AD%A5SOP/">
+        
+        fork后与原仓库同步SOP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E4%B8%BA%20Github%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/">
+        
+        如何为 Github 设置代理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%95%B4%E8%BF%81%E7%A7%BB%20Git%20%E4%BB%93%E5%BA%93/">
+        
+        如何完整迁移 Git 仓库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E6%9F%A5%E6%89%BE%E6%97%A5%E5%BF%97%E6%8A%80%E5%B7%A7/">
+        
+        查找日志技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">
+        
+        知识碎片
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        iOS
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Block
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block%20%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AE%80%E5%8C%96%E7%89%88%EF%BC%89/">
+        
+        Block 的实现（简化版）
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block/">
+        
+        Block
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block_%E9%9D%A2%E8%AF%95%E9%A2%98/">
+        
+        Block_面试题
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        GCD
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD/">
+        
+        GCD
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD_%E5%AE%9E%E8%B7%B5/">
+        
+        GCD_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/dispatch_set_target_queue/">
+        
+        dispatch_set_target_queue
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        RunLoop
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        
+        RunLoop 源码分析
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop/">
+        
+        RunLoop
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        Runtime
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/Runtime/">
+        
+        Runtime
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/Runtime_%E5%AE%9E%E8%B7%B5/">
+        
+        Runtime_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/iOS%20%E7%9A%84%20initialize%20%E5%92%8C%20load%20%E5%8C%BA%E5%88%AB/">
+        
+        iOS 的 initialize 和 load 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/weak%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        weak 的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        关联对象的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%88%86%E7%B1%BB/">
+        
+        分类
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为分类添加属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8D%8F%E8%AE%AE%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为协议添加属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2/">
+        
+        方法交换
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        内存管理
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Weak-Strong%20Dance/">
+        
+        Weak-Strong Dance
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/autorelease/">
+        
+        autorelease
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/dealloc%20%E6%8E%A2%E7%A9%B6/">
+        
+        dealloc 探究
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        未分类
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVC/">
+        
+        KVC
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVO/">
+        
+        KVO
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/NSString%20%E7%9A%84%E5%9D%91/">
+        
+        NSString 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Native%20%E4%B8%8E%20JS%20%E4%BA%A4%E4%BA%92/">
+        
+        Native 与 JS 交互
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Property/">
+        
+        Property
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/UIView%20%E4%B8%8E%20CALayer%20%E5%8C%BA%E5%88%AB/">
+        
+        UIView 与 CALayer 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/block%20%E5%92%8C%20delegate%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        block 和 delegate 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%9D%91/">
+        
+        iOS 图片加载的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E6%B2%99%E7%9B%92%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/">
+        
+        iOS 沙盒目录结构
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E7%8A%B6%E6%80%81%E6%A0%8F/">
+        
+        iOS 状态栏
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E8%A7%A6%E6%91%B8%E6%9C%BA%E5%88%B6/">
+        
+        iOS 触摸机制
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%90%AF%E5%8A%A8/">
+        
+        启动
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%BC%B1%E5%BC%95%E7%94%A8%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1/">
+        
+        弱引用集合对象
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E6%9D%82/">
+        
+        杂
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/">
+        
+        离屏渲染
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-tech/iOS/Runtime/如何为分类添加属性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+            
+            如何为分类添加属性
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <h2 id="Runtime-原理"><a href="#Runtime-原理" class="headerlink" title="Runtime 原理"></a>Runtime 原理</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> category_t &#123; </span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> *name;                           <span class="comment">// 原类名，而不是分类名</span></span><br><span class="line">    <span class="comment">// 要扩展的类对象，编译期间是不会定义的，而是在 Runtime 阶段通过 name 对应到对应的类对象</span></span><br><span class="line">    classref_t cls;                             </span><br><span class="line">    <span class="keyword">struct</span> method_list_t *instanceMethods;      <span class="comment">// 分类中新增的对象方法列表</span></span><br><span class="line">    <span class="keyword">struct</span> method_list_t *classMethods;         <span class="comment">// 分类中新增的类方法列表</span></span><br><span class="line">    <span class="keyword">struct</span> protocol_list_t *protocols;          <span class="comment">// 分类中新增的协议列表</span></span><br><span class="line">    <span class="keyword">struct</span> property_list_t *instanceProperties; <span class="comment">// 分类中新增的属性列表</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看出，分类中可以添加实例方法，类方法，甚至可以实现协议，添加属性，但不可以添加成员变量</p>
+<p>instanceProperties 的存在是我们可以通过 <code>objc_setAssociatedObject</code> 和 <code>objc_getAssociatedObject</code> 向分类中增加实例变量的原因，不过这个和一般的实例变量是不一样的</p>
+<p>所以，Category 可以使用 <code>@property</code>，但不会生成带下划线的成员变量，也不会生成 getter 和 setter（<code>@property</code> 只是帮助声明了 setter/getter，并没有提供实现）。我们可以使用 Runtime 为已有的类添加新的属性并生成 getter 和 setter 方法</p>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> objc_setAssociatedObject (<span class="type">id</span> object, <span class="type">void</span> *key, <span class="type">id</span> value, objc_AssociationPolicy policy);</span><br><span class="line"></span><br><span class="line"><span class="type">id</span> objc_getAssociatedObject(<span class="type">id</span> object, <span class="type">void</span> *key);</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> objc_removeAssociatedObject(<span class="type">id</span> object);    <span class="comment">// 移除 object 上的所有关联对象</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>参数说明</p>
+<ul>
+<li>id object：被关联的对象（一般为 self）</li>
+<li>const void <code>*key</code>：关联的key，要求唯一，因此避免使用 @””（一般为新增属性的 getter）</li>
+<li>id value：关联的对象（一般为新增的属性）</li>
+<li>objc_AssociationPolicy policy：内存管理的策略</li>
+</ul>
+<h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><p>关联的 key 值有三种推荐值</p>
+<ol>
+<li>声明 <code>static char kAssociatedObjectKey;</code>，使用 &amp;kAssociatedObjectKey 作为 key 值</li>
+<li>声明 <code>static void *kAssociatedObjectKey = &amp;kAssociatedObjectKey;</code> ，使用 kAssociatedObjectKey 作为 key 值</li>
+<li>用 selector ，使用 getter 方法的名称作为 key 值（推荐）</li>
+</ol>
+<p>设置关联对象值时，若想令两个健匹配到相同的一个值，则二者必须是完全相同的指针才行。</p>
+<p>所以 key 值最好定义为一个全局静态变量，而不能每次都用 @”xxx”</p>
+<p>推荐使用 selector，因为这种方法省略了声明参数的代码，并且能很好地保证 key 的唯一性</p>
+<h3 id="内存管理策略"><a href="#内存管理策略" class="headerlink" title="内存管理策略"></a>内存管理策略</h3><p>其中 objc_AssociationPolicy 是关联对象的属性，如下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OBJC_ASSOCIATION_ASSIGN             --- <span class="keyword">assign</span></span><br><span class="line">OBJC_ASSOCIATION_RETAIN_NONATOMIC   --- <span class="keyword">nonatomic</span>, <span class="keyword">retain</span></span><br><span class="line">OBJC_ASSOCIATION_COPY_NONATOMIC     --- <span class="keyword">nonatomic</span>, <span class="keyword">copy</span></span><br><span class="line">OBJC_ASSOCIATION_RETAIN             --- <span class="keyword">retain</span>(<span class="keyword">strong</span>)</span><br><span class="line">OBJC_ASSOCIATION_COPY               --- <span class="keyword">copy</span></span><br></pre></td></tr></table></figure>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIView</span> (<span class="title">VN_ShortCut</span>)</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="built_in">UICollectionView</span> *vn_cellCollectionView;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UIView</span> (<span class="title">VN_ShortCut</span>)</span></span><br><span class="line">- (<span class="built_in">UICollectionView</span> *)vn_cellCollectionView </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(vn_cellCollectionView));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setVn_cellCollectionView:(<span class="built_in">UICollectionView</span> *)cellCollectionView </span><br><span class="line">&#123;</span><br><span class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(vn_cellCollectionView), cellCollectionView, OBJC_ASSOCIATION_ASSIGN);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h2 id="为什么内存管理策略中没有-weak-选项，即-OBJC-ASSOCIATION-WEAK"><a href="#为什么内存管理策略中没有-weak-选项，即-OBJC-ASSOCIATION-WEAK" class="headerlink" title="为什么内存管理策略中没有 weak 选项，即 OBJC_ASSOCIATION_WEAK"></a>为什么内存管理策略中没有 weak 选项，即 <code>OBJC_ASSOCIATION_WEAK</code></h2><p>如果真的有 weak 选项，我们期望的结果是当被关联对象被释放之后，从关联对象身上取出的“属性”是 nil</p>
+<p>首先我们要搞懂 weak 属性的实现原理，简单来说，Runtime 在底层维护一个全局的 weak 表，每次当一个 weak 指针被赋值对象的时候，会将对象地址和 weak 指针地址注册到 weak 表中，其中对象地址作为 key；当对象被废弃时，可根据对象地址快速寻找到指向它的所有 weak 指针，并将 weak 指针置为 nil，同时移出 weak 表</p>
+<p>所以，实现 weak 的前提是存在一个 weak 指针指向到被引用对象的地址，而通过对以上源码的研究，我们可以知道关联对象和被关联对象之间并没有这样一个 weak 指针，因此无法实现 <code>OBJC_ASSOCIATION_WEAK</code></p>
+<p>更具体的，如下代码，一个 weak 指针或属性，都会在编译时就变转化成 <code>objc_initWeak</code>，这样运行时才能正确往 weak 表里面添加变量。但是关联对象并没有实例变量，所以不能实现 weak</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 情况 1，weak 变量</span></span><br><span class="line">__<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>; <span class="comment">// weakSelf 是指向原对象的指针，会被存进 weak 表</span></span><br><span class="line"><span class="comment">// 情况 2，weak 属性</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">weak</span>) <span class="type">id</span> delegate;</span><br><span class="line"><span class="comment">// 本质是转换为 setter</span></span><br><span class="line">- (<span class="type">void</span>)setDelegate:(<span class="type">id</span>)delegate &#123;</span><br><span class="line">    <span class="keyword">if</span> (_delegate != delegate) &#123;</span><br><span class="line">        objc_initWeak(&amp;_delegate, delegate);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>p.s. 注意<a target="_blank" rel="noopener" href="https://juejin.im/post/5af86b276fb9a07aa34a59e6">这篇文章</a>的解释是错的</p>
+<h2 id="如何实现-weak-属性"><a href="#如何实现-weak-属性" class="headerlink" title="如何实现 weak 属性"></a>如何实现 weak 属性</h2><p>注意 <code>OBJC_ASSOCIATION_ASSIGN</code> 的作用是 assign 而不是 weak，所以当关联的对象被释放的时候并不会被自动置为 nil，因此获取到的对象将会是一个野指针。</p>
+<h3 id="直观的方法-1"><a href="#直观的方法-1" class="headerlink" title="直观的方法 1"></a>直观的方法 1</h3><p>如果要实现 weak 的效果，解决方法是新建一个替身，weak 引用住该对象，然后使用 <code>OBJC_ASSOCIATION_RETAIN_NONATOMIC</code> 存储该替身。</p>
+<p>以上面的例子为例，代码如下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UICollectionView</span> *)vn_cellCollectionView</span><br><span class="line">&#123;</span><br><span class="line">    QVNWeakProxy *proxy = objc_getAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(vn_cellCollectionView));</span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">UICollectionView</span> *)proxy.target;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setVn_cellCollectionView:(<span class="built_in">UICollectionView</span> *)cellCollectionView</span><br><span class="line">&#123;</span><br><span class="line">    QVNWeakProxy *proxy = [[QVNWeakProxy alloc] initWithTarget:cellCollectionView];</span><br><span class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(vn_cellCollectionView), proxy, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 QVNWeakProxy 只要继承自 NSObject 并拥有一个 weak 的 target 的属性即可</p>
+<h3 id="优雅的方法-2"><a href="#优雅的方法-2" class="headerlink" title="优雅的方法 2"></a>优雅的方法 2</h3><p>变量用 <code>__weak</code> 修饰，因此被 block 捕获的时候不会增加引用计数；block 使用 copy 修饰，可以将栈 block 转为堆 block，防止被释放</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UICollectionView</span> *)vn_cellCollectionView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">id</span> (^block)(<span class="type">void</span>) = objc_getAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(vn_cellCollectionView));</span><br><span class="line">    <span class="keyword">return</span> (block ? block() : <span class="literal">nil</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)setVn_cellCollectionView:(<span class="built_in">UICollectionView</span> *)cellCollectionView</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">id</span> __<span class="keyword">weak</span> weakObject = cellCollectionView;</span><br><span class="line">    <span class="type">id</span> (^block)(<span class="type">void</span>) = ^&#123;<span class="keyword">return</span> weakObject;&#125;;</span><br><span class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, <span class="keyword">@selector</span>(vn_cellCollectionView), block, OBJC_ASSOCIATION_COPY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Runtime-%E5%8E%9F%E7%90%86"><span class="toc-text">Runtime 原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#key"><span class="toc-text">key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5"><span class="toc-text">内存管理策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-text">例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%AD%96%E7%95%A5%E4%B8%AD%E6%B2%A1%E6%9C%89-weak-%E9%80%89%E9%A1%B9%EF%BC%8C%E5%8D%B3-OBJC-ASSOCIATION-WEAK"><span class="toc-text">为什么内存管理策略中没有 weak 选项，即 OBJC_ASSOCIATION_WEAK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0-weak-%E5%B1%9E%E6%80%A7"><span class="toc-text">如何实现 weak 属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E8%A7%82%E7%9A%84%E6%96%B9%E6%B3%95-1"><span class="toc-text">直观的方法 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E9%9B%85%E7%9A%84%E6%96%B9%E6%B3%95-2"><span class="toc-text">优雅的方法 2</span></a></li></ol></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

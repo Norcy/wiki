@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="RunLoop 脑图 RunLoop 流程  RunLoop 相关概念Event Loop事件循环模型，实现这种模型的关键点在于：如何管理事件&#x2F;消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒 12345678910function loop() &amp;#123;    init();    do     &amp;#123;        var message &#x3D; get_n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/tech/iOS/RunLoop/RunLoop/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="RunLoop 脑图 RunLoop 流程  RunLoop 相关概念Event Loop事件循环模型，实现这种模型的关键点在于：如何管理事件&#x2F;消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒 12345678910function loop() &amp;#123;    init();    do     &amp;#123;        var message &#x3D; get_n">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png">
+<meta property="og:image" content="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/runloop.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/99e3e31egy1gb0wa37px1j20ou1hz770.jpg">
+<meta property="og:image" content="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_5.png">
+<meta property="article:published_time" content="2025-04-20T05:50:42.954Z">
+<meta property="article:modified_time" content="2025-04-20T05:50:08.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link " href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        App
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/App/App%20%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        App 开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/AppLink%20%E7%AC%94%E8%AE%B0/">
+        
+        AppLink 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E5%AE%89%E5%85%A8%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 安全实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud_Example/">
+        
+        LeanCloud_Example
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/RN%20Android%20%E5%8C%85%E4%BD%93%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        RN Android 包体优化最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/fastlane%20%E6%8E%A5%E5%85%A5%E7%AC%94%E8%AE%B0/">
+        
+        fastlane 接入笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/iOS%20%E6%8F%90%E5%AE%A1%E7%BC%BA%E5%B0%91%E5%90%88%E8%A7%84%E8%AF%81%E6%98%8E/">
+        
+        iOS 提审缺少合规证明
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+        
+        开发问题记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E8%8B%B9%E6%9E%9C%E5%88%A0%E9%99%A4%E5%B8%90%E5%8F%B7/">
+        
+        苹果删除帐号
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        BackEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Linux%E7%A2%8E%E7%89%87/">
+        
+        Linux碎片
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Ubuntu/">
+        
+        Ubuntu
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%20NodeJS%20%E5%90%8E%E5%8F%B0%E6%9C%8D%E5%8A%A1/">
+        
+        如何构建一个 NodeJS 后台服务
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%AF%94%E8%BE%83%E7%AE%80%E5%8D%95%E5%9C%B0%E5%B1%95%E7%A4%BA%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E7%BD%91/">
+        
+        如何比较简单地展示一个静态网
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+        
+        定时任务
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        FrontEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        MiniApp
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/MiniApp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B8%A9%E5%9D%91/">
+        
+        小程序踩坑
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        ReactNative
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/!!%E7%9A%84%E5%A6%99%E7%94%A8/">
+        
+        !!的妙用
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/Android%20RN%20%E5%BC%95%E7%94%A8%20fork%20%E7%9A%84%E4%B8%89%E6%96%B9%E5%BA%93/">
+        
+        Android RN 引用 fork 的三方库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JS%20Object%20%E7%9A%84%E5%9D%91/">
+        
+        JS Object 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JSON.stringfy%20%E7%9A%84%E5%9D%91/">
+        
+        JSON.stringfy 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%20Text%20%E5%B1%9E%E6%80%A7/">
+        
+        RN 全局替换 Text 属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        RN 安卓开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%BC%82%E5%B8%B8%E8%B0%83%E7%A0%94/">
+        
+        RN 异常调研
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20JS%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative JS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E4%B8%AD%20fetch%20%E7%9A%84%E5%B7%A8%E5%9D%91/">
+        
+        ReactNative 中 fetch 的巨坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E7%BB%84%E4%BB%B6%E6%8E%A8%E8%8D%90/">
+        
+        ReactNative 组件推荐
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20Native%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative Native 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        ReactNative 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%E6%BB%91%E5%8A%A8%E4%B8%AD%E8%AF%AF%E7%82%B9%E5%87%BB%E9%97%AE%E9%A2%98%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/">
+        
+        ReactNative滑动中误点击问题优化方案
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/TextInput%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%9D%91/">
+        
+        TextInput的一个小坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/memo/">
+        
+        memo
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%20JS%20import%20%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/">
+        
+        如何在 JS import 绝对路径
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E9%87%8C%E6%A8%A1%E6%8B%9F%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
+        
+        如何在函数组件里模拟构造函数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%AA%E6%9C%AA%E5%8F%91%E5%B8%83%E7%9A%84RN%E7%BB%84%E4%BB%B6/">
+        
+        如何调试一个未发布的RN组件
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20%E6%A8%A1%E5%9D%97%E5%8C%96/">
+        
+        JS 模块化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/H5%E6%89%93%E5%BC%80%E5%A4%96%E9%93%BE%E5%A4%B1%E8%B4%A5/">
+        
+        H5打开外链失败
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20CORS%20%E9%97%AE%E9%A2%98/">
+        
+        JS CORS 问题
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%E5%8F%8C%E9%97%AE%E5%8F%B7%E7%94%A8%E6%B3%95/">
+        
+        JS双问号用法
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JavaScript/">
+        
+        JavaScript
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/RN%20TS%20%E5%AE%9E%E8%B7%B5/">
+        
+        RN TS 实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TS%20%E7%AC%94%E8%AE%B0/">
+        
+        TS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TSC%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        TSC 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/npx%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        npx 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/peerDependencies%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        peerDependencies 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/yarn%20%E6%97%B6%E6%8C%87%E5%AE%9A%20Node%20%E7%89%88%E6%9C%AC/">
+        
+        yarn 时指定 Node 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/">
+        
+        移动端适配
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%BB%99%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97%E6%89%93%E8%A1%A5%E4%B8%81/">
+        
+        给三方模块打补丁
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E8%8A%82%E6%B5%81%E4%B8%8E%E9%98%B2%E6%8A%96/">
+        
+        节流与防抖
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Others
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Python
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        周边
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%88%87%E6%8D%A2%20Mac%20Python%20%E7%89%88%E6%9C%AC/">
+        
+        切换 Mac Python 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E7%A5%9E%E5%99%A8/">
+        
+        参数解析神器
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        语法
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%8F%82%E6%95%B0/">
+        
+        Python 参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%B0%8F%E7%9F%A5%E8%AF%86/">
+        
+        Python 小知识
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+        
+        Python 文件操作
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">
+        
+        Python 网络请求
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/Python%20%E5%AE%9E%E6%88%98/">
+        
+        Python 实战
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Xcode
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        库
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/iOS%20%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+        
+        iOS 二进制文件分析之常用命令
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%8A%A8%E6%80%81%E5%BA%93%E5%92%8C%E9%9D%99%E6%80%81%E5%BA%93/">
+        
+        动态库和静态库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%BA%93%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96/">
+        
+        库体积优化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9/">
+        
+        编译选项
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/Cocoapods/">
+        
+        Cocoapods
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B7%BB%E5%8A%A0Xcode%E6%96%87%E4%BB%B6/">
+        
+        使用脚本添加Xcode文件
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%AE%9A%E4%BD%8D%E6%8A%80%E5%B7%A7/">
+        
+        内存泄漏定位技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E7%A7%BB%E9%99%A4StroyBoard/">
+        
+        新建工程移除StroyBoard
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        计算机基础
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/Git/">
+        
+        Git
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/RESTful%20API/">
+        
+        RESTful API
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%8E%9F%E7%A0%81,%20%E5%8F%8D%E7%A0%81,%20%E8%A1%A5%E7%A0%81/">
+        
+        原码, 反码, 补码
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">
+        
+        字符编码
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/GitHub%20Page%20%E4%BB%8E%20TravisCI%20%E8%BF%81%E7%A7%BB%E5%88%B0%20GitHub%20Action/">
+        
+        GitHub Page 从 TravisCI 迁移到 GitHub Action
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Hexo%20%E7%89%B9%E6%80%A7/">
+        
+        Hexo 特性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Mac%20%E5%AE%89%E8%A3%85%20Ruby%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        Mac 安装 Ruby 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/VSCode%20%E8%B0%83%E6%95%99/">
+        
+        VSCode 调教
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/fork%E5%90%8E%E4%B8%8E%E5%8E%9F%E4%BB%93%E5%BA%93%E5%90%8C%E6%AD%A5SOP/">
+        
+        fork后与原仓库同步SOP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E4%B8%BA%20Github%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/">
+        
+        如何为 Github 设置代理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%95%B4%E8%BF%81%E7%A7%BB%20Git%20%E4%BB%93%E5%BA%93/">
+        
+        如何完整迁移 Git 仓库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E6%9F%A5%E6%89%BE%E6%97%A5%E5%BF%97%E6%8A%80%E5%B7%A7/">
+        
+        查找日志技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">
+        
+        知识碎片
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        iOS
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Block
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block%20%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AE%80%E5%8C%96%E7%89%88%EF%BC%89/">
+        
+        Block 的实现（简化版）
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block/">
+        
+        Block
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block_%E9%9D%A2%E8%AF%95%E9%A2%98/">
+        
+        Block_面试题
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        GCD
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD/">
+        
+        GCD
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD_%E5%AE%9E%E8%B7%B5/">
+        
+        GCD_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/dispatch_set_target_queue/">
+        
+        dispatch_set_target_queue
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        RunLoop
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        
+        RunLoop 源码分析
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop/">
+        
+        RunLoop
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Runtime
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/Runtime/">
+        
+        Runtime
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/Runtime_%E5%AE%9E%E8%B7%B5/">
+        
+        Runtime_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/iOS%20%E7%9A%84%20initialize%20%E5%92%8C%20load%20%E5%8C%BA%E5%88%AB/">
+        
+        iOS 的 initialize 和 load 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/weak%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        weak 的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        关联对象的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%88%86%E7%B1%BB/">
+        
+        分类
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为分类添加属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8D%8F%E8%AE%AE%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为协议添加属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2/">
+        
+        方法交换
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        内存管理
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Weak-Strong%20Dance/">
+        
+        Weak-Strong Dance
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/autorelease/">
+        
+        autorelease
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/dealloc%20%E6%8E%A2%E7%A9%B6/">
+        
+        dealloc 探究
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        未分类
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVC/">
+        
+        KVC
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVO/">
+        
+        KVO
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/NSString%20%E7%9A%84%E5%9D%91/">
+        
+        NSString 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Native%20%E4%B8%8E%20JS%20%E4%BA%A4%E4%BA%92/">
+        
+        Native 与 JS 交互
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Property/">
+        
+        Property
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/UIView%20%E4%B8%8E%20CALayer%20%E5%8C%BA%E5%88%AB/">
+        
+        UIView 与 CALayer 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/block%20%E5%92%8C%20delegate%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        block 和 delegate 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%9D%91/">
+        
+        iOS 图片加载的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E6%B2%99%E7%9B%92%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/">
+        
+        iOS 沙盒目录结构
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E7%8A%B6%E6%80%81%E6%A0%8F/">
+        
+        iOS 状态栏
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E8%A7%A6%E6%91%B8%E6%9C%BA%E5%88%B6/">
+        
+        iOS 触摸机制
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%90%AF%E5%8A%A8/">
+        
+        启动
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%BC%B1%E5%BC%95%E7%94%A8%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1/">
+        
+        弱引用集合对象
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E6%9D%82/">
+        
+        杂
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/">
+        
+        离屏渲染
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-tech/iOS/RunLoop/RunLoop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/tech/iOS/RunLoop/RunLoop/">
+            
+            RunLoop
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <ul>
+<li><a target="_blank" rel="noopener" href="http://naotu.baidu.com/file/1048175c83ab832d33e9650c84ef2abe">RunLoop 脑图</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.processon.com/diagraming/5d22043be4b0f42d067a58fd">RunLoop 流程</a></li>
+</ul>
+<h1 id="RunLoop-相关概念"><a href="#RunLoop-相关概念" class="headerlink" title="RunLoop 相关概念"></a>RunLoop 相关概念</h1><h2 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h2><p>事件循环模型，实现这种模型的关键点在于：如何管理事件/消息，如何让线程在没有处理消息时休眠以避免资源占用、在有消息到来时立刻被唤醒</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function loop() </span><br><span class="line">&#123;</span><br><span class="line">    init();</span><br><span class="line">    <span class="keyword">do</span> </span><br><span class="line">    &#123;</span><br><span class="line">        var message = get_next_message();</span><br><span class="line">        process_message(message);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (message != quit);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>线程执行了这个函数后，就会一直处于这个函数内部 “接受消息-&gt;等待-&gt;处理” 的循环中，直到这个循环结束</p>
+<p>RunLoop 就是 OSX/iOS 平台对事件循环模型的实现，在循环中用来处理程序运行过程中出现的各种事件（比如说触摸事件、UI 刷新事件、定时器事件）和消息，从而保持程序的持续运行；而且在没有事件处理的时候，会进入睡眠模式，从而节省 CPU 资源，提高程序性能</p>
+<h2 id="NSRunLoop-和-CFRunLoop"><a href="#NSRunLoop-和-CFRunLoop" class="headerlink" title="NSRunLoop 和 CFRunLoop"></a>NSRunLoop 和 CFRunLoop</h2><p>OSX/iOS 系统中，提供了两个这样的对象：NSRunLoop 和 CFRunLoop</p>
+<p>CFRunLoop 是 Core Foundation 框架内的，它提供了纯 C 函数的 API，所有这些 API 都是线程安全的</p>
+<p>NSRunLoop 是 Foundation 框架内的，提供了面向对象的 API，但是这些 API 不是线程安全的</p>
+<p>其中 NSRunLoop 是对 CFRunLoop 的简单封装，需要着重研究的只有 CFRunLoop</p>
+<p>更准确的说，代码里面是 <code>CFRunLoopRef</code>，本文统一简称为 <code>CFRunLoop</code></p>
+<h1 id="RunLoop-与线程的关系"><a href="#RunLoop-与线程的关系" class="headerlink" title="RunLoop 与线程的关系"></a>RunLoop 与线程的关系</h1><p>苹果不允许直接创建 RunLoop，它只提供了两个自动获取的函数：</p>
+<p>Core Foundation 框架中的获取方法：CFRunLoopGetMain() 和 CFRunLoopGetCurrent()</p>
+<p>Foundation 框架中的获取方法：[NSRunLoop mainRunLoop] 和 [NSRunLoop currentRunLoop]</p>
+<p>代码逻辑如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 全局的Dictionary，key 是 pthread_t， value 是 CFRunLoopRef</span></span><br><span class="line"><span class="type">static</span> CFMutableDictionaryRef loopsDic;</span><br><span class="line"><span class="comment">/// 访问 loopsDic 时的锁</span></span><br><span class="line"><span class="type">static</span> CFSpinLock_t loopsLock;</span><br><span class="line"> </span><br><span class="line"><span class="comment">/// 获取一个 pthread 对应的 RunLoop。</span></span><br><span class="line">CFRunLoopRef _CFRunLoopGet(<span class="type">pthread_t</span> thread) &#123;</span><br><span class="line">    OSSpinLockLock(&amp;loopsLock);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!loopsDic) &#123;</span><br><span class="line">        <span class="comment">// 第一次进入时，初始化全局Dic，并先为主线程创建一个 RunLoop。</span></span><br><span class="line">        loopsDic = CFDictionaryCreateMutable();</span><br><span class="line">        CFRunLoopRef mainLoop = _CFRunLoopCreate();</span><br><span class="line">        CFDictionarySetValue(loopsDic, pthread_main_thread_np(), mainLoop);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// 直接从 Dictionary 里获取。</span></span><br><span class="line">    CFRunLoopRef loop = CFDictionaryGetValue(loopsDic, thread));</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!loop) &#123;</span><br><span class="line">        <span class="comment">/// 取不到时，创建一个</span></span><br><span class="line">        loop = _CFRunLoopCreate();</span><br><span class="line">        CFDictionarySetValue(loopsDic, thread, loop);</span><br><span class="line">        <span class="comment">/// 注册一个回调，当线程销毁时，顺便也销毁其对应的 RunLoop。</span></span><br><span class="line">        _CFSetTSD(..., thread, loop, __CFFinalizeRunLoop);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    OSSpinLockUnLock(&amp;loopsLock);</span><br><span class="line">    <span class="keyword">return</span> loop;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">CFRunLoopRef <span class="title function_">CFRunLoopGetMain</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> _CFRunLoopGet(pthread_main_thread_np());</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">CFRunLoopRef <span class="title function_">CFRunLoopGetCurrent</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> _CFRunLoopGet(pthread_self());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码可以看出</p>
+<ul>
+<li><p>线程和 RunLoop 之间是一一对应的，其关系是保存在一个全局的 Dictionary 里，但是不代表有线程就有 RunLoop</p>
+</li>
+<li><p>除了主线程，如果想要获取线程的 RunLoop，只能在当前线程内获取；</p>
+</li>
+<li><p>除了主线程，如果没有主动获取线程的 RunLoop，则 RunLoop 不会创建</p>
+</li>
+<li><p>RunLoop 会在线程销毁时销毁</p>
+</li>
+<li><p>CFRunLoop 是基于 pthread 来管理的</p>
+</li>
+</ul>
+<blockquote>
+<p>pthread_t 和 NSThread 是一一对应的</p>
+<p>可以通过 <code>pthread_main_thread_np()</code> 或 [NSThread mainThread] 来获取主线程；</p>
+<p>也可以通过 <code>pthread_self()</code> 或 [NSThread currentThread] 来获取当前线程。</p>
+</blockquote>
+<h1 id="RunLoop-的结构"><a href="#RunLoop-的结构" class="headerlink" title="RunLoop 的结构"></a>RunLoop 的结构</h1><h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png" alt></p>
+<p>在 CoreFoundation 里面关于 RunLoop 有5个类：</p>
+<ul>
+<li>CFRunLoopRef</li>
+<li>CFRunLoopModeRef</li>
+<li>CFRunLoopSourceRef</li>
+<li>CFRunLoopTimerRef</li>
+<li>CFRunLoopObserverRef</li>
+</ul>
+<p>一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer（这三个都被称为 Mode Item）。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个 Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响</p>
+<p>每次 RunLoop 只会以一种 Mode 运行，以该 Mode 运行的时候，就只执行和该 Mode 相关的任务，只通知该 Mode 注册过的 Observer</p>
+<h2 id="Mode-Item"><a href="#Mode-Item" class="headerlink" title="Mode Item"></a>Mode Item</h2><p>Source/Timer/Observer 都被称为 mode item，一个 item 可以被同时加入多个 mode。但一个 item 被重复加入同一个 mode 时是不会有效果的</p>
+<h3 id="CFRunLoopSource"><a href="#CFRunLoopSource" class="headerlink" title="CFRunLoopSource"></a>CFRunLoopSource</h3><p>CFRunLoopSource 是事件产生的地方。</p>
+<p>Source有两个版本：Source0 和 Source1</p>
+<ul>
+<li>Source0 只包含了一个回调（函数指针），它并不能主动触发事件。使用时，你需要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理，然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件</li>
+<li>Source1 是基于 port 的，包含了一个 mach_port 和一个回调（函数指针），可以接收内核消息并触发回调。这种 Source 能主动唤醒 RunLoop 的线程，比如触摸/锁屏/摇晃/点击</li>
+</ul>
+<h3 id="CFRunLoopTimer"><a href="#CFRunLoopTimer" class="headerlink" title="CFRunLoopTimer"></a>CFRunLoopTimer</h3><p>CFRunLoopTimer 是基于时间的触发器，它和 NSTimer 是 toll-free bridged 的，可以混用。其包含一个时间长度和一个回调（函数指针）。当其加入到 RunLoop 时，RunLoop 会注册对应的时间点，当时间点到时，RunLoop 会被唤醒以执行那个回调</p>
+<h3 id="CFRunLoopObserver"><a href="#CFRunLoopObserver" class="headerlink" title="CFRunLoopObserver"></a>CFRunLoopObserver</h3><p>CFRunLoopObserver 是观察者，每个 Observer 都包含了一个回调（函数指针），当 RunLoop 的状态发生变化时，观察者就能通过回调接受到这个变化。可以观测的时间点有以下几个：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="title function_">CF_OPTIONS</span><span class="params">(CFOptionFlags, CFRunLoopActivity)</span> &#123;</span><br><span class="line">    kCFRunLoopEntry         = (<span class="number">1UL</span> &lt;&lt; <span class="number">0</span>), <span class="comment">// 即将进入Loop</span></span><br><span class="line">    kCFRunLoopBeforeTimers  = (<span class="number">1UL</span> &lt;&lt; <span class="number">1</span>), <span class="comment">// 即将处理 Timer</span></span><br><span class="line">    kCFRunLoopBeforeSources = (<span class="number">1UL</span> &lt;&lt; <span class="number">2</span>), <span class="comment">// 即将处理 Source</span></span><br><span class="line">    kCFRunLoopBeforeWaiting = (<span class="number">1UL</span> &lt;&lt; <span class="number">5</span>), <span class="comment">// 即将进入休眠</span></span><br><span class="line">    kCFRunLoopAfterWaiting  = (<span class="number">1UL</span> &lt;&lt; <span class="number">6</span>), <span class="comment">// 刚从休眠中唤醒</span></span><br><span class="line">    kCFRunLoopExit          = (<span class="number">1UL</span> &lt;&lt; <span class="number">7</span>), <span class="comment">// 即将退出Loop</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="事件源"><a href="#事件源" class="headerlink" title="事件源"></a>事件源</h2><p><img src="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Art/runloop.jpg" alt></p>
+<h3 id="种类"><a href="#种类" class="headerlink" title="种类"></a>种类</h3><p>图中展现了 RunLoop 在线程中的作用：从 input source 和 timer source 接受事件，然后在线程中处理事件</p>
+<p>Run Loop 的处理两大类事件源：</p>
+<ul>
+<li>Timer Source</li>
+<li>Input Source<ul>
+<li>performSelector 的方法簇</li>
+<li>Port</li>
+<li>自定义的 Input Source</li>
+</ul>
+</li>
+</ul>
+<h3 id="事件源缺失的后果"><a href="#事件源缺失的后果" class="headerlink" title="事件源缺失的后果"></a>事件源缺失的后果</h3><p>如果一个 mode 没有 Source0/Source1/Timer（不管有没有 Observer），则 RunLoop 会直接退出，不进入循环。详搜 <code>__CFRunLoopModeIsEmpty</code></p>
+<h1 id="RunLoop-Mode"><a href="#RunLoop-Mode" class="headerlink" title="RunLoop Mode"></a>RunLoop Mode</h1><h2 id="种类-1"><a href="#种类-1" class="headerlink" title="种类"></a>种类</h2><p>苹果公开提供的 Mode 有两个：kCFRunLoopDefaultMode (NSDefaultRunLoopMode) 和 UITrackingRunLoopMode</p>
+<ul>
+<li>NSDefaultRunLoopMode(kCFRunLoopDefaultMode)</li>
+<li>NSConnectionReplyMode</li>
+<li>NSModalPanelRunLoopMode</li>
+<li>NSEventTrackingRunLoopMode(UITrackingRunLoopMode)</li>
+<li>NSRunLoopCommonModes(kCFRunLoopCommonModes)</li>
+</ul>
+<p>其中比较重要的模式如下，其他 Mode 不需要管</p>
+<p>NSDefaultRunLoopMode：App的默认 Mode，通常主线程是在这个 Mode 下运行的</p>
+<p>UITrackingRunLoopMode：界面跟踪 Mode，用于 ScrollView 追踪触摸滑动，保证界面滑动时不受其他 Mode 影响</p>
+<p>NSRunLoopCommonModes：实际上是一个 Mode 的集合，默认包括 NSDefaultRunLoopMode 和 UITrackingRunLoopMode。可以用这个字符串来操作 Common Items，或标记一个 Mode 为 “Common”</p>
+<h2 id="Common-Modes"><a href="#Common-Modes" class="headerlink" title="Common Modes"></a>Common Modes</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">CFRunLoop</span> &#123;</span></span><br><span class="line">    CFMutableSetRef _commonModes;     <span class="comment">// Set</span></span><br><span class="line">    CFMutableSetRef _commonModeItems; <span class="comment">// Set&lt;Source/Observer/Timer&gt;</span></span><br><span class="line">    CFRunLoopModeRef _currentMode;    <span class="comment">// Current Runloop Mode</span></span><br><span class="line">    CFMutableSetRef _modes;           <span class="comment">// Set</span></span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> __<span class="title">CFRunLoopMode</span> &#123;</span></span><br><span class="line">    CFStringRef _name;            <span class="comment">// Mode Name, 例如 @&quot;kCFRunLoopDefaultMode&quot;</span></span><br><span class="line">    CFMutableSetRef _sources0;    <span class="comment">// Set</span></span><br><span class="line">    CFMutableSetRef _sources1;    <span class="comment">// Set</span></span><br><span class="line">    CFMutableArrayRef _observers; <span class="comment">// Array</span></span><br><span class="line">    CFMutableArrayRef _timers;    <span class="comment">// Array</span></span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>其中 <code>_commonModes</code> 其实并不是一个真正的模式，可以看到它是 Modes 而不是 Mode，是一个模式的集合</p>
+<p>一个 Mode 可以将自己标记为 “Common” 属性，对应的方法是 <code>CFRunLoopAddCommonMode(CFRunLoopRef runloop, CFStringRef modeName);</code></p>
+<p>添加 Source/Observer/Timer 时，如果指定的模式为 kCFRunLoopCommonModes，则会被添加 <code>_commonModeItems</code> 中；每当 RunLoop 的内容发生变化时，RunLoop 都会自动将 <code>_commonModeItems</code> 里的 Source/Observer/Timer 同步到具有 “Common” 标记的所有 Mode 里</p>
+<p>kCFRunLoopDefaultMode 默认是 “Common” 的</p>
+<h1 id="RunLoop-内部逻辑"><a href="#RunLoop-内部逻辑" class="headerlink" title="RunLoop 内部逻辑"></a>RunLoop 内部逻辑</h1><p><img src="http://ww1.sinaimg.cn/large/99e3e31egy1gb0wa37px1j20ou1hz770.jpg" alt></p>
+<p><a target="_blank" rel="noopener" href="https://www.processon.com/view/link/5d22043ce4b0fdb331d5a8ba">流程图源文件</a></p>
+<p><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/CF/CF-1153.18/CFRunLoop.c.auto.html">对应源码</a></p>
+<p>其中 poll = 处理了 source0 || 没有超时</p>
+<p>此处最好看源码！！！</p>
+<h1 id="RunLoop-的底层实现"><a href="#RunLoop-的底层实现" class="headerlink" title="RunLoop 的底层实现"></a>RunLoop 的底层实现</h1><p>RunLoop 进入休眠时调用的函数是 <code>mach_msg()</code>，实际上是调用了一个 Mach 陷阱 <code>mach_msg_trap()</code>，当你在用户态调用 <code>mach_msg_trap()</code> 时会触发陷阱机制，切换到内核态；内核态中内核实现的 <code>mach_msg()</code> 函数会休眠并监听端口等待唤醒</p>
+<p>休眠的具体流程如下：</p>
+<ol>
+<li><p>指定一个将来唤醒自己的<code>mach_port</code>端口</p>
+</li>
+<li><p>调用 <code>mach_msg</code> 来监听这个端口，保持<code>mach_msg_trap</code>状态</p>
+</li>
+<li><p>由另一个线程（比如有可能有一个专门处理键盘输入事件的 loop 在后台一直运行）向内核发送这个端口的msg后，<code>mach_msg_trap</code> 状态被唤醒，RunLoop 继续运行</p>
+</li>
+</ol>
+<p><img src="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_5.png" alt></p>
+<h1 id="RunLoop-的应用"><a href="#RunLoop-的应用" class="headerlink" title="RunLoop 的应用"></a>RunLoop 的应用</h1><h2 id="系统应用"><a href="#系统应用" class="headerlink" title="系统应用"></a>系统应用</h2><h3 id="事件响应（重要）"><a href="#事件响应（重要）" class="headerlink" title="事件响应（重要）"></a>事件响应（重要）</h3><p>如果发生触摸/锁屏/摇晃/点击等事件，首先是由 Source1 接收 IOHIDEvent，唤醒 RunLoop；之后在 Source1 的回调 <code>__IOHIDEventSystemClientQueueCallback()</code> 内触发 Source0 回调，Source0 的回调内部调用 UIApplication 将事件封装为 UIEvent 并分发出去。所以 UIButton 的点击事件在堆栈中看到是在 Source0 内的</p>
+<h3 id="界面更新（重要）"><a href="#界面更新（重要）" class="headerlink" title="界面更新（重要）"></a>界面更新（重要）</h3><p>setNeedsLayout/setNeedsDisplay方法后，这个 UIView/CALayer 就被标记为待处理，并被提交到一个全局的容器去</p>
+<p>苹果注册了一个 Observer 监听 BeforeWaiting(即将进入休眠) 和 Exit (即将退出Loop) 事件，回调执行一个函数：遍历所有待处理的 UIView/CAlayer 以执行实际的绘制和调整，并更新 UI 界面</p>
+<h3 id="定时器（重要）"><a href="#定时器（重要）" class="headerlink" title="定时器（重要）"></a>定时器（重要）</h3><p>一个 NSTimer 注册到 RunLoop 后，RunLoop 会为其重复的时间点注册好事件。例如 10:00, 10:10, 10:20 这几个时间点。RunLoop 为了节省资源，并不会在非常准确的时间点回调这个Timer。Timer 有个属性叫做 Tolerance (宽容度)，标示了当时间点到后，容许有多少最大误差。</p>
+<p>由于 NSTimer 的这种机制，因此 NSTimer 的执行必须依赖于 RunLoop，如果没有 RunLoop，NSTimer 是不会执行的</p>
+<p>如果某个时间点被错过了，例如执行了一个很长的任务，则那个时间点的回调也会跳过去，不会延后执行</p>
+<p>CADisplayLink 是一个和屏幕刷新率一致的定时器，比 NSTimer 精度更高。如果在两次屏幕刷新之间执行了一个长任务，那其中就会有一帧被跳过去（和 NSTimer 相似），造成界面卡顿的感觉。通常情况下 CADisaplayLink 用于构建帧动画，看起来相对更加流畅，而 NSTimer 则有更广泛的用处</p>
+<h3 id="AutoreleasePool（重要）"><a href="#AutoreleasePool（重要）" class="headerlink" title="AutoreleasePool（重要）"></a>AutoreleasePool（重要）</h3><ul>
+<li>进入之前，创建 AutoreleasePool（监听 kCFRunLoopEntry）</li>
+<li>休眠之前，销毁当前再创建一个新的 AutoreleasePool（监听 kCFRunLoopBeforeWaiting）</li>
+<li>退出之前，销毁 AutoreleasePool（监听 kCFRunLoopExit）</li>
+</ul>
+<h2 id="RunLoop-的实践应用"><a href="#RunLoop-的实践应用" class="headerlink" title="RunLoop 的实践应用"></a>RunLoop 的实践应用</h2><h3 id="卡顿检测（重要）"><a href="#卡顿检测（重要）" class="headerlink" title="卡顿检测（重要）"></a>卡顿检测（重要）</h3><p>RunLoop 处理事件的时间主要出在两个阶段：</p>
+<ol>
+<li>kCFRunLoopBeforeSources 和 kCFRunLoopBeforeWaiting 之间</li>
+<li>kCFRunLoopAfterWaiting 之后</li>
+</ol>
+<p>我们可以向主线程注册 Observer 观察其 RunLoop 的回调，如果回调时间过长，则认为发生卡顿</p>
+<p>这个例子中，RunLoop 的回调用来发送信号量（就像喂食）；子线程则不断等待 RunLoop 发送的信号量并消耗它，最多等待 5 秒（等吃，如果有则吃掉，如果等了太久则不等了，开始哭）；超时发生时，一般 lastActivity 是 kCFRunLoopBeforeSources or kCFRunLoopAfterWaiting（哭一般是因为等待着两个事件）</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">RunLoopMonitor</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">CFRunLoopObserverRef</span> _observer;  <span class="comment">// 观察者</span></span><br><span class="line">    dispatch_semaphore_t _semaphore; <span class="comment">// 信号量</span></span><br><span class="line">    <span class="built_in">CFRunLoopActivity</span> _lastActivity;     <span class="comment">// 状态</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">RunLoopMonitor</span></span></span><br><span class="line">+ (<span class="keyword">instancetype</span>)sharedInstance</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">id</span> sharedInstance = <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line">        sharedInstance = [[<span class="keyword">self</span> alloc] init];</span><br><span class="line">        <span class="comment">// 开始监听</span></span><br><span class="line">        [<span class="keyword">self</span> registerObserver];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> sharedInstance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="type">void</span> runLoopObserverCallBack(<span class="built_in">CFRunLoopObserverRef</span> observer, <span class="built_in">CFRunLoopActivity</span> activity, <span class="type">void</span> *info)</span><br><span class="line">&#123;</span><br><span class="line">    RunLoopMonitor *instance = [RunLoopMonitor sharedInstance];</span><br><span class="line">    <span class="comment">// 记录状态值</span></span><br><span class="line">    instance-&gt; _lastActivity = activity;</span><br><span class="line">    <span class="comment">// 发送信号</span></span><br><span class="line">    dispatch_semaphore_signal(instance-&gt;_semaphore);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册一个Observer来监测Loop的状态,回调函数是runLoopObserverCallBack</span></span><br><span class="line">- (<span class="type">void</span>)registerObserver</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 这是在主线程</span></span><br><span class="line">    <span class="comment">// 设置Runloop observer的运行环境</span></span><br><span class="line">    <span class="built_in">CFRunLoopObserverContext</span> context = &#123;<span class="number">0</span>, (__bridge <span class="type">void</span> *)<span class="keyword">self</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>&#125;;</span><br><span class="line">    <span class="comment">// 创建Runloop observer对象，监听所有的状态</span></span><br><span class="line">    _observer = <span class="built_in">CFRunLoopObserverCreate</span>(kCFAllocatorDefault,</span><br><span class="line">                                        kCFRunLoopAllActivities,</span><br><span class="line">                                        <span class="literal">YES</span>,</span><br><span class="line">                                        <span class="number">0</span>,</span><br><span class="line">                                        &amp;runLoopObserverCallBack,</span><br><span class="line">                                        &amp;context);</span><br><span class="line">    <span class="comment">// 将新建的observer加入到当前thread的runloop</span></span><br><span class="line">    <span class="built_in">CFRunLoopAddObserver</span>(<span class="built_in">CFRunLoopGetMain</span>(), _observer, kCFRunLoopCommonModes);</span><br><span class="line">    <span class="comment">// 创建信号，初识信号量为 0</span></span><br><span class="line">    _semaphore = dispatch_semaphore_create(<span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 子线程监控时长</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    	 <span class="comment">// 这里的 while 可以改进为创建一个常驻子线程</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">YES</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// dispatch_semaphore_wait：</span></span><br><span class="line">            <span class="comment">// 如果信号量的值大于0，该函数所处线程就继续执行下面的语句，并且将信号量的值减1；</span></span><br><span class="line">            <span class="comment">// 如果为0，那么这个函数就阻塞当前线程等待 timeout</span></span><br><span class="line">            <span class="comment">// 如果等待期间信号量被 dispatch_semaphore_signal 加1了那么就继续向下执行并将信号量减1。</span></span><br><span class="line">            <span class="comment">// 如果等待期间没有获取到信号量或者信号量的值一直为0，那么等到timeout时，其所处线程自动执行其后语句</span></span><br><span class="line">            <span class="comment">// 返回值为 0 则表示在规定时间内等到了</span></span><br><span class="line">            <span class="comment">// 返回值不为 0 则代表在规定时间内也没收到信号，超时了</span></span><br><span class="line">            <span class="type">long</span> ret = dispatch_semaphore_wait(<span class="keyword">self</span>-&gt;_semaphore, dispatch_time(DISPATCH_TIME_NOW, <span class="number">5</span> * <span class="built_in">NSEC_PER_MSEC</span>));</span><br><span class="line">            <span class="keyword">if</span> (ret != <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">self</span>-&gt; _lastActivity == kCFRunLoopBeforeSources ||</span><br><span class="line">                    <span class="keyword">self</span>-&gt; _lastActivity == kCFRunLoopAfterWaiting)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="built_in">NSLog</span>(<span class="string">@&quot;超过 5 秒没有收到信号了&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5cacb2baf265da03904bf93b">RunLoop实战：实时卡顿监控</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/snailHL/p/3906112.html">关于dispatch_semaphore的使用</a></li>
+</ul>
+<h3 id="滚动时延迟加载图片？（重要）"><a href="#滚动时延迟加载图片？（重要）" class="headerlink" title="滚动时延迟加载图片？（重要）"></a>滚动时延迟加载图片？（重要）</h3><p>当设置图片的时候，让其在 CFRunLoopDefaultMode 下进行</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span>.imageView performSelector:<span class="keyword">@selector</span>(setImage:) withObject:[<span class="built_in">UIImage</span> imageNamed:<span class="string">@&quot;imgName&quot;</span>] afterDelay:<span class="number">3.0</span> inModes:@[<span class="built_in">NSDefaultRunLoopMode</span>]];</span><br></pre></td></tr></table></figure>
+<p>上面的代码可以达到如下效果：<br>用户点击屏幕，在主线程中，三秒之后显示图片。但是当用户点击屏幕之后，如果此时用户开始滚动，那么就算过了三秒，图片也不会显示出来，当停止滚动才会显示图片。</p>
+<p>这是因为 setImage 只能在 NSDefaultRunLoopMode 模式下使用，当滚动 tableView 的时候，RunLoop 是在 UITrackingRunLoopMode 这个 Mode 下，就不会设置图片，当停止的时候才切回 NSDefaultRunLoopMode</p>
+<p>另一个例子，怎样保证子线程数据回来更新UI的时候不打断用户的滑动操作？</p>
+<p>当我们在子请求数据的同时滑动浏览当前页面，如果数据请求成功要切回主线程更新UI，那么就会影响当前正在滑动的体验。<br>我们就可以将更新UI事件放在主线程的 NSDefaultRunLoopMode 上执行即可，这样就会等用户不再滑动页面，主线程 RunLoop 由 UITrackingRunLoopMode 切换到 NSDefaultRunLoopMode 时再去更新UI</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span> performSelectorOnMainThread:<span class="keyword">@selector</span>(reloadData) withObject:<span class="literal">nil</span> waitUntilDone:<span class="literal">NO</span> modes:@[<span class="built_in">NSDefaultRunLoopMode</span>]];</span><br></pre></td></tr></table></figure>
+<p>但是这里的问题是 modes 不指定的时候，就是 DefaultMode 呀，<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/objectivec/nsobject/1416176-performselector?language=objc">引用官方文档</a> </p>
+<blockquote>
+<p>This method sets up a timer to perform the aSelector message on the current thread’s run loop. The timer is configured to run in the default mode (NSDefaultRunLoopMode)</p>
+</blockquote>
+<h3 id="Timer-滚动没回调（重要）"><a href="#Timer-滚动没回调（重要）" class="headerlink" title="Timer 滚动没回调（重要）"></a>Timer 滚动没回调（重要）</h3><p>NSTimer 在 ScrollView 滚动的时候没有回调，如何解决呢</p>
+<p>主线程的 RunLoop 里有两个预置的 Mode：kCFRunLoopDefaultMode 和 UITrackingRunLoopMode。这两个 Mode 默认都是 Common Mode</p>
+<p>DefaultMode 是 App 平时所处的状态，TrackingRunLoopMode 是追踪 ScrollView 滑动时的状态</p>
+<p>当你创建一个 Timer，默认是被加到 DefaultMode，Timer 正常情况下会得到重复回调，但此时滑动一个 ScrollView 时，RunLoop 会将 mode 切换为 TrackingRunLoopMode，这时 Timer 就不会被回调。因为 RunLoop 运行时只能指定一个 Mode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。TrackingRunLoopMode 下，处在 DefaultMode 的 Timer 是不会被通知到的</p>
+<p>解决方法是将 Timer 加到 CommonModes 中去</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这种创建方法默认不会加到任何 RunLoop</span></span><br><span class="line"><span class="built_in">NSTimer</span> *timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">1.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(run) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果这样写，滚动时 NSTimer 不会回调</span></span><br><span class="line"><span class="comment">// [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 滚动时 NSTimer 会回调</span></span><br><span class="line"><span class="comment">// 解决方法 1：添加到 CommonModes</span></span><br><span class="line">[[<span class="built_in">NSRunLoop</span> mainRunLoop] addTimer:timer forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line"><span class="comment">// 解决方法 2：手动添加到 TrackingMode</span></span><br><span class="line">[[<span class="built_in">NSRunLoop</span> mainRunLoop] addTimer:timer forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">[[<span class="built_in">NSRunLoop</span> mainRunLoop] addTimer:timer forMode:<span class="built_in">UITrackingRunLoopMode</span>];</span><br></pre></td></tr></table></figure>
+<p>也可以使用 GCD 定时器，它不会受 RunLoop 的影响</p>
+<h3 id="PerformSelector-amp-amp-子线程启动-Timer-失效（重要）"><a href="#PerformSelector-amp-amp-子线程启动-Timer-失效（重要）" class="headerlink" title="PerformSelector &amp;&amp; 子线程启动 Timer 失效（重要）"></a>PerformSelector &amp;&amp; 子线程启动 Timer 失效（重要）</h3><p>当调用 NSObject 的 performSelector:afterDelay: 后，实际上其内部会创建一个 Timer 并添加到当前线程的 RunLoop 中。所以如果当前线程没有 RunLoop，则这个方法会失效</p>
+<p>当调用 performSelector:onThread: 时，实际上其会创建一个 Timer 加到对应的线程去，同样的，如果对应线程没有 RunLoop 该方法也会失效</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    <span class="comment">// 如果只写以下一行代码不会生效，本质是生成一个 Timer 添加到 RunLoop</span></span><br><span class="line">    [<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(run) withObject:<span class="literal">nil</span> afterDelay:<span class="number">0</span>];</span><br><span class="line">    <span class="comment">// 必须手动开启 RunLoop Timer 才能生效</span></span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run];</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>子线程的 RunLoop 默认不开启，必须手动开启</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">&quot;test&quot;</span>, DISPATCH_QUEUE_SERIAL);</span><br><span class="line"><span class="comment">// 在子线程中使用定时器</span></span><br><span class="line"><span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="comment">// 第一种方式</span></span><br><span class="line">    <span class="comment">// 创建的 timer 已经添加至当前的 runloop 中</span></span><br><span class="line">    [<span class="built_in">NSTimer</span> scheduledTimerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSomething) userInfo:<span class="literal">nil</span> repeats:<span class="literal">YES</span>];</span><br><span class="line">    <span class="comment">// 在线程中使用定时器，如果不启动run loop，timer的事件是不会响应的，而子线程中runloop默认没有启动</span></span><br><span class="line">    <span class="comment">// 让线程执行一个周期性的任务，如果不启动run loop， 线程跑完就可能被系统释放了</span></span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run];<span class="comment">// 如果没有这句，doSomething将不会执行！！！</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*************************************************************/</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 第二种方式</span></span><br><span class="line">    <span class="comment">// 创建的 timer 没有默认添加到 runloop 中</span></span><br><span class="line">	<span class="built_in">NSTimer</span> *timer = [<span class="built_in">NSTimer</span> timerWithTimeInterval:<span class="number">2.0</span> target:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(doSomething) userInfo:<span class="literal">nil</span> repeats:<span class="literal">NO</span>];</span><br><span class="line">    <span class="comment">// 将定时器添加到runloop中</span></span><br><span class="line">	[[<span class="built_in">NSRunLoop</span> currentRunLoop] addTimer:timer forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">    <span class="comment">// 在线程中使用定时器，如果不启动run loop，timer的事件是不会响应的，而子线程中runloop默认没有启动</span></span><br><span class="line">    <span class="comment">// 让线程执行一个周期性的任务，如果不启动run loop， 线程跑完就可能被系统释放了</span></span><br><span class="line">    [[<span class="built_in">NSRunLoop</span> currentRunLoop] run];<span class="comment">// 如果没有这句，doSomething将不会执行！！！</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="子线程常驻（重要）"><a href="#子线程常驻（重要）" class="headerlink" title="子线程常驻（重要）"></a>子线程常驻（重要）</h3><p>当我们使用 GCD 的方法创建了子线程，那么当子线程中的任务执行完毕后，子线程就会被销毁掉</p>
+<p>如果我们需要经常在子线程中执行此任务，只使用 GCD 会导致线程的频繁创建和销毁，此时我们就需要保证一个子线程的常驻</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">	<span class="comment">// 通过访问 RunLoop 来创建子线程的一个 RunLoop</span></span><br><span class="line">	<span class="built_in">NSRunLoop</span> *runLoop = [<span class="built_in">NSRunLoop</span> currentRunLoop];</span><br><span class="line">	<span class="comment">// 向该RunLoop中添加一个Port/Source等维持RunLoop的事件循环</span></span><br><span class="line">	[runLoop addPort:[<span class="built_in">NSMachPort</span> port] forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">	<span class="comment">// 启动 RunLoop</span></span><br><span class="line">	[runLoop run];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>此处添加 port 只是为了让 RunLoop 不至于退出，并没有用于实际的发送消息</p>
+<p>以下是 AFNetWorking 的 RunLoop 示例代码</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="type">void</span>)networkRequestThreadEntryPoint:(<span class="type">id</span>)__unused object &#123;</span><br><span class="line">    <span class="keyword">@autoreleasepool</span> &#123;</span><br><span class="line">        [[<span class="built_in">NSThread</span> currentThread] setName:<span class="string">@&quot;AFNetworking&quot;</span>];</span><br><span class="line">        <span class="built_in">NSRunLoop</span> *runLoop = [<span class="built_in">NSRunLoop</span> currentRunLoop];</span><br><span class="line">        [runLoop addPort:[<span class="built_in">NSMachPort</span> port] forMode:<span class="built_in">NSDefaultRunLoopMode</span>];</span><br><span class="line">        [runLoop run];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">+ (<span class="built_in">NSThread</span> *)networkRequestThread &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">NSThread</span> *_networkRequestThread = <span class="literal">nil</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> oncePredicate;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;oncePredicate, ^&#123;</span><br><span class="line">        _networkRequestThread = [[<span class="built_in">NSThread</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(networkRequestThreadEntryPoint:) object:<span class="literal">nil</span>];</span><br><span class="line">        [_networkRequestThread start];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> _networkRequestThread;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="深度好文"><a href="#深度好文" class="headerlink" title="深度好文"></a>深度好文</h1><p><a target="_blank" rel="noopener" href="http://naotu.baidu.com/file/1048175c83ab832d33e9650c84ef2abe?token=70060f6e559654ce">我的脑图</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.im/post/5aca2b0a6fb9a028d700e1f8">iOS RunLoop详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Desgard/iOS-Source-Probe/blob/master/Objective-C/Foundation/Run%20Loop%20%E8%AE%B0%E5%BD%95%E4%B8%8E%E6%BA%90%E7%A0%81%E6%B3%A8%E9%87%8A.md">RunLoop 源码剖析</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ae0118f968bf">关于runloop，好多人都理解错了！</a></p>
+<p><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/CF/CF-855.17/CFRunLoop.c.auto.html">RunLoop 源码</a></p>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RunLoop-%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-text">RunLoop 相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Event-Loop"><span class="toc-text">Event Loop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSRunLoop-%E5%92%8C-CFRunLoop"><span class="toc-text">NSRunLoop 和 CFRunLoop</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RunLoop-%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-text">RunLoop 与线程的关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RunLoop-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">RunLoop 的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="toc-text">结构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mode-Item"><span class="toc-text">Mode Item</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CFRunLoopSource"><span class="toc-text">CFRunLoopSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CFRunLoopTimer"><span class="toc-text">CFRunLoopTimer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CFRunLoopObserver"><span class="toc-text">CFRunLoopObserver</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%90"><span class="toc-text">事件源</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%8D%E7%B1%BB"><span class="toc-text">种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E6%BA%90%E7%BC%BA%E5%A4%B1%E7%9A%84%E5%90%8E%E6%9E%9C"><span class="toc-text">事件源缺失的后果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RunLoop-Mode"><span class="toc-text">RunLoop Mode</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%8D%E7%B1%BB-1"><span class="toc-text">种类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Common-Modes"><span class="toc-text">Common Modes</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RunLoop-%E5%86%85%E9%83%A8%E9%80%BB%E8%BE%91"><span class="toc-text">RunLoop 内部逻辑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RunLoop-%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="toc-text">RunLoop 的底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RunLoop-%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-text">RunLoop 的应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%BA%94%E7%94%A8"><span class="toc-text">系统应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E5%93%8D%E5%BA%94%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">事件响应（重要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%8C%E9%9D%A2%E6%9B%B4%E6%96%B0%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">界面更新（重要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">定时器（重要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AutoreleasePool%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">AutoreleasePool（重要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RunLoop-%E7%9A%84%E5%AE%9E%E8%B7%B5%E5%BA%94%E7%94%A8"><span class="toc-text">RunLoop 的实践应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%A1%E9%A1%BF%E6%A3%80%E6%B5%8B%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">卡顿检测（重要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%9A%E5%8A%A8%E6%97%B6%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD%E5%9B%BE%E7%89%87%EF%BC%9F%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">滚动时延迟加载图片？（重要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timer-%E6%BB%9A%E5%8A%A8%E6%B2%A1%E5%9B%9E%E8%B0%83%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">Timer 滚动没回调（重要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PerformSelector-amp-amp-%E5%AD%90%E7%BA%BF%E7%A8%8B%E5%90%AF%E5%8A%A8-Timer-%E5%A4%B1%E6%95%88%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">PerformSelector &amp;&amp; 子线程启动 Timer 失效（重要）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E7%BA%BF%E7%A8%8B%E5%B8%B8%E9%A9%BB%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">子线程常驻（重要）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%A5%BD%E6%96%87"><span class="toc-text">深度好文</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

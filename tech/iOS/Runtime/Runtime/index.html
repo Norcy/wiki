@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Runtime 脑图  概念Class、id、objc_object 定义源码 objc_class、objc_method 定义源码 category_t 定义源码 实例对象（objc_object）1typedef struct objc_object *id; id 是一个指向 objc_object 的指针 123456789struct objc_object &amp;#123;    is">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/tech/iOS/Runtime/Runtime/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="Runtime 脑图  概念Class、id、objc_object 定义源码 objc_class、objc_method 定义源码 category_t 定义源码 实例对象（objc_object）1typedef struct objc_object *id; id 是一个指向 objc_object 的指针 123456789struct objc_object &amp;#123;    is">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yulingtianxia.com/resources/Runtime/class-diagram.jpg">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/4/1/1628088a3e48a485~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp">
+<meta property="article:published_time" content="2025-04-20T05:50:42.954Z">
+<meta property="article:modified_time" content="2025-04-20T05:50:08.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yulingtianxia.com/resources/Runtime/class-diagram.jpg">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link " href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        App
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/App/App%20%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        App 开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/AppLink%20%E7%AC%94%E8%AE%B0/">
+        
+        AppLink 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E5%AE%89%E5%85%A8%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 安全实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud%20%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        LeanCloud 最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/LeanCloud_Example/">
+        
+        LeanCloud_Example
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/RN%20Android%20%E5%8C%85%E4%BD%93%E4%BC%98%E5%8C%96%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+        
+        RN Android 包体优化最佳实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/fastlane%20%E6%8E%A5%E5%85%A5%E7%AC%94%E8%AE%B0/">
+        
+        fastlane 接入笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/iOS%20%E6%8F%90%E5%AE%A1%E7%BC%BA%E5%B0%91%E5%90%88%E8%A7%84%E8%AF%81%E6%98%8E/">
+        
+        iOS 提审缺少合规证明
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E5%BC%80%E5%8F%91%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95/">
+        
+        开发问题记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/App/%E8%8B%B9%E6%9E%9C%E5%88%A0%E9%99%A4%E5%B8%90%E5%8F%B7/">
+        
+        苹果删除帐号
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        BackEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Linux%E7%A2%8E%E7%89%87/">
+        
+        Linux碎片
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/Ubuntu/">
+        
+        Ubuntu
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%20NodeJS%20%E5%90%8E%E5%8F%B0%E6%9C%8D%E5%8A%A1/">
+        
+        如何构建一个 NodeJS 后台服务
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%A6%82%E4%BD%95%E6%AF%94%E8%BE%83%E7%AE%80%E5%8D%95%E5%9C%B0%E5%B1%95%E7%A4%BA%E4%B8%80%E4%B8%AA%E9%9D%99%E6%80%81%E7%BD%91/">
+        
+        如何比较简单地展示一个静态网
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/BackEnd/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">
+        
+        定时任务
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        FrontEnd
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        MiniApp
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/MiniApp/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%B8%A9%E5%9D%91/">
+        
+        小程序踩坑
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        ReactNative
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/!!%E7%9A%84%E5%A6%99%E7%94%A8/">
+        
+        !!的妙用
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/Android%20RN%20%E5%BC%95%E7%94%A8%20fork%20%E7%9A%84%E4%B8%89%E6%96%B9%E5%BA%93/">
+        
+        Android RN 引用 fork 的三方库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JS%20Object%20%E7%9A%84%E5%9D%91/">
+        
+        JS Object 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/JSON.stringfy%20%E7%9A%84%E5%9D%91/">
+        
+        JSON.stringfy 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%85%A8%E5%B1%80%E6%9B%BF%E6%8D%A2%20Text%20%E5%B1%9E%E6%80%A7/">
+        
+        RN 全局替换 Text 属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%AE%89%E5%8D%93%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0/">
+        
+        RN 安卓开发笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/RN%20%E5%BC%82%E5%B8%B8%E8%B0%83%E7%A0%94/">
+        
+        RN 异常调研
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20JS%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative JS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E4%B8%AD%20fetch%20%E7%9A%84%E5%B7%A8%E5%9D%91/">
+        
+        ReactNative 中 fetch 的巨坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E7%BB%84%E4%BB%B6%E6%8E%A8%E8%8D%90/">
+        
+        ReactNative 组件推荐
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20Native%20%E7%AC%94%E8%AE%B0/">
+        
+        ReactNative Native 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        ReactNative 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/ReactNative%E6%BB%91%E5%8A%A8%E4%B8%AD%E8%AF%AF%E7%82%B9%E5%87%BB%E9%97%AE%E9%A2%98%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/">
+        
+        ReactNative滑动中误点击问题优化方案
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/TextInput%E7%9A%84%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%9D%91/">
+        
+        TextInput的一个小坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/memo/">
+        
+        memo
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%20JS%20import%20%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84/">
+        
+        如何在 JS import 绝对路径
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E9%87%8C%E6%A8%A1%E6%8B%9F%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
+        
+        如何在函数组件里模拟构造函数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/ReactNative/%E5%A6%82%E4%BD%95%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%AA%E6%9C%AA%E5%8F%91%E5%B8%83%E7%9A%84RN%E7%BB%84%E4%BB%B6/">
+        
+        如何调试一个未发布的RN组件
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20%E6%A8%A1%E5%9D%97%E5%8C%96/">
+        
+        JS 模块化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/H5%E6%89%93%E5%BC%80%E5%A4%96%E9%93%BE%E5%A4%B1%E8%B4%A5/">
+        
+        H5打开外链失败
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%20CORS%20%E9%97%AE%E9%A2%98/">
+        
+        JS CORS 问题
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JS%E5%8F%8C%E9%97%AE%E5%8F%B7%E7%94%A8%E6%B3%95/">
+        
+        JS双问号用法
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/JavaScript/">
+        
+        JavaScript
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/RN%20TS%20%E5%AE%9E%E8%B7%B5/">
+        
+        RN TS 实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TS%20%E7%AC%94%E8%AE%B0/">
+        
+        TS 笔记
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/TSC%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        TSC 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/npx%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        npx 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/peerDependencies%20%E6%98%AF%E4%BB%80%E4%B9%88/">
+        
+        peerDependencies 是什么
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/yarn%20%E6%97%B6%E6%8C%87%E5%AE%9A%20Node%20%E7%89%88%E6%9C%AC/">
+        
+        yarn 时指定 Node 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/">
+        
+        移动端适配
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E7%BB%99%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97%E6%89%93%E8%A1%A5%E4%B8%81/">
+        
+        给三方模块打补丁
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/FrontEnd/%E8%8A%82%E6%B5%81%E4%B8%8E%E9%98%B2%E6%8A%96/">
+        
+        节流与防抖
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Others
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Python
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        周边
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%88%87%E6%8D%A2%20Mac%20Python%20%E7%89%88%E6%9C%AC/">
+        
+        切换 Mac Python 版本
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E5%91%A8%E8%BE%B9/%E5%8F%82%E6%95%B0%E8%A7%A3%E6%9E%90%E7%A5%9E%E5%99%A8/">
+        
+        参数解析神器
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        语法
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%8F%82%E6%95%B0/">
+        
+        Python 参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E5%B0%8F%E7%9F%A5%E8%AF%86/">
+        
+        Python 小知识
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+        
+        Python 文件操作
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/%E8%AF%AD%E6%B3%95/Python%20%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">
+        
+        Python 网络请求
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Python/Python%20%E5%AE%9E%E6%88%98/">
+        
+        Python 实战
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Xcode
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        库
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/iOS%20%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+        
+        iOS 二进制文件分析之常用命令
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%8A%A8%E6%80%81%E5%BA%93%E5%92%8C%E9%9D%99%E6%80%81%E5%BA%93/">
+        
+        动态库和静态库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E5%BA%93%E4%BD%93%E7%A7%AF%E4%BC%98%E5%8C%96/">
+        
+        库体积优化
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%BA%93/%E7%BC%96%E8%AF%91%E9%80%89%E9%A1%B9/">
+        
+        编译选项
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/Cocoapods/">
+        
+        Cocoapods
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E6%B7%BB%E5%8A%A0Xcode%E6%96%87%E4%BB%B6/">
+        
+        使用脚本添加Xcode文件
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%AE%9A%E4%BD%8D%E6%8A%80%E5%B7%A7/">
+        
+        内存泄漏定位技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Xcode/%E6%96%B0%E5%BB%BA%E5%B7%A5%E7%A8%8B%E7%A7%BB%E9%99%A4StroyBoard/">
+        
+        新建工程移除StroyBoard
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        计算机基础
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/Git/">
+        
+        Git
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/RESTful%20API/">
+        
+        RESTful API
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%8E%9F%E7%A0%81,%20%E5%8F%8D%E7%A0%81,%20%E8%A1%A5%E7%A0%81/">
+        
+        原码, 反码, 补码
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">
+        
+        字符编码
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="file">
+      <a href="/wiki/tech/Others/GitHub%20Page%20%E4%BB%8E%20TravisCI%20%E8%BF%81%E7%A7%BB%E5%88%B0%20GitHub%20Action/">
+        
+        GitHub Page 从 TravisCI 迁移到 GitHub Action
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Hexo%20%E7%89%B9%E6%80%A7/">
+        
+        Hexo 特性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/Mac%20%E5%AE%89%E8%A3%85%20Ruby%20%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">
+        
+        Mac 安装 Ruby 踩坑记录
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/VSCode%20%E8%B0%83%E6%95%99/">
+        
+        VSCode 调教
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/fork%E5%90%8E%E4%B8%8E%E5%8E%9F%E4%BB%93%E5%BA%93%E5%90%8C%E6%AD%A5SOP/">
+        
+        fork后与原仓库同步SOP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E4%B8%BA%20Github%20%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86/">
+        
+        如何为 Github 设置代理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E5%A6%82%E4%BD%95%E5%AE%8C%E6%95%B4%E8%BF%81%E7%A7%BB%20Git%20%E4%BB%93%E5%BA%93/">
+        
+        如何完整迁移 Git 仓库
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E6%9F%A5%E6%89%BE%E6%97%A5%E5%BF%97%E6%8A%80%E5%B7%A7/">
+        
+        查找日志技巧
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/Others/%E7%9F%A5%E8%AF%86%E7%A2%8E%E7%89%87/">
+        
+        知识碎片
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        iOS
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        Block
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block%20%E7%9A%84%E5%AE%9E%E7%8E%B0%EF%BC%88%E7%AE%80%E5%8C%96%E7%89%88%EF%BC%89/">
+        
+        Block 的实现（简化版）
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block/">
+        
+        Block
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Block/Block_%E9%9D%A2%E8%AF%95%E9%A2%98/">
+        
+        Block_面试题
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        GCD
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD/">
+        
+        GCD
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/GCD_%E5%AE%9E%E8%B7%B5/">
+        
+        GCD_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/GCD/dispatch_set_target_queue/">
+        
+        dispatch_set_target_queue
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        RunLoop
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop%20%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        
+        RunLoop 源码分析
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/RunLoop/RunLoop/">
+        
+        RunLoop
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        Runtime
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file active">
+      <a href="/wiki/tech/iOS/Runtime/Runtime/">
+        
+        Runtime
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/Runtime_%E5%AE%9E%E8%B7%B5/">
+        
+        Runtime_实践
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/iOS%20%E7%9A%84%20initialize%20%E5%92%8C%20load%20%E5%8C%BA%E5%88%AB/">
+        
+        iOS 的 initialize 和 load 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/weak%20%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        weak 的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+        
+        关联对象的实现原理
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%88%86%E7%B1%BB/">
+        
+        分类
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为分类添加属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E5%A6%82%E4%BD%95%E4%B8%BA%E5%8D%8F%E8%AE%AE%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">
+        
+        如何为协议添加属性
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/Runtime/%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2/">
+        
+        方法交换
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        内存管理
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/Weak-Strong%20Dance/">
+        
+        Weak-Strong Dance
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/autorelease/">
+        
+        autorelease
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/dealloc%20%E6%8E%A2%E7%A9%B6/">
+        
+        dealloc 探究
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        未分类
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVC/">
+        
+        KVC
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/KVO/">
+        
+        KVO
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/NSString%20%E7%9A%84%E5%9D%91/">
+        
+        NSString 的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Native%20%E4%B8%8E%20JS%20%E4%BA%A4%E4%BA%92/">
+        
+        Native 与 JS 交互
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/Property/">
+        
+        Property
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/UIView%20%E4%B8%8E%20CALayer%20%E5%8C%BA%E5%88%AB/">
+        
+        UIView 与 CALayer 区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/block%20%E5%92%8C%20delegate%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        block 和 delegate 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%9D%91/">
+        
+        iOS 图片加载的坑
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E6%B2%99%E7%9B%92%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/">
+        
+        iOS 沙盒目录结构
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E7%8A%B6%E6%80%81%E6%A0%8F/">
+        
+        iOS 状态栏
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/iOS%20%E8%A7%A6%E6%91%B8%E6%9C%BA%E5%88%B6/">
+        
+        iOS 触摸机制
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%90%AF%E5%8A%A8/">
+        
+        启动
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E5%BC%B1%E5%BC%95%E7%94%A8%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1/">
+        
+        弱引用集合对象
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E6%9D%82/">
+        
+        杂
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/tech/iOS/%E6%9C%AA%E5%88%86%E7%B1%BB/%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/">
+        
+        离屏渲染
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-tech/iOS/Runtime/Runtime" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/tech/iOS/Runtime/Runtime/">
+            
+            Runtime
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <ul>
+<li><a target="_blank" rel="noopener" href="http://naotu.baidu.com/file/30a56f1e1bbb7af7f876353dda6f6b2c">Runtime 脑图</a></li>
+</ul>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-750/runtime/objc.h.auto.html">Class、id、<code>objc_object</code> 定义源码</a></p>
+<p><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-750/runtime/runtime.h.auto.html"><code>objc_class</code>、<code>objc_method</code> 定义源码</a></p>
+<p><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/objc4/objc4-750/runtime/objc-runtime-new.h.auto.html"><code>category_t</code> 定义源码</a></p>
+<h2 id="实例对象（objc-object）"><a href="#实例对象（objc-object）" class="headerlink" title="实例对象（objc_object）"></a>实例对象（objc_object）</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_object *<span class="type">id</span>;</span><br></pre></td></tr></table></figure>
+<p>id 是一个指向 <code>objc_object</code> 的指针</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    isa_t isa;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">union</span> isa_t </span><br><span class="line">&#123;</span><br><span class="line">	Class cls;</span><br><span class="line">	<span class="comment">// ... 省略其他</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单点说，<code>objc_object</code> 中包含了 Class 信息</p>
+<h2 id="类对象（objc-class）"><a href="#类对象（objc-class）" class="headerlink" title="类对象（objc_class）"></a>类对象（objc_class）</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_class *Class;</span><br></pre></td></tr></table></figure>
+<p>Class 是一个指向 <code>objc_class</code> 的指针</p>
+<p>在 Objc2.0 之前，<code>objc_class</code> 源码如下</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_class</span><br><span class="line">&#123;</span><br><span class="line">	Class isa OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> !__OBJC2__</span></span><br><span class="line">	Class super_class 	OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="keyword">const</span> <span class="type">char</span> *name 	OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="type">long</span> version 		OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="type">long</span> info 			OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="type">long</span> instance_size 	OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="keyword">struct</span> objc_ivar_list *ivars 			OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="keyword">struct</span> objc_method_list **methodLists 	OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="keyword">struct</span> objc_cache *cache 				OBJC2_UNAVAILABLE;</span><br><span class="line">	<span class="keyword">struct</span> objc_protocol_list *protocols 	OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure>
+<p>然后在 2006 年苹果发布 Objc2.0 之后，<code>objc_class</code> 的定义就变成下面这个样子了</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_class : objc_object &#123;</span><br><span class="line">    Class superclass;</span><br><span class="line">    cache_t cache;             </span><br><span class="line">    class_data_bits_t bits;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 Objc2.0 中，所有的对象都会包含一个<code>isa_t</code> 类型的 isa 指针</p>
+<p><code>objc_class</code> 继承于 <code>objc_object</code>，所以 <code>objc_class</code> 也包含了 isa 指针，故类本身其实也是一个对象，称之为类对象</p>
+<p>这意味着，可以像向实例对象发送消息一样，我们可以向类对象发送消息，比如 <code>[Person alloc]</code></p>
+<p><code>class_data_bits_t</code> 存储着类对象的相关数据（比如对象方法、对象成员等等），Objc2.0 之前存储在 <code>objc_class</code> 的信息都放到这里了</p>
+<p>当一个对象的实例方法被调用的时候，会通过 isa 找到相应的类，然后在该类的<code>class_data_bits_t</code> 中去查找方法实现</p>
+<p>但是在我们调用类方法的时候，类对象的 isa 里面是什么呢？这里为了和对象查找方法的机制一致，遂引入了元类的概念</p>
+<h2 id="元类"><a href="#元类" class="headerlink" title="元类"></a>元类</h2><p><img src="http://yulingtianxia.com/resources/Runtime/class-diagram.jpg" alt></p>
+<p>上图可以看出：</p>
+<ol>
+<li><p>Superclass</p>
+<ul>
+<li>实例对象之间没有父子关系，有父子关系的是类对象和元类</li>
+<li>NSObject 类的父类是 nil</li>
+<li>特殊：NSObject 元类的父类是 NSObject 类对象</li>
+</ul>
+</li>
+<li><p>isa</p>
+<p> 可以理解“是一个”</p>
+<ul>
+<li>实例对象“是一个”类对象，类对象“是一个”元类</li>
+<li>特殊：任何元类都“是一个” NSObject 元类</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>【消息发送】：当一个消息发送给任何一个对象时，将会由对象的 isa 指针开始查找方法，接着沿着 superclass 链向上去查找</li>
+<li>【内存布局】：不同实例对象对应的类，父类，元类打印出来的地址相同，因为 main 方法执行之前，类对象和元类对象就被创建</li>
+</ul>
+<h3 id="理解好对象、类和元类的关系（为什么需要元类）"><a href="#理解好对象、类和元类的关系（为什么需要元类）" class="headerlink" title="理解好对象、类和元类的关系（为什么需要元类）"></a>理解好对象、类和元类的关系（为什么需要元类）</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Person *p = [[Person alloc] init];</span><br></pre></td></tr></table></figure>
+<p>其中，p 是对象，Person 是类。注意，<strong>类本身也是对象</strong>，所以我们可以把类叫做类对象</p>
+<p>对象的实例方法存放在类对象中，对象是以类对象为模版进行创建</p>
+<p>而<strong>类对象与元类的关系好比对象和类对象的关系</strong>，元类中保存了创建类对象以及类方法所需的所有信息</p>
+<ul>
+<li>当你给对象发送消息时，消息是从这个对象的类的方法列表中查找</li>
+<li>当你给类发消息时，消息是从这个类的元类的方法列表中查找</li>
+</ul>
+<p>到此，我们可以理解，为什么类对象“是一个”元类；也可以理解为什么需要元类这个概念（为了和对象查找方法的机制一致）</p>
+<p>类对象和元类对象是唯一的，对象是可以在运行时创建无数个的。而在 main 方法执行之前，类对象和元类对象被创建</p>
+<h3 id="引申思考：究竟什么样的数据结构才算对象？"><a href="#引申思考：究竟什么样的数据结构才算对象？" class="headerlink" title="引申思考：究竟什么样的数据结构才算对象？"></a>引申思考：究竟什么样的数据结构才算对象？</h3><p>每个对象都有一个类，这个是 Objective-C 中关于面向对象的内容</p>
+<p>实际上，任何数据结构，只要其内存区域的第一块位置是以指向 Class 的指针都可以被称之为对象</p>
+<p>比如 <code>objc_object</code>，Objc2.0 前的 <code>objc_class</code>， Objc2.0 后的 <code>objc_class</code> </p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// isa_t 展开之后</span></span><br><span class="line"><span class="keyword">struct</span> objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Objc2.0 前</span></span><br><span class="line"><span class="keyword">struct</span> objc_class</span><br><span class="line">&#123;</span><br><span class="line">	Class isa;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Objc2.0 后，继承关系展开之后</span></span><br><span class="line"><span class="keyword">struct</span> objc_class : objc_object &#123;</span><br><span class="line">    Class isa;</span><br><span class="line">    Class superclass;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="引申思考：类对象是一个对象，那么元类是对象吗？"><a href="#引申思考：类对象是一个对象，那么元类是对象吗？" class="headerlink" title="引申思考：类对象是一个对象，那么元类是对象吗？"></a>引申思考：类对象是一个对象，那么元类是对象吗？</h3><p>类对象是 <code>objc_class</code>，它的 isa 指针指向的是一个 <code>objc_class</code>，这就意味着元类是一个 <code>objc_class</code> 描述的结构。由于 <code>objc_class</code> 的第一个位置存放着 Class 指针，所以元类本身也是一个对象！所有的元类的 Class 指针指向的都是根元类</p>
+<p>即所有元类的类都是根元类，这个是规则。由于这条规则，根元类（即 NSObject 类的元类）的 isa 指针指向了自己，也就是说根元类是它自己的一个实例</p>
+<h3 id="引申思考：objc-object-对应对象，objc-class-对应类对象，那是不是会有-objc-meta-class-对应元类"><a href="#引申思考：objc-object-对应对象，objc-class-对应类对象，那是不是会有-objc-meta-class-对应元类" class="headerlink" title="引申思考：objc_object 对应对象，objc_class 对应类对象，那是不是会有 objc_meta_class 对应元类"></a>引申思考：<code>objc_object</code> 对应对象，<code>objc_class</code> 对应类对象，那是不是会有 <code>objc_meta_class</code> 对应元类</h3><p>id 是一个指向 <code>objc_object</code> 的指针，Class 是一个指向 <code>objc_class</code> 的指针，由此看，id 对应对象，Class 对应类对象确实没错，id 和 Class 都是开发者层面能接触到的，但是元类开发者并不会接触到，所以没有一个对应的“开发层面的概念”对应元类。</p>
+<p>元类本身也是一个对象，是用 <code>objc_class</code> 来描述。</p>
+<p>即对象用 <code>objc_object</code> 描述；类对象和元类都是用 <code>objc_class</code> 描述</p>
+<h3 id="引申思考：为什么所有元类的-isa-指针直接指向了根元类？"><a href="#引申思考：为什么所有元类的-isa-指针直接指向了根元类？" class="headerlink" title="引申思考：为什么所有元类的 isa 指针直接指向了根元类？"></a>引申思考：为什么所有元类的 isa 指针直接指向了根元类？</h3><p>这是规定（我猜：指向 nil 或其他地方都没有指向根元类合理），同时元类的 isa 指针不是很重要，因为在现实世界中没人向元类发送消息</p>
+<h3 id="引申思考：为什么-NSObject-元类的父类是-NSObject-类对象？"><a href="#引申思考：为什么-NSObject-元类的父类是-NSObject-类对象？" class="headerlink" title="引申思考：为什么 NSObject 元类的父类是 NSObject 类对象？"></a>引申思考：为什么 NSObject 元类的父类是 NSObject 类对象？</h3><p>因为 NSObject 定义了一系列“抽象方法”，这里面既有实例方法，又有类方法</p>
+<ul>
+<li><ul>
+<li>class</li>
+</ul>
+</li>
+<li><ul>
+<li>class</li>
+</ul>
+</li>
+<li><ul>
+<li>isMemberOfClass</li>
+</ul>
+</li>
+<li><ul>
+<li>isKindOfClass</li>
+</ul>
+</li>
+<li><ul>
+<li>respondsToSelector</li>
+</ul>
+</li>
+<li><ul>
+<li>conformsToProtocol</li>
+</ul>
+</li>
+<li><ul>
+<li>conformsToProtocol</li>
+</ul>
+</li>
+<li><ul>
+<li>methodForSelector</li>
+</ul>
+</li>
+<li><ul>
+<li>instanceMethodForSelector</li>
+</ul>
+</li>
+</ul>
+<p>注意：这些方法中的类方法列表是存放在 NSObject 根元类的数据结构中，但是这些方法是“写”在 NSObject.m 中</p>
+<p>定义 NSObject 元类的父类为 NSObject 类对象，导致了所有的实例对象、类对象和元类对象都是 NSObject 类对象的实例（除了 NSObject 类对象自己）</p>
+<blockquote>
+<p>NSObject 类对象是万物之根</p>
+</blockquote>
+<p>意义在于，元类对象也能调用 NSObject 的实例方法?</p>
+<p>如果一个类的类方法没有被实现，最终会去 NSObject 的实例方法中寻找</p>
+<ul>
+<li>对于所有的实例对象，都能够调用到 NSObject 的实例方法</li>
+<li>对于所有的类对象和元类对象，都能够调用到 NSObject 的类方法</li>
+</ul>
+<blockquote>
+<p>For all instances, classes and meta-classes in the NSObject hierarchy, this means that all NSObject instance methods are valid. For the classes and meta-classes, all NSObject class methods are also valid. ——引自<a target="_blank" rel="noopener" href="http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html">《What is a meta-class in Objective-C?》</a></p>
+</blockquote>
+<h2 id="Method（objc-method）"><a href="#Method（objc-method）" class="headerlink" title="Method（objc_method）"></a>Method（objc_method）</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> objc_method &#123;</span><br><span class="line">    SEL method_name;		<span class="comment">// 方法名（区分方法的标识）</span></span><br><span class="line">    <span class="type">char</span> *method_types;		<span class="comment">// 返回值类型</span></span><br><span class="line">    IMP method_imp;			<span class="comment">// 方法实现</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SEL 与 IMP 的关系类似于 key 与 value 的关系</p>
+<h2 id="SEL（objc-selector）"><a href="#SEL（objc-selector）" class="headerlink" title="SEL（objc_selector）"></a>SEL（objc_selector）</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> objc_selector *SEL;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> objc_selector &#123;</span><br><span class="line">    <span class="type">char</span> *name;			<span class="comment">// 方法名称</span></span><br><span class="line">    <span class="type">char</span> *types;		<span class="comment">// 返回值类型</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>SEL 是一个指向 <code>objc_selector</code> 的指针，可以理解为方法（Method）的 ID</p>
+<p>IMP 可以理解为函数指针，指向了最终的实现</p>
+<h3 id="引申思考：关于重载"><a href="#引申思考：关于重载" class="headerlink" title="引申思考：关于重载"></a>引申思考：关于重载</h3><p>Objective-C 中不支持函数重载就是因为 SEL 只记录了方法名而没有参数，同时一个类的方法列表中不能存在两个相同的 SEL </p>
+<h3 id="引申思考：关于重写"><a href="#引申思考：关于重写" class="headerlink" title="引申思考：关于重写"></a>引申思考：关于重写</h3><p>不同的类可以有同一个 SEL，这些 SEL 对应着不同的实现</p>
+<p>不同类的实例对象执行相同的 SEL 时，会在各自的方法列表中去根据 SEL 去寻找自己对应的 IMP</p>
+<p>这使得 OC 可以支持函数重写</p>
+<p>比如父类和子类都有 viewDidLoad，父类和子类是两个不同的类对象，同时有相同的 SEL，即 viewDidLoad，而其 IMP 又不一样</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> SEL selector;</span><br></pre></td></tr></table></figure>
+<p>Objective-C 中的 selector 是 SEL 的一个实例对象</p>
+<p>我们可以用 <code>@selector()</code> 返回的是一个 SEL 类型的方法选择器</p>
+<h3 id="引申思考：关于声明"><a href="#引申思考：关于声明" class="headerlink" title="引申思考：关于声明"></a>引申思考：关于声明</h3><p>一个类如果只是声明了方法但是没有实现，其 <code>objc_class</code> 的 methodLists 不会有。声明仅仅只是告诉编译器存在这样一个方法，并不会真正影响 <code>objc_class</code> 里面的内容</p>
+<p>另一个角度看，methodLists 里面存的元素是 <code>objc_method</code>，而一个 <code>objc_method</code> 的构成是 SEL 和 IMP，只声明不实现，IMP 不会存在</p>
+<h2 id="方法实现（IMP）"><a href="#方法实现（IMP）" class="headerlink" title="方法实现（IMP）"></a>方法实现（IMP）</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">id</span> (*IMP)(<span class="type">id</span>, SEL, ...); </span><br></pre></td></tr></table></figure>
+<p><strong>关于函数指针</strong></p>
+<p>先了解函数指针的概念</p>
+<blockquote>
+<p>typedef 返回类型(<code>*</code>函数指针名)(参数表)</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="title function_">void</span> <span class="params">(*funPointer)</span><span class="params">(<span class="type">int</span>)</span>; </span><br><span class="line">funPointer pFun;</span><br><span class="line"><span class="type">void</span> <span class="title function_">myFun</span><span class="params">(<span class="type">int</span> a)</span>&#123;print(<span class="string">&quot;Hello&quot;</span>);&#125; </span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span> </span><br><span class="line">&#123; </span><br><span class="line">    pFun = myFun; </span><br><span class="line">    (*pFun)(<span class="number">2</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以 IMP 是一个函数指针，指向类似 <code>id FunName(id, SEL, ...)&#123;...&#125;</code> 的函数实现</p>
+<p>在 Runtime 中，IMP 指向着方法最终实现的内存地址</p>
+<h2 id="类缓存（objc-cache）"><a href="#类缓存（objc-cache）" class="headerlink" title="类缓存（objc_cache）"></a>类缓存（objc_cache）</h2><p>Runtime 中，每当找到一个类的方法时，会放入它的缓存，即 <code>objc_class</code> 中的 <code>objc_cache</code>，以加快下次方法调用时的查找效率</p>
+<h2 id="分类（objc-category）"><a href="#分类（objc-category）" class="headerlink" title="分类（objc_category）"></a>分类（objc_category）</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> category_t &#123; </span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> *name; 							<span class="comment">// 原类名，而不是分类名</span></span><br><span class="line">    <span class="comment">// 要扩展的类对象，编译期间是不会定义的，而是在 Runtime 阶段通过 name 对应到对应的类对象</span></span><br><span class="line">    classref_t cls; 							</span><br><span class="line">    <span class="keyword">struct</span> method_list_t *instanceMethods; 		<span class="comment">// 分类中新增的对象方法列表</span></span><br><span class="line">    <span class="keyword">struct</span> method_list_t *classMethods;			<span class="comment">// 分类中新增的类方法列表</span></span><br><span class="line">    <span class="keyword">struct</span> protocol_list_t *protocols;			<span class="comment">// 分类中新增的协议列表</span></span><br><span class="line">    <span class="keyword">struct</span> property_list_t *instanceProperties;	<span class="comment">// 分类中新增的属性列表</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="引申思考：如何在分类中添加属性"><a href="#引申思考：如何在分类中添加属性" class="headerlink" title="引申思考：如何在分类中添加属性"></a>引申思考：<a href="../如何为分类添加属性">如何在分类中添加属性</a></h3><p>可以看出，分类中可以添加实例方法，类方法，甚至可以实现协议，添加属性，但不可以添加成员变量</p>
+<p>instanceProperties 的存在是我们可以通过 <code>objc_setAssociatedObject</code> 和 <code>objc_getAssociatedObject</code> 向分类中增加实例变量的原因，不过这个和一般的实例变量是不一样的</p>
+<h1 id="消息发送（objc-msgSend）"><a href="#消息发送（objc-msgSend）" class="headerlink" title="消息发送（objc_msgSend）"></a>消息发送（<code>objc_msgSend</code>）</h1><p>一个对象的方法像这样[obj foo]，编译器转成 <code>objc_msgSend(obj, foo)</code></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">id</span> objc_msgSend(<span class="type">id</span> <span class="keyword">self</span>, SEL op, ...)</span><br></pre></td></tr></table></figure>
+<p>以实例方法为例，Runtime 时执行的流程是这样的：</p>
+<ol>
+<li>通过 obj 的 isa 指针找到它的类对象（obj 是一个 id，即 <code>objc_object</code> 指针，有 isa 指针）</li>
+<li>在类对象的方法列表中寻找 foo（<code>objc_class</code> 的 methodLists）</li>
+<li>如果类对象中没到 foo，继续往它的 superclass 中找</li>
+<li>一旦找到 foo 这个函数（<code>objc_method</code>），就去执行它的实现 IMP，并转发 IMP 的返回值    </li>
+</ol>
+<p>如果每次消息传递都沿着继承链，在每个类的 methodLists 查找方法其实效率很低，所以需要缓存，即 <code>objc_class</code> 中的 <code>objc_cache</code>，key 是 <code>objc_method</code> 中的SEL，value 是 <code>objc_method</code> 中的IMP</p>
+<h1 id="消息转发（-objc-msgforward）"><a href="#消息转发（-objc-msgforward）" class="headerlink" title="消息转发（_objc_msgforward）"></a>消息转发（<code>_objc_msgforward</code>）</h1><p>如果消息传递的过程中，沿着继承树查找到最终的根类（NSObject）还是没有对应的方法实现，则会进行消息转发，如果消息转发失败了就回执行 <code>doesNotRecognizeSelector:</code> 方法报<code>unrecognized selector</code> 错</p>
+<p>什么是消息转发呢，主要分为以下三个阶段</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/4/1/1628088a3e48a485~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt></p>
+<h2 id="动态方法解析"><a href="#动态方法解析" class="headerlink" title="动态方法解析"></a>动态方法解析</h2><p>第一个阶段 Runtime 会调用 <code>+resolveInstanceMethod:</code> 或者 <code>+resolveClassMethod:</code>（取决于是实例方法还是类方法），让你有机会提供一个函数实现。如果你添加了函数并返回YES， 那运行时系统就会重新启动一次消息发送的过程</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)viewDidLoad </span><br><span class="line">&#123;</span><br><span class="line">    [<span class="variable language_">super</span> viewDidLoad];</span><br><span class="line">    [<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(foo:)];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (<span class="type">BOOL</span>)resolveInstanceMethod:(SEL)sel </span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (sel == <span class="keyword">@selector</span>(foo:)) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 注意参数 fooMethod 这里是作为一个函数指针传递</span></span><br><span class="line">		class_addMethod([<span class="keyword">self</span> <span class="keyword">class</span>], sel, (IMP)fooMethod, <span class="string">&quot;v@:&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [<span class="variable language_">super</span> resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> fooMethod(<span class="type">id</span> obj, SEL _cmd) </span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;Hello&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="快速转发（替换消息接收者）"><a href="#快速转发（替换消息接收者）" class="headerlink" title="快速转发（替换消息接收者）"></a>快速转发（替换消息接收者）</h2><p>如果你错过了第一阶段，则进入第二阶段。Runtime 会调用 forwardingTargetForSelector 给你把这个消息转发给其他对象的机会</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">id</span>)forwardingTargetForSelector:(SEL)aSelector </span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (aSelector == <span class="keyword">@selector</span>(foo)) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> [Person new];</span><br><span class="line">	&#125;</span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">return</span> [<span class="variable language_">super</span> forwardingTargetForSelector:aSelector];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="完整消息转发"><a href="#完整消息转发" class="headerlink" title="完整消息转发"></a>完整消息转发</h2><p>最后一步会发送 <code>-methodSignatureForSelector:</code> 消息获得函数的参数和返回值类型。</p>
+<ul>
+<li>如果返回nil ，Runtime 则会发出 <code>-doesNotRecognizeSelector:</code> 消息，程序这时也就挂掉了</li>
+<li>如果返回了一个函数签名，Runtime 就会创建一个 NSInvocation 对象并发送 <code>-forwardInvocation:</code> 消息给目标对象</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSMethodSignature</span> *)methodSignatureForSelector:(SEL)aSelector </span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> ([<span class="built_in">NSStringFromSelector</span>(aSelector) isEqualToString:<span class="string">@&quot;foo&quot;</span>]) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 返回签名，进入 forwardInvocation</span></span><br><span class="line">		<span class="keyword">return</span> [<span class="built_in">NSMethodSignature</span> signatureWithObjCTypes:<span class="string">&quot;v@:&quot;</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> [<span class="variable language_">super</span> methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)forwardInvocation:(<span class="built_in">NSInvocation</span> *)anInvocation </span><br><span class="line">&#123;</span><br><span class="line">	SEL sel = anInvocation.selector;</span><br><span class="line">	</span><br><span class="line">	Person *p = [Person new];</span><br><span class="line">	<span class="keyword">if</span> ([p respondsToSelector:sel]) </span><br><span class="line">	&#123;</span><br><span class="line">		[anInvocation invokeWithTarget:p];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">		[<span class="keyword">self</span> doesNotRecognizeSelector:sel];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>什么是 <code>&quot;v@:&quot;</code>，详细可参见<a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html#//apple_ref/doc/uid/TP40008048-CH100-SW1">Type Encodings</a></p>
+<p>所以不同与第二阶段，在这个阶段你可以：</p>
+<ul>
+<li>把消息存储，在你觉得合适的时机转发出去，或者不处理这个消息。</li>
+<li>修改消息的 target，selector，参数等</li>
+<li>多次转发这个消息，转发给多个对象</li>
+</ul>
+<p>显然在这个阶段，你可以对消息做更多的事情，是第二个阶段的扩充</p>
+<h2 id="引申思考：消息转发为什么要三个阶段呢？"><a href="#引申思考：消息转发为什么要三个阶段呢？" class="headerlink" title="引申思考：消息转发为什么要三个阶段呢？"></a>引申思考：消息转发为什么要三个阶段呢？</h2><p>第一阶段意义在于动态添加方法实现，第二阶段直接把消息转发给其他对象，第三阶段是对第二阶段的扩充，可以实现多次转发，转发给多个对象等</p>
+<p>如果只是考虑消息转发的功能，那么只提供最后一个阶段就可以实现，所以这个问题的本质是，为什么要多提供前面两个阶段？</p>
+<p>Objective-C 的消息机制与 C++ 等静态编译语言不同，提供动态性的同时必然也牺牲了调用的效率。消息转发的效率必然不如 C++ 的函数调用。</p>
+<p>从效率上讲，完整的消息转发效率太低，提供前面两个阶段就是为了让消息能够尽快得到处理；因为三个阶段步骤越往后，处理消息累计开销就越大。</p>
+<p><a target="_blank" rel="noopener" href="http://www.cocoachina.com/articles/13336">《Objective-C 与 Runtime：为什么是这样？》（R.I.P）</a></p>
+<h1 id="Runtime-应用"><a href="#Runtime-应用" class="headerlink" title="Runtime 应用"></a>Runtime 应用</h1><h2 id="Swizzle-Method"><a href="#Swizzle-Method" class="headerlink" title="Swizzle Method"></a><a href="../%E6%96%B9%E6%B3%95%E4%BA%A4%E6%8D%A2/">Swizzle Method</a></h2><h2 id="自定义-KVO-实现"><a href="#自定义-KVO-实现" class="headerlink" title="自定义 KVO 实现"></a><a target="_blank" rel="noopener" href="http://liuduo.me/2018/02/07/kvo-imp/">自定义 KVO 实现</a></h2><h2 id="给分类添加属性"><a href="#给分类添加属性" class="headerlink" title="给分类添加属性"></a><a href="../%E5%A6%82%E4%BD%95%E4%B8%BA%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7/">给分类添加属性</a></h2><h2 id="打印类的所有属性值"><a href="#打印类的所有属性值" class="headerlink" title="打印类的所有属性值"></a>打印类的所有属性值</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSString</span> *)description</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@&quot;</span>, [<span class="keyword">self</span> properties_values]];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="built_in">NSDictionary</span> *)properties_values</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *props = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> outCount, i;</span><br><span class="line">    objc_property_t *properties = class_copyPropertyList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;outCount);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; outCount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        objc_property_t property = properties[i];</span><br><span class="line">        <span class="keyword">const</span> <span class="type">char</span> *char_f = property_getName(property);</span><br><span class="line">        <span class="built_in">NSString</span> *propertyName = [<span class="built_in">NSString</span> stringWithUTF8String:char_f];</span><br><span class="line">        <span class="type">id</span> propertyValue = [<span class="keyword">self</span> valueForKey:propertyName];</span><br><span class="line">        <span class="keyword">if</span> (propertyValue)</span><br><span class="line">        &#123;</span><br><span class="line">            [props setObject:propertyValue forKey:propertyName];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    free(properties);</span><br><span class="line">    <span class="keyword">return</span> props;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以将 <code>properties_values</code> 方法，写到 NSObject 的分类里，就不需要每个人都写一份</p>
+<h2 id="实现-NSCoding-的自动归档和自动解档"><a href="#实现-NSCoding-的自动归档和自动解档" class="headerlink" title="实现 NSCoding 的自动归档和自动解档"></a>实现 NSCoding 的自动归档和自动解档</h2><p>OC 中归档解档又称为序列化和反序列化</p>
+<p>归档/解档需要实现 NSCoding 协议方法，在 NSCoding 协议方法中实现了对每个属性分别进行归档/解档，归档对属性值归档为相应的字段，解档依据相应的字段为对象属性赋值</p>
+<p>可以使用 Runtime 的 <code>Ivar *class_copyIvarList</code> 方法获取某个类的属性个数和属性列表。遍历属性列表，可获取每个属性的名字，然后使用 <strong>KVC</strong> 获取或设置每个属性的值</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)encodeWithCoder:(<span class="built_in">NSCoder</span> *)coder</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="keyword">self</span> code:<span class="literal">YES</span> coder:coder];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">instancetype</span>)initWithCoder:(<span class="built_in">NSCoder</span> *)coder</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="variable language_">super</span> init]) </span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="keyword">self</span> code:<span class="literal">NO</span> coder:coder];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="type">void</span>)code:(<span class="type">BOOL</span>)isEncode coder:(<span class="built_in">NSCoder</span> *)coder</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> outCount = <span class="number">0</span>;</span><br><span class="line">    Ivar *ivars = class_copyIvarList([UserModel <span class="keyword">class</span>], &amp;outCount);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; outCount; i++) </span><br><span class="line">    &#123;</span><br><span class="line">        Ivar ivar = ivars[i];</span><br><span class="line">        <span class="keyword">const</span> <span class="type">char</span> * name = ivar_getName(ivar);</span><br><span class="line">        <span class="built_in">NSString</span> *key = [<span class="built_in">NSString</span> stringWithUTF8String:name];</span><br><span class="line">        <span class="type">id</span> value;</span><br><span class="line">        <span class="keyword">if</span> (isEncode) </span><br><span class="line">        &#123;</span><br><span class="line">            value = [<span class="keyword">self</span> valueForKey:key];</span><br><span class="line">            [coder encodeObject:value forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            value = [coder decodeObjectForKey:key];</span><br><span class="line">            [<span class="keyword">self</span> setValue:value forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivars);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现字典和模型的自动转换（MJExtension）"><a href="#实现字典和模型的自动转换（MJExtension）" class="headerlink" title="实现字典和模型的自动转换（MJExtension）"></a>实现字典和模型的自动转换（MJExtension）</h2><p>用 Runtime 提供的函数遍历 Model 自身所有属性，如果属性在 json 中有对应的值，则将其赋值</p>
+<p>核心方法：在 NSObject 的分类中添加方法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)initWithDict:(<span class="built_in">NSDictionary</span> *)dict </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">self</span> init]) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">NSMutableArray</span> *keys = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">        <span class="built_in">NSMutableArray</span> *attributes = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> outCount;</span><br><span class="line">        objc_property_t *properties = class_copyPropertyList([<span class="keyword">self</span> <span class="keyword">class</span>], &amp;outCount);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; outCount; i ++) </span><br><span class="line">        &#123;</span><br><span class="line">            objc_property_t property = properties[i];</span><br><span class="line">            <span class="built_in">NSString</span> * propertyName = [<span class="built_in">NSString</span> stringWithCString:property_getName(property) encoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">            [keys addObject:propertyName];</span><br><span class="line">            </span><br><span class="line">            <span class="built_in">NSString</span> * propertyAttribute = [<span class="built_in">NSString</span> stringWithCString:property_getAttributes(property) encoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">            [attributes addObject:propertyAttribute];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        free(properties);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">NSString</span> * key <span class="keyword">in</span> keys) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ([dict valueForKey:key] == <span class="literal">nil</span>) <span class="keyword">continue</span>;</span><br><span class="line">            [<span class="keyword">self</span> setValue:[dict valueForKey:key] forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="热更新（JSPatch）"><a href="#热更新（JSPatch）" class="headerlink" title="热更新（JSPatch）"></a>热更新（JSPatch）</h2><p>JS 传递字符串给 OC，OC 通过 Runtime 接口调用和替换 OC 方法</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5ac0a6116fb9a028de44d717#heading-1">iOS Runtime详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://halfrost.com/objc_runtime_isa_class/">神经病院 Objective-C Runtime 入院第一天—— isa 和 Class</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cocoawithlove.com/2010/01/what-is-meta-class-in-objective-c.html">《What is a meta-class in Objective-C?》</a></li>
+</ul>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%AF%B9%E8%B1%A1%EF%BC%88objc-object%EF%BC%89"><span class="toc-text">实例对象（objc_object）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%AF%B9%E8%B1%A1%EF%BC%88objc-class%EF%BC%89"><span class="toc-text">类对象（objc_class）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%83%E7%B1%BB"><span class="toc-text">元类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%90%86%E8%A7%A3%E5%A5%BD%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%92%8C%E5%85%83%E7%B1%BB%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%88%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%85%83%E7%B1%BB%EF%BC%89"><span class="toc-text">理解好对象、类和元类的关系（为什么需要元类）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E7%A9%B6%E7%AB%9F%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%89%8D%E7%AE%97%E5%AF%B9%E8%B1%A1%EF%BC%9F"><span class="toc-text">引申思考：究竟什么样的数据结构才算对象？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E7%B1%BB%E5%AF%B9%E8%B1%A1%E6%98%AF%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%8C%E9%82%A3%E4%B9%88%E5%85%83%E7%B1%BB%E6%98%AF%E5%AF%B9%E8%B1%A1%E5%90%97%EF%BC%9F"><span class="toc-text">引申思考：类对象是一个对象，那么元类是对象吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9Aobjc-object-%E5%AF%B9%E5%BA%94%E5%AF%B9%E8%B1%A1%EF%BC%8Cobjc-class-%E5%AF%B9%E5%BA%94%E7%B1%BB%E5%AF%B9%E8%B1%A1%EF%BC%8C%E9%82%A3%E6%98%AF%E4%B8%8D%E6%98%AF%E4%BC%9A%E6%9C%89-objc-meta-class-%E5%AF%B9%E5%BA%94%E5%85%83%E7%B1%BB"><span class="toc-text">引申思考：objc_object 对应对象，objc_class 对应类对象，那是不是会有 objc_meta_class 对应元类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%89%80%E6%9C%89%E5%85%83%E7%B1%BB%E7%9A%84-isa-%E6%8C%87%E9%92%88%E7%9B%B4%E6%8E%A5%E6%8C%87%E5%90%91%E4%BA%86%E6%A0%B9%E5%85%83%E7%B1%BB%EF%BC%9F"><span class="toc-text">引申思考：为什么所有元类的 isa 指针直接指向了根元类？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88-NSObject-%E5%85%83%E7%B1%BB%E7%9A%84%E7%88%B6%E7%B1%BB%E6%98%AF-NSObject-%E7%B1%BB%E5%AF%B9%E8%B1%A1%EF%BC%9F"><span class="toc-text">引申思考：为什么 NSObject 元类的父类是 NSObject 类对象？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method%EF%BC%88objc-method%EF%BC%89"><span class="toc-text">Method（objc_method）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SEL%EF%BC%88objc-selector%EF%BC%89"><span class="toc-text">SEL（objc_selector）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E5%85%B3%E4%BA%8E%E9%87%8D%E8%BD%BD"><span class="toc-text">引申思考：关于重载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99"><span class="toc-text">引申思考：关于重写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E5%85%B3%E4%BA%8E%E5%A3%B0%E6%98%8E"><span class="toc-text">引申思考：关于声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%EF%BC%88IMP%EF%BC%89"><span class="toc-text">方法实现（IMP）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E7%BC%93%E5%AD%98%EF%BC%88objc-cache%EF%BC%89"><span class="toc-text">类缓存（objc_cache）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E7%B1%BB%EF%BC%88objc-category%EF%BC%89"><span class="toc-text">分类（objc_category）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E5%A6%82%E4%BD%95%E5%9C%A8%E5%88%86%E7%B1%BB%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7"><span class="toc-text">引申思考：如何在分类中添加属性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%EF%BC%88objc-msgSend%EF%BC%89"><span class="toc-text">消息发送（objc_msgSend）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%EF%BC%88-objc-msgforward%EF%BC%89"><span class="toc-text">消息转发（_objc_msgforward）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90"><span class="toc-text">动态方法解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E8%BD%AC%E5%8F%91%EF%BC%88%E6%9B%BF%E6%8D%A2%E6%B6%88%E6%81%AF%E6%8E%A5%E6%94%B6%E8%80%85%EF%BC%89"><span class="toc-text">快速转发（替换消息接收者）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91"><span class="toc-text">完整消息转发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%B3%E6%80%9D%E8%80%83%EF%BC%9A%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5%E5%91%A2%EF%BC%9F"><span class="toc-text">引申思考：消息转发为什么要三个阶段呢？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Runtime-%E5%BA%94%E7%94%A8"><span class="toc-text">Runtime 应用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Swizzle-Method"><span class="toc-text">Swizzle Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-KVO-%E5%AE%9E%E7%8E%B0"><span class="toc-text">自定义 KVO 实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%99%E5%88%86%E7%B1%BB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7"><span class="toc-text">给分类添加属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%93%E5%8D%B0%E7%B1%BB%E7%9A%84%E6%89%80%E6%9C%89%E5%B1%9E%E6%80%A7%E5%80%BC"><span class="toc-text">打印类的所有属性值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-NSCoding-%E7%9A%84%E8%87%AA%E5%8A%A8%E5%BD%92%E6%A1%A3%E5%92%8C%E8%87%AA%E5%8A%A8%E8%A7%A3%E6%A1%A3"><span class="toc-text">实现 NSCoding 的自动归档和自动解档</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%AD%97%E5%85%B8%E5%92%8C%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2%EF%BC%88MJExtension%EF%BC%89"><span class="toc-text">实现字典和模型的自动转换（MJExtension）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0%EF%BC%88JSPatch%EF%BC%89"><span class="toc-text">热更新（JSPatch）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

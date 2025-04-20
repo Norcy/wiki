@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="背景我们项目里看到一个头文件，是专门定义各种常量的，有一天发现这里的常量定义既使用了 static，又使用了 const，这个文件没有类，全部都是字符串的定义 12345678&#x2F;&#x2F; QVNDefine.h#ifndef QVNDefine_h#define QVNDefine_hconst string VN_LIST &#x3D; &quot;list&quot;;const string VN_CELL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="背景我们项目里看到一个头文件，是专门定义各种常量的，有一天发现这里的常量定义既使用了 static，又使用了 const，这个文件没有类，全部都是字符串的定义 12345678&#x2F;&#x2F; QVNDefine.h#ifndef QVNDefine_h#define QVNDefine_hconst string VN_LIST &#x3D; &quot;list&quot;;const string VN_CELL">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-20T05:50:42.948Z">
+<meta property="article:modified_time" content="2025-04-20T05:50:08.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link " href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        面试
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        C++
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%9A%E6%80%81/">
+        
+        C++多态
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%20%E4%B8%8E%20Objetive-C%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        C++ 与 Objetive-C 的区别
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件如何正确定义全局变量
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件的全局变量
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E6%8B%BE%E9%81%97/">
+        
+        C++拾遗
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0/">
+        
+        C++默认参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/dynamic_cast/">
+        
+        dynamic_cast
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/unordered_map%20%E4%B8%8E%20map%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        unordered_map 与 map 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/static%E5%8F%98%E9%87%8F%E4%B8%8Estatic%E5%87%BD%E6%95%B0/">
+        
+        static变量与static函数
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        算法
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        排序
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%9F%BA%E6%9C%AC%E6%8E%92%E5%BA%8F/">
+        
+        基本排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%A0%86%E6%8E%92%E5%BA%8F/">
+        
+        堆排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+        
+        快速排序
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        搜索
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%90%9C%E7%B4%A2/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+        
+        回溯算法
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        数据结构
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+        
+        动态规划
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">
+        
+        树
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/">
+        
+        链表
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        网络
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/HTTPS/">
+        
+        HTTPS
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">
+        
+        TCP 三次握手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%8E%20UDP/">
+        
+        TCP 与 UDP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+        
+        TCP 四次挥手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/iOS%20%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A2%AB%E6%8A%93%E5%8C%85/">
+        
+        iOS 如何防止被抓包
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">
+        
+        计算机网络基础
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB/">
+        
+        重放攻击
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-arch/面试/C++/C++头文件如何正确定义全局变量" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+            
+            C++头文件如何正确定义全局变量
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我们项目里看到一个头文件，是专门定义各种常量的，有一天发现这里的常量定义既使用了 <code>static</code>，又使用了 <code>const</code>，这个文件没有类，全部都是字符串的定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> QVNDefine_h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> QVNDefine_h</span></span><br><span class="line"><span class="type">const</span> string VN_LIST = <span class="string">&quot;list&quot;</span>;</span><br><span class="line"><span class="type">const</span> string VN_CELL = <span class="string">&quot;cell&quot;</span>;</span><br><span class="line"><span class="type">const</span> string VN_VIEWPAPER = <span class="string">&quot;view-pager&quot;</span>;</span><br><span class="line"><span class="type">static</span> vector&lt;string&gt; VN_MULTICELLTYPE = &#123;VN_LIST, VN_VIEWPAPER&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* QVNDefine_h */</span></span></span><br></pre></td></tr></table></figure>
+<p>此时我们有一番讨论，松哥觉得应该在头文件里声明，在实现文件里定义会更好，即类似</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> QVNDefine_h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> QVNDefine_h</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> string VN_LIST;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* QVNDefine_h */</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;QVNDefine.h&quot;</span></span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> string VN_LIST = <span class="string">&quot;list&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>虽然是自己写的代码，但其实自己对这里的知识不太熟悉，习惯性就写了 <code>const</code>，又不知道为什么写了 <code>static</code>，所以找了一下资料系统学习一下</p>
+<h2 id="声明与定义"><a href="#声明与定义" class="headerlink" title="声明与定义"></a>声明与定义</h2><p>我们的问题是在 C++ 头文件中如何正确定义全局变量，首先要理解变量的声明和定义的区别是什么，翻了一下<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenyg32/p/5080301.html">之前的笔记</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a;       <span class="comment">// 声明一个全局变量a</span></span><br><span class="line"><span class="type">int</span> a;              <span class="comment">// 定义一个全局变量a</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a = <span class="number">0</span>;   <span class="comment">// 定义一个全局变量a并给初值</span></span><br><span class="line"><span class="type">int</span> a = <span class="number">0</span>;          <span class="comment">// 定义一个全局变量a并给初值</span></span><br></pre></td></tr></table></figure>
+<p>注意一下在 C++ 中</p>
+<ul>
+<li>定义只能有1处，但声明可以有多处，这就是 <a target="_blank" rel="noopener" href="https://zh.cppreference.com/w/cpp/language/definition">ODR（定义与单一定义）规则</a></li>
+<li>定义引起内存分配，声明则不会</li>
+<li>注意变量的声明默认就是 extern</li>
+</ul>
+<p>以上是针对变量的，如果是函数，还有点微妙的区别</p>
+<p>函数的定义和声明一样是有区别的，定义函数要有函数体，声明函数没有函数体</p>
+<p>所以与变量的区别就是没有函数体的函数是声明，而不是定义，如下例</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a;              <span class="comment">// 这是一个变量的定义</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fun</span><span class="params">(<span class="type">void</span>)</span></span>;      <span class="comment">// 这是一个函数的声明，省略了extern，完整些是extern int fun(void);</span></span><br></pre></td></tr></table></figure>
+<h2 id="头文件定义全局变量几种方式的比较"><a href="#头文件定义全局变量几种方式的比较" class="headerlink" title="头文件定义全局变量几种方式的比较"></a>头文件定义全局变量几种方式的比较</h2><p>根据以上信息，我们有以下几种定义全局变量的方式</p>
+<h3 id="第一种方法，直接定义"><a href="#第一种方法，直接定义" class="headerlink" title="第一种方法，直接定义"></a>第一种方法，直接定义</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> QVNDefine_h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> QVNDefine_h</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* QVNDefine_h */</span></span></span><br></pre></td></tr></table></figure>
+<p>这是危险的，相当于 <code>int a = 0</code>，变量存放在同一个地址，是全局变量，多个实现文件包含该头文件是会发生重复定义问题，违背了 ODR 规则！</p>
+<h3 id="第二种方法，使用-static"><a href="#第二种方法，使用-static" class="headerlink" title="第二种方法，使用 static"></a>第二种方法，使用 static</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> QVNDefine_h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> QVNDefine_h</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* QVNDefine_h */</span></span></span><br></pre></td></tr></table></figure>
+<p>这是可行的，在编译阶段，每个包含该头文件的 .cpp 会生成一个 <code>static int a = 0</code>，变量存放在不同的地址，不是全局变量</p>
+<h3 id="第三种方法，使用-const"><a href="#第三种方法，使用-const" class="headerlink" title="第三种方法，使用 const"></a>第三种方法，使用 const</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> QVNDefine_h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> QVNDefine_h</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* QVNDefine_h */</span></span></span><br></pre></td></tr></table></figure>
+<p>这是可行的，在编译阶段，每个包含该头文件的 .cpp 会生成一个 <code>const int a = 0</code>，变量存放在不同的地址，不是全局变量，与 static 效果一样</p>
+<h3 id="第四种方法，使用-extern-const-声明-实现文件定义"><a href="#第四种方法，使用-extern-const-声明-实现文件定义" class="headerlink" title="第四种方法，使用 extern const 声明 + 实现文件定义"></a>第四种方法，使用 extern const 声明 + 实现文件定义</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> QVNDefine_h</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> QVNDefine_h</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> a;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* QVNDefine_h */</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// QVNDefine.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;QVNDefine.h&quot;</span></span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> a = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>这是可行的，在编译阶段，其他包含该头文件的 .cpp 会生成一个 <code>extern const int a</code>，存放在同一个地址，是全局变量</p>
+<p>除了方法一，其他方法都是可行的。那么它们有什么区别呢，谁才是最佳方式？</p>
+<p>先说结论，大多数情况下，方法三最好</p>
+<h2 id="先聊聊-static"><a href="#先聊聊-static" class="headerlink" title="先聊聊 static"></a>先聊聊 static</h2><p>这里只阐述全局变量有无被 static 修饰的区别</p>
+<p>一个全局变量（无论是定义在 .h 还是 .cpp），如果没有被 static 修饰，那么它是全局性的，假如该头文件被多次 include，在编译时就会产生重复链接的报错</p>
+<p>而如果添加了 static，该全局变量就会变成静态全局变量，其作用域只在当前编译单元（比如 include 了该头文件的 .cpp）生效</p>
+<p>所以实现文件的全局函数一般都要添加 static，这样不同的人编写不同的实现文件时，不用担心自己定义的函数，是否会与其它文件中的函数同名</p>
+<p><strong>根据这个特点，假如有一百个实现文件包含了该头文件，那么这个全局变量就会被定义一百次，这个会造成内存空间的浪费，应该避免使用这种方式</strong></p>
+<p>此时我们可以使用 extern 声明 + 实现文件定义的方法来解决多次定义的浪费问题</p>
+<h2 id="再聊聊-const"><a href="#再聊聊-const" class="headerlink" title="再聊聊 const"></a>再聊聊 const</h2><blockquote>
+<p>const 的最初动机是取代预处理器 #define 来进行值替代，后来还被用于指针、函数变量、返回类型、类对象以及成员函数——《C++ 编程思想》 </p>
+</blockquote>
+<p>这里我们只阐述头文件中的 const 有什么特点</p>
+<p>const 在 C++ 中默认为内部链接（这一点与 C 不同，注意），即只对包含该定义的文件里是可见的，而不会被其他编译单元看到，故不是一个全局变量（与 static 类似），这个特点保证了不会有重复定义的错误</p>
+<p>既然 const 与 static 类似，那么是否一样会有多次定义的浪费问题呢？以及为什么比方法四（extern 声明 + 实现文件定义）好？答案都在书里</p>
+<blockquote>
+<p>通常 C++ 编译器并不为 const 创建存储空间，相反它把这个定义保存在它的符号表里。大部分场合使用内部数据类型的情况，包括常量表达式，编译都能执行常量折叠——《C++ 编程思想》 </p>
+</blockquote>
+<p>不过以下情况，编译器会进行存储空间的分配：</p>
+<ul>
+<li>extern 成为 const 变量定义的一部分</li>
+<li>取一个 const 的地址</li>
+<li>const 修饰的是一个复杂的对象</li>
+</ul>
+<p><strong>如果 extern 成为 const 变量定义的一部分的时候，那么编译器会为强制进行了存储空间分配，extern 意味着使用外部连接，因此必须分配存储空间，这也就是说有几个不同的编译单元应当能够引用它，所以它必须存储空间</strong></p>
+<h3 id="常量折叠"><a href="#常量折叠" class="headerlink" title="常量折叠"></a>常量折叠</h3><p>何为常量折叠？<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%B8%B8%E6%95%B8%E6%8A%98%E7%96%8A#%E5%B8%B8%E9%87%8F%E6%91%BA%E7%96%8A">常量折叠</a>（Constant folding）和常量传播（constant propagation）都是一种编译器最佳化技术</p>
+<p>常量折叠表面上的效果和宏替换是一样的，只是 “效果上是一样的”，而两者真正的区别在于，宏是字符常量，在预编译完宏替换完成后，该宏名字会消失，所有对宏的引用已经全部被替换为它所对应的值，编译器当然没有必要再维护这个符号</p>
+<p>而常量折叠发生的情况是，对常量的引用全部替换为该常量的值，但是，常量名并不会消失，编译器会把他放入到符号表中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">320</span> * <span class="number">200</span> * <span class="number">32</span>;</span><br></pre></td></tr></table></figure>
+<p>比如上面的代码中，编译器通常会在编译时直接计算出<code>320 * 200 * 32</code>的值，而不会在此生成2个乘法指令</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>所以如果定义的都是内部数据类型，我们只要保证不对 const 变量进行取址操作（事实上也很少这样做），那么使用 const 的方式是最佳的，因为可以借助编译器的力量进行优化。最后回归背景问题，我们需要将 static 替换为 const 即可</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/2268749/defining-global-constant-in-c">Defining global constant in C++</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b5ccc6036788">const、static、extern 在头文件中似的情况小结</a></li>
+<li>《C++ 编程思想》第二版 8.1.1 头文件里的 const</li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/yby4769250/article/details/7359278">C++常量折叠（这一篇关于分配空间的说法有失偏颇）</a></li>
+</ul>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%AE%9A%E4%B9%89"><span class="toc-text">声明与定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-text">头文件定义全局变量几种方式的比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%8C%E7%9B%B4%E6%8E%A5%E5%AE%9A%E4%B9%89"><span class="toc-text">第一种方法，直接定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%BF%E7%94%A8-static"><span class="toc-text">第二种方法，使用 static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%BF%E7%94%A8-const"><span class="toc-text">第三种方法，使用 const</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BD%BF%E7%94%A8-extern-const-%E5%A3%B0%E6%98%8E-%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89"><span class="toc-text">第四种方法，使用 extern const 声明 + 实现文件定义</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E8%81%8A%E8%81%8A-static"><span class="toc-text">先聊聊 static</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E8%81%8A%E8%81%8A-const"><span class="toc-text">再聊聊 const</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F%E6%8A%98%E5%8F%A0"><span class="toc-text">常量折叠</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="toc-text">参考文章</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

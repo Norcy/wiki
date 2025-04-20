@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="背景今天想从【今日热榜】这个 App 中获取榜单的 Get 请求，从而可以“借”它们的数据做个榜单类的小程序。用 Charles 抓手机的包之后，发现可以抓取到一个 Get 请求，回包的内容也正确被抓取了，可是当我复制这段 Get 请求的 url 到浏览器的时候，发现没有对应的回包了 奇怪，为什么会这样呢，决定开始研究下 分析url 是类似以下结构 1http:&#x2F;&#x2F;api.tophub.today">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="背景今天想从【今日热榜】这个 App 中获取榜单的 Get 请求，从而可以“借”它们的数据做个榜单类的小程序。用 Charles 抓手机的包之后，发现可以抓取到一个 Get 请求，回包的内容也正确被抓取了，可是当我复制这段 Get 请求的 url 到浏览器的时候，发现没有对应的回包了 奇怪，为什么会这样呢，决定开始研究下 分析url 是类似以下结构 1http:&#x2F;&#x2F;api.tophub.today">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/4/16/162cd376398b884c~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp">
+<meta property="article:published_time" content="2025-04-20T05:50:42.949Z">
+<meta property="article:modified_time" content="2025-04-20T05:50:08.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/4/16/162cd376398b884c~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link " href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        面试
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        C++
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%9A%E6%80%81/">
+        
+        C++多态
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%20%E4%B8%8E%20Objetive-C%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        C++ 与 Objetive-C 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件如何正确定义全局变量
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件的全局变量
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E6%8B%BE%E9%81%97/">
+        
+        C++拾遗
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0/">
+        
+        C++默认参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/dynamic_cast/">
+        
+        dynamic_cast
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/unordered_map%20%E4%B8%8E%20map%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        unordered_map 与 map 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/static%E5%8F%98%E9%87%8F%E4%B8%8Estatic%E5%87%BD%E6%95%B0/">
+        
+        static变量与static函数
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        算法
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        排序
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%9F%BA%E6%9C%AC%E6%8E%92%E5%BA%8F/">
+        
+        基本排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%A0%86%E6%8E%92%E5%BA%8F/">
+        
+        堆排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+        
+        快速排序
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        搜索
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%90%9C%E7%B4%A2/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+        
+        回溯算法
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        数据结构
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+        
+        动态规划
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">
+        
+        树
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/">
+        
+        链表
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        网络
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/HTTPS/">
+        
+        HTTPS
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">
+        
+        TCP 三次握手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%8E%20UDP/">
+        
+        TCP 与 UDP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+        
+        TCP 四次挥手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/iOS%20%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A2%AB%E6%8A%93%E5%8C%85/">
+        
+        iOS 如何防止被抓包
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">
+        
+        计算机网络基础
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB/">
+        
+        重放攻击
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-arch/面试/网络/重放攻击" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB/">
+            
+            重放攻击
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>今天想从【今日热榜】这个 App 中获取榜单的 Get 请求，从而可以“借”它们的数据做个榜单类的小程序。用 Charles 抓手机的包之后，发现可以抓取到一个 Get 请求，回包的内容也正确被抓取了，可是当我复制这段 Get 请求的 url 到浏览器的时候，发现没有对应的回包了</p>
+<p>奇怪，为什么会这样呢，决定开始研究下</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>url 是类似以下结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://api.tophub.today/nodes/128?nonce=xxx&amp;sign=yyy&amp;timestamp=123</span><br></pre></td></tr></table></figure>
+<p>主要有 3 个字段：<code>nonce</code>、<code>sign</code> 和 <code>timestamp</code></p>
+<p>基于这几个关键词去搜索，发现原来我这种行为属于【重放攻击】</p>
+<h2 id="什么是重放攻击"><a href="#什么是重放攻击" class="headerlink" title="什么是重放攻击"></a>什么是重放攻击</h2><p>假如我们要通过 Get 请求传递用户的用户名和密码，明文传输的例子如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://api.tophub.today/nodes/128?id=hello&amp;password=1234</span><br></pre></td></tr></table></figure>
+<p>这是裸奔，我们没这么蠢，于是对 password 进行 MD5 加密之后再传输，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://api.tophub.today/nodes/128?id=hello&amp;sign=md5(password)</span><br></pre></td></tr></table></figure>
+<p>其中 sign 的常用加密算法为 MD5，MD5 算法是一种不可逆算法，也就是说你加密之后就不能解密了</p>
+<p>服务器的验证方法就是根据 id 从数据库查出用户的密码，再对其进行 MD5 加密，得到的结果与 sign 的值进行对比，如果相同则请求合法，反之则 sign 被篡改过</p>
+<p>黑客通过抓包获取到该链接，他无法破解加密信息得到用户密码；但是他只要模拟此次的正常请求，就可以伪装成客户端同服务器通信。这样至少可以做两件事，第一件是跟我一样，可以随时随地模拟客户端取服务器的数据；第二件事是可以疯狂发送该请求致使服务器繁忙</p>
+<p><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2018/4/16/162cd376398b884c~tplv-t2oaga2asx-zoom-in-crop-mark:3024:0:0:0.awebp" alt></p>
+<h2 id="如何防止重放攻击"><a href="#如何防止重放攻击" class="headerlink" title="如何防止重放攻击"></a>如何防止重放攻击</h2><h3 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h3><p>首先我们假设一次 HTTP 请求从发出到到达服务器的时间是不会超过 60s 的，而黑客获取链接到篡改链接再发送到服务的时间会超过 60s（不要问为什么是 60s，继续往下看）</p>
+<p>当你发送一个请求时必须携带一个当前的时间戳 timestamp。假设值为 10</p>
+<p>为了防止黑客修改时间戳，需要将 timestamp 也进行 MD5，放到 sign 中，如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=hello&amp;sign=md5(password+timestamp)&amp;timestamp=10</span><br></pre></td></tr></table></figure>
+<p>当请求到达服务器之后，服务器会获取当前时间，假设为 t2 = 80，很明显 t2 - timestamp &gt; 60s，那么服务器就认为请求不合法。因为这个请求从客户端到服务器的时间竟然超过 60s。如果在 60s 内，再进行一次 md5 校验，检查 timestamp 有没有被篡改（一旦 timestamp 被篡改过，算出来的 md5 值一定与 sign 不同）</p>
+<p>问题来了，如果黑客在 60s 内发起请求，这种方法就失效了</p>
+<h3 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h3><p>我们加入一个随机数 nonce，每次成功请求，服务器会保存当前成功请求的随机数 nonce 到缓存或数据库中，当请求再次进到服务器，判断携带的随机数 nonce 是否在缓存或者数据库中已经存在，如果存在，则认为请求非法</p>
+<p>url 如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=hello&amp;sign=md5(password+nonce)&amp;nonce=31415</span><br></pre></td></tr></table></figure>
+<p>同理，为了防止 nonce 被篡改，需要将 nonce 进行 MD5 加密到 sign</p>
+<p>随机数的出现保证了请求的唯一性，但是存储 nonce 的集合会越来越大，为了防止 nonce 集合无限大，需要定期清理该集合，但是一旦该集合被清理，我们就无法验证被清理了的 nonce 参数了。<br>比如，假设该集合平均1天清理一次的话，我们抓取到的该 url，虽然当时无法进行重放攻击，但是我们还是可以每隔一天进行一次重放攻击的。而且存储24小时内，所有请求的 nonce 参数，也是一笔不小的开销</p>
+<p>当然随机数还得确保唯一性</p>
+<h3 id="时间戳-随机数"><a href="#时间戳-随机数" class="headerlink" title="时间戳+随机数"></a>时间戳+随机数</h3><p>时间戳屏蔽了 60s 后的请求，而 60s 内重复的请求可以用随机数来过滤</p>
+<p>url 如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=hello&amp;sign=md5(password+timestamp+nonce)&amp;timestamp=10&amp;nonce=31415</span><br></pre></td></tr></table></figure>
+<p>配合时间戳，服务器只要每次有新的请求进来的时候，确保此次请求没有被篡改的前提下，如果新请求带来的 timestamp 比最后一次更新 nonce 集合的时间晚 60秒，那么就可以清除 nonce 缓存了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断 time 参数是否有效</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$curTime</span> - <span class="variable">$time</span> &gt; <span class="number">60</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;请求超时&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断 nonce 参数是否在集合已存在</span></span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$nonce</span>, <span class="variable">$nonceArray</span>))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;请求仅一次有效&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 验证数字签名    </span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$sign</span> != <span class="title function_ invoke__">md5</span>(<span class="variable">$password</span>.<span class="variable">$time</span>.<span class="variable">$nonce</span>))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&quot;数字签名验证失败&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是否需要清理nonce集合</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$curTime</span> - <span class="variable">$nonceArray</span>-&gt;lastModifyTime &gt; <span class="number">60</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$nonceArray</span> = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 记录本次请求的 nonce 参数</span></span><br><span class="line"><span class="variable">$nonceArray</span>.<span class="title function_ invoke__">push</span>(<span class="variable">$nonce</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//开始处理合法的请求</span></span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.im/post/5ad43b86f265da239236cedc">Web安全防范—–防止重放攻击</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://juejin.im/entry/5a616e836fb9a01ca602de40">基于timestamp和nonce的防止重放攻击方案</a></p>
+</li>
+</ul>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB"><span class="toc-text">什么是重放攻击</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB"><span class="toc-text">如何防止重放攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%88%B3"><span class="toc-text">时间戳</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="toc-text">随机数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%88%B3-%E9%9A%8F%E6%9C%BA%E6%95%B0"><span class="toc-text">时间戳+随机数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-text">参考</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

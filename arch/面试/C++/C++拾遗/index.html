@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="虚函数相关 定义一个函数为虚函数，不代表函数为不被实现的函数。 定义基类的函数为虚函数是为了允许用基类的指针来调用子类的这个函数（多态） 定义一个函数为纯虚函数，才代表函数没有被实现，规范继承这个类的子类必须实现这个函数  抽象类的定义：称带有纯虚函数的类为抽象类   抽象类无法实例化 继承抽象类的子类如果没有实现纯虚函数，则该子类也是抽象类  虚析构函数 v.s. 纯虚析构函数 实现多态时，父类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E6%8B%BE%E9%81%97/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="虚函数相关 定义一个函数为虚函数，不代表函数为不被实现的函数。 定义基类的函数为虚函数是为了允许用基类的指针来调用子类的这个函数（多态） 定义一个函数为纯虚函数，才代表函数没有被实现，规范继承这个类的子类必须实现这个函数  抽象类的定义：称带有纯虚函数的类为抽象类   抽象类无法实例化 继承抽象类的子类如果没有实现纯虚函数，则该子类也是抽象类  虚析构函数 v.s. 纯虚析构函数 实现多态时，父类">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-20T05:50:42.948Z">
+<meta property="article:modified_time" content="2025-04-20T05:50:08.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link " href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        面试
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        C++
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%9A%E6%80%81/">
+        
+        C++多态
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%20%E4%B8%8E%20Objetive-C%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        C++ 与 Objetive-C 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件如何正确定义全局变量
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件的全局变量
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E6%8B%BE%E9%81%97/">
+        
+        C++拾遗
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0/">
+        
+        C++默认参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/dynamic_cast/">
+        
+        dynamic_cast
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/unordered_map%20%E4%B8%8E%20map%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        unordered_map 与 map 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/static%E5%8F%98%E9%87%8F%E4%B8%8Estatic%E5%87%BD%E6%95%B0/">
+        
+        static变量与static函数
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        算法
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        排序
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%9F%BA%E6%9C%AC%E6%8E%92%E5%BA%8F/">
+        
+        基本排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%A0%86%E6%8E%92%E5%BA%8F/">
+        
+        堆排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+        
+        快速排序
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        搜索
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%90%9C%E7%B4%A2/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+        
+        回溯算法
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        数据结构
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+        
+        动态规划
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">
+        
+        树
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/">
+        
+        链表
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        网络
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/HTTPS/">
+        
+        HTTPS
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">
+        
+        TCP 三次握手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%8E%20UDP/">
+        
+        TCP 与 UDP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+        
+        TCP 四次挥手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/iOS%20%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A2%AB%E6%8A%93%E5%8C%85/">
+        
+        iOS 如何防止被抓包
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">
+        
+        计算机网络基础
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB/">
+        
+        重放攻击
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-arch/面试/C++/C++拾遗" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E6%8B%BE%E9%81%97/">
+            
+            C++拾遗
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <h2 id="虚函数相关"><a href="#虚函数相关" class="headerlink" title="虚函数相关"></a>虚函数相关</h2><ul>
+<li>定义一个函数为虚函数，不代表函数为不被实现的函数。</li>
+<li>定义基类的函数为虚函数是为了允许用基类的指针来调用子类的这个函数（多态）</li>
+<li><p>定义一个函数为纯虚函数，才代表函数没有被实现，规范继承这个类的子类必须实现这个函数</p>
+</li>
+<li><p>抽象类的定义：称带有纯虚函数的类为抽象类 </p>
+</li>
+<li>抽象类无法实例化</li>
+<li>继承抽象类的子类如果没有实现纯虚函数，则该子类也是抽象类</li>
+</ul>
+<h2 id="虚析构函数-v-s-纯虚析构函数"><a href="#虚析构函数-v-s-纯虚析构函数" class="headerlink" title="虚析构函数 v.s. 纯虚析构函数"></a>虚析构函数 v.s. 纯虚析构函数</h2><ol>
+<li>实现多态时，父类的析构函数必须为虚析构函数，否则 delete 的时候父类的析构函数不会被调用</li>
+<li>如果想实现一个抽象类，如果其中没有其他合适的函数，可以把析构函数定义为纯虚的</li>
+<li>纯虚函数通常都不需要函数体，因为我们一般不会调用抽象类的这个函数，但是不代表不能有函数体</li>
+<li>无论是虚析构函数还是纯虚析构函数，都必须有函数体。因为即使是抽象类，其析构函数也应该需要被调用到（会被子类的析构函数隐式调用到）</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">   <span class="built_in">Base</span>()&#123;&#125;</span><br><span class="line">   <span class="keyword">virtual</span> ~<span class="built_in">Base</span>()= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这段代码会编译错误，因此析构函数一定需要函数体，但是对于纯虚函数不能把实现和 <code>=0</code> 写在一起，因此需要改为这样</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">   <span class="built_in">Base</span>()</span><br><span class="line">   &#123;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">virtual</span> ~<span class="built_in">Base</span>() = <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Base::~<span class="built_in">Base</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h2 id="virtual-的隐式继承"><a href="#virtual-的隐式继承" class="headerlink" title="virtual 的隐式继承"></a>virtual 的隐式继承</h2><p>virtual 修饰符是会隐式继承的：基类是 virtual 函数，子类不写 virtual 关键字，其函数依然是 virtual</p>
+<h2 id="delete-和-delete"><a href="#delete-和-delete" class="headerlink" title="delete [] 和 delete"></a><code>delete []</code> 和 delete</h2><ul>
+<li>数组对象使用 delete 的话，虽然这块内存会正确地归还，但只会针对数组内的第一个对象执行析构函数，后续的对象的析构函数都无法被执行</li>
+<li>基本类型的对象没有析构函数，所以回收基本类型组成的数组空间用 delete 和 <code>delete[]</code> 都是应该可以的</li>
+<li>但是对于类对象数组，只能用 delete[]。对于 new 的单个对象，只能用 delete 不能用 delete[] 回收空间</li>
+<li>所以一个简单的使用原则就是：new 和 delete、new[] 和 delete[] 对应使用</li>
+</ul>
+<h2 id="混编"><a href="#混编" class="headerlink" title="混编"></a>混编</h2><ol>
+<li>OC 的 .h 和 .m 包含 C++ 类，它作为属性</li>
+<li>C++ 的 .h 和 .cpp 包含 OC 类，它作为变量</li>
+<li>C++类与 void<em>的转换，OC 类与 void</em>的转换</li>
+<li>OC 类在 C++ 之间传递，用 void *、bridge【QVNImplementationUtils】</li>
+<li>C++ 类在 OC 之间传递，用 void *</li>
+<li>C++ 类，有一个 OC 变量，OC 的生成和释放都是 ARC 管理的</li>
+</ol>
+<h2 id="写了-inline-就一定会内联吗？不写-inline-一定不会内联吗"><a href="#写了-inline-就一定会内联吗？不写-inline-一定不会内联吗" class="headerlink" title="写了 inline 就一定会内联吗？不写 inline 一定不会内联吗"></a>写了 inline 就一定会内联吗？不写 inline 一定不会内联吗</h2><p>inline 仅仅是一个对编译器的建议，最后能否真正内联取决于编译器，它如果认为你的函数不复杂，能在调用点展开，并不是说声明了内联就会内联；同理，没有声明 inline 的也不一定不会内联，如下代码</p>
+<p>比如以下代码极有可能会被内联</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">Inc</span><span class="params">(<span class="type">int</span> i)</span> </span>&#123;<span class="keyword">return</span> i+<span class="number">1</span>&#125;;</span><br><span class="line"><span class="type">int</span> i;</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">999999</span>; i = <span class="built_in">Inc</span>(i)) &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<p>变为</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">static</span> <span class="type">int</span> <span class="title">Inc</span><span class="params">(<span class="type">int</span> i)</span> </span>&#123;<span class="keyword">return</span> i+<span class="number">1</span>&#125;;</span><br><span class="line"><span class="type">int</span> i;</span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">999999</span>; i = i+<span class="number">1</span>) &#123;&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="inline-写在函数声明的地方是无效的"><a href="#inline-写在函数声明的地方是无效的" class="headerlink" title="inline 写在函数声明的地方是无效的"></a>inline 写在函数声明的地方是无效的</h2><p>如下风格的函数 Foo 不能成为内联函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Foo</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span>; <span class="comment">// inline 仅与函数声明放在一起</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Foo</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>而如下风格的函数Foo 则成为内联函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Foo</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="type">void</span> <span class="title">Foo</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;&#125;<span class="comment">// inline 与函数定义体放在一起</span></span><br></pre></td></tr></table></figure>
+<p>所以说，inline 是一种 “用于实现的关键字”，而不是一种 “用于声明的关键字”</p>
+<h2 id="全局的-inline-函数要把实现写在头文件"><a href="#全局的-inline-函数要把实现写在头文件" class="headerlink" title="全局的 inline 函数要把实现写在头文件"></a>全局的 inline 函数要把实现写在头文件</h2><p>首先 inline 写在函数声明处是无效的；其次如果只在 .c 中声明 inline，.h 不声明，那么其他文件引用该 .h 的时候，根本不知道该函数是一个内联函数，所以只能把实现和 inline 关键字写在头文件</p>
+<p>其次，定义在头文件中的 inline 需要配合 static</p>
+<p>如果没有 static，那么编译器会认为该内联函数是全局的，会把该函数进行编译（即当成普通的全局函数而不是在调用处展开），那么就失去了内联的效果</p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@hauyang/%E6%88%91%E6%9C%89%E6%89%80%E4%B8%8D%E7%9F%A5%E7%9A%84-static-inline-b363892b7450">https://medium.com/@hauyang/%E6%88%91%E6%9C%89%E6%89%80%E4%B8%8D%E7%9F%A5%E7%9A%84-static-inline-b363892b7450</a></p>
+<h2 id="C-的枚举写法有坑"><a href="#C-的枚举写法有坑" class="headerlink" title="C++ 的枚举写法有坑"></a>C++ 的枚举写法有坑</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; ret;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这种写法，修改 v 不会影响 ret，因为 v 是拷贝构造了</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> v : ret)</span><br><span class="line">    v.<span class="built_in">pop_back</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这种写法，修改 v 会影响 ret，因为 v 是引用</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">auto</span> &amp;v : ret)</span><br><span class="line">    v.<span class="built_in">pop_back</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加引用的写法等同于这个写法</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; ret.<span class="built_in">size</span>(); ++i)</span><br><span class="line">    ret[i].<span class="built_in">pop_back</span>();</span><br></pre></td></tr></table></figure>
+<h2 id="C-变量的初始化"><a href="#C-变量的初始化" class="headerlink" title="C++变量的初始化"></a><a target="_blank" rel="noopener" href="https://harttle.land/2015/10/05/cpp-variable-init.html">C++变量的初始化</a></h2><ul>
+<li>全局变量、静态变量：0</li>
+<li>局部变量：随机</li>
+<li>类的成员变量<ul>
+<li>全局：0</li>
+<li>静态：0</li>
+<li>局部：随机</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> g_var;</span><br><span class="line"><span class="type">int</span> *g_pointer;</span><br><span class="line"><span class="type">static</span> <span class="type">int</span> g_static;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> l_var;</span><br><span class="line">    <span class="type">int</span> *l_pointer;</span><br><span class="line">    <span class="type">static</span> <span class="type">int</span> l_static;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;g_var&lt;&lt;endl&lt;&lt;g_pointer&lt;&lt;endl&lt;&lt;g_static&lt;&lt;endl; <span class="comment">// 0 0 0 </span></span><br><span class="line">    cout&lt;&lt;l_var&lt;&lt;endl&lt;&lt;l_pointer&lt;&lt;endl&lt;&lt;l_static&lt;&lt;endl; <span class="comment">// 非0 非0 0</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> v;</span><br><span class="line">&#125;;</span><br><span class="line">A g_var;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    A l_var;</span><br><span class="line">    <span class="type">static</span> A l_static;</span><br><span class="line">    cout&lt;&lt;g_var.v&lt;&lt;<span class="string">&#x27; &#x27;</span>&lt;&lt;l_var.v&lt;&lt;<span class="string">&#x27; &#x27;</span>&lt;&lt;l_static.v&lt;&lt;endl; <span class="comment">// 0 2407223 0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="一个类型转换的问题（待解决）"><a href="#一个类型转换的问题（待解决）" class="headerlink" title="一个类型转换的问题（待解决）"></a>一个类型转换的问题（待解决）</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">doA</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">A</span>()&#123;<span class="built_in">printf</span>(<span class="string">&quot;~A\n&quot;</span>);&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">doB</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">doC</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">B</span>()&#123;<span class="built_in">printf</span>(<span class="string">&quot;~B\n&quot;</span>);&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SubClass</span>: <span class="keyword">public</span> A, <span class="keyword">public</span> B</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">doA</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">doB</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">doC</span><span class="params">()</span> <span class="keyword">override</span></span>;</span><br><span class="line">    ~<span class="built_in">SubClass</span>()&#123;<span class="built_in">printf</span>(<span class="string">&quot;~SubClass\n&quot;</span>);&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SubClass::doA</span><span class="params">()</span></span>&#123;<span class="built_in">printf</span>(<span class="string">&quot;doA\n&quot;</span>);&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SubClass::doB</span><span class="params">()</span></span>&#123;<span class="built_in">printf</span>(<span class="string">&quot;doB\n&quot;</span>);&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">SubClass::doC</span><span class="params">()</span></span>&#123;<span class="built_in">printf</span>(<span class="string">&quot;doC\n&quot;</span>);&#125;;</span><br></pre></td></tr></table></figure>
+<p>测试代码如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">A *a = <span class="keyword">new</span> <span class="built_in">SubClass</span>();</span><br><span class="line">a-&gt;<span class="built_in">doA</span>();           <span class="comment">// doA</span></span><br><span class="line">B *b = (B *)a;</span><br><span class="line">b-&gt;<span class="built_in">doB</span>();           <span class="comment">// doA</span></span><br><span class="line">b-&gt;<span class="built_in">doC</span>();           <span class="comment">// ~SubClass ~B ~A</span></span><br><span class="line"></span><br><span class="line">A *a = <span class="keyword">new</span> <span class="built_in">SubClass</span>();</span><br><span class="line">a-&gt;<span class="built_in">doA</span>();           <span class="comment">// doA</span></span><br><span class="line">B *b = (B *)a;</span><br><span class="line">b-&gt;<span class="built_in">doC</span>();           <span class="comment">// ~SubClass ~B ~A</span></span><br><span class="line">b-&gt;<span class="built_in">doB</span>();           <span class="comment">// Crash:libc++abi.dylib: Pure virtual function called!</span></span><br><span class="line"></span><br><span class="line">A *a = <span class="keyword">new</span> <span class="built_in">SubClass</span>();</span><br><span class="line">a-&gt;<span class="built_in">doA</span>();           <span class="comment">// doA</span></span><br><span class="line">SubClass *sub = <span class="built_in">dynamic_cast</span>&lt;SubClass *&gt;(a);</span><br><span class="line">sub-&gt;<span class="built_in">doB</span>();         <span class="comment">// doB</span></span><br><span class="line">sub-&gt;<span class="built_in">doC</span>();         <span class="comment">// doC</span></span><br><span class="line"></span><br><span class="line">A *a = <span class="built_in">dynamic_cast</span>&lt;A*&gt;(<span class="keyword">new</span> <span class="built_in">SubClass</span>());</span><br><span class="line">a-&gt;<span class="built_in">doA</span>();           <span class="comment">// doA</span></span><br><span class="line">B *b = <span class="built_in">dynamic_cast</span>&lt;B*&gt;(a);</span><br><span class="line">b-&gt;<span class="built_in">doB</span>();           <span class="comment">// doB</span></span><br><span class="line">b-&gt;<span class="built_in">doC</span>();           <span class="comment">// doC</span></span><br></pre></td></tr></table></figure>
+<p><code>A *a = new SubClass();</code> 这种写法和 <code>A *a = dynamic_cast&lt;A*&gt;(new SubClass());</code> 本质上没有区别</p>
+<p>但是 <code>B *b = (B *)a;</code> 和 <code>SubClass *sub = dynamic_cast&lt;SubClass *&gt;(a);</code> 是有区别的</p>
+<p>注意以上代码都不应该打印析构函数的内容，因为没有调用 delete</p>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E7%9B%B8%E5%85%B3"><span class="toc-text">虚函数相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0-v-s-%E7%BA%AF%E8%99%9A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="toc-text">虚析构函数 v.s. 纯虚析构函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#virtual-%E7%9A%84%E9%9A%90%E5%BC%8F%E7%BB%A7%E6%89%BF"><span class="toc-text">virtual 的隐式继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#delete-%E5%92%8C-delete"><span class="toc-text">delete [] 和 delete</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E7%BC%96"><span class="toc-text">混编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%99%E4%BA%86-inline-%E5%B0%B1%E4%B8%80%E5%AE%9A%E4%BC%9A%E5%86%85%E8%81%94%E5%90%97%EF%BC%9F%E4%B8%8D%E5%86%99-inline-%E4%B8%80%E5%AE%9A%E4%B8%8D%E4%BC%9A%E5%86%85%E8%81%94%E5%90%97"><span class="toc-text">写了 inline 就一定会内联吗？不写 inline 一定不会内联吗</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#inline-%E5%86%99%E5%9C%A8%E5%87%BD%E6%95%B0%E5%A3%B0%E6%98%8E%E7%9A%84%E5%9C%B0%E6%96%B9%E6%98%AF%E6%97%A0%E6%95%88%E7%9A%84"><span class="toc-text">inline 写在函数声明的地方是无效的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E7%9A%84-inline-%E5%87%BD%E6%95%B0%E8%A6%81%E6%8A%8A%E5%AE%9E%E7%8E%B0%E5%86%99%E5%9C%A8%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-text">全局的 inline 函数要把实现写在头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E7%9A%84%E6%9E%9A%E4%B8%BE%E5%86%99%E6%B3%95%E6%9C%89%E5%9D%91"><span class="toc-text">C++ 的枚举写法有坑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C-%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">C++变量的初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%88%E5%BE%85%E8%A7%A3%E5%86%B3%EF%BC%89"><span class="toc-text">一个类型转换的问题（待解决）</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>

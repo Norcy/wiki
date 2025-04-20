@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta name="referrer" content="never">
+    <meta charset="utf-8">
+    
+    <title>小笔记</title>
+    
+    
+        <meta name="keywords" content="小笔记" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="删除单向链表中的指定节点https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;delete-node-in-a-linked-list&#x2F; 只能访问当前节点，当前节点不是末尾节点 借尸还魂：将当前节点的值和 next 全部更新为其 next，再删除 next 123456void deleteNode(ListNode *node) &amp;#123;    ListNode *next &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小笔记">
+<meta property="og:url" content="https://norcy.github.io/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/index.html">
+<meta property="og:site_name" content="小笔记">
+<meta property="og:description" content="删除单向链表中的指定节点https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;delete-node-in-a-linked-list&#x2F; 只能访问当前节点，当前节点不是末尾节点 借尸还魂：将当前节点的值和 next 全部更新为其 next，再删除 next 123456void deleteNode(ListNode *node) &amp;#123;    ListNode *next &#x3D;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-20T05:50:42.948Z">
+<meta property="article:modified_time" content="2025-04-20T05:50:08.000Z">
+<meta property="article:author" content="Norcy">
+<meta name="twitter:card" content="summary">
+    
+
+    
+
+    
+        <link rel="icon" href="/wiki/favicon.ico" />
+    
+
+    
+<link rel="stylesheet" href="/wiki/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/open-sans/styles.css">
+
+    
+<link rel="stylesheet" href="/wiki/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/wiki/css/style.css">
+
+    
+<script src="/wiki/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    
+<script src="/wiki/libs/jquery/plugins/cookie/1.4.1/jquery.cookie.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/wiki/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+    
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/wiki/atom.xml" title="小笔记" type="application/atom+xml">
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="header-outer">
+      <a href="/wiki/" id="logo">
+        
+        <span class="site-title">小笔记</span>
+      </a>
+      <nav id="main-nav">
+        
+        <a class="main-nav-link " href="/wiki/categories/tech">技术</a>
+        
+        <a class="main-nav-link main-nav-select" href="/wiki/categories/arch">归档</a>
+        
+      </nav>
+      
+      <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." />
+      <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+<script>
+  (function(window) {
+    var INSIGHT_CONFIG = {
+      TRANSLATION: {
+        POSTS: 'Posts',
+        PAGES: 'Pages',
+        CATEGORIES: 'Categories',
+        TAGS: 'Tags',
+        UNTITLED: '(Untitled)',
+      },
+      ROOT_URL: '/wiki/',
+      CONTENT_URL: '/wiki/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+  })(window);
+</script>
+
+<script src="/wiki/js/insight.js"></script>
+
+
+</div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tr>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/tech">技术</a></td>
+        
+        <td><a class="main-nav-link" href="/wiki/categories/arch">归档</a></td>
+        
+        <td>
+          
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+        </td>
+      </tr>
+    </table>
+  </div>
+</header>
+        <div class="outer">
+            
+            
+                <aside id="sidebar">
+   
+        
+<div class="widget-wrap" id='categories'>
+  <h3 class="widget-title">
+    <span></span>
+    <a id='allExpand' href="#">
+      <i class="fa fa-angle-double-down fa-2x"></i>
+    </a>
+  </h3>
+
+  
+  
+  
+  <ul class="unstyled" id="tree" > 
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        面试
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        C++
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%9A%E6%80%81/">
+        
+        C++多态
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%20%E4%B8%8E%20Objetive-C%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        C++ 与 Objetive-C 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E5%A6%82%E4%BD%95%E6%AD%A3%E7%A1%AE%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件如何正确定义全局变量
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/">
+        
+        C++头文件的全局变量
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E6%8B%BE%E9%81%97/">
+        
+        C++拾遗
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/C++%E9%BB%98%E8%AE%A4%E5%8F%82%E6%95%B0/">
+        
+        C++默认参数
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/dynamic_cast/">
+        
+        dynamic_cast
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/unordered_map%20%E4%B8%8E%20map%20%E7%9A%84%E5%8C%BA%E5%88%AB/">
+        
+        unordered_map 与 map 的区别
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/C++/static%E5%8F%98%E9%87%8F%E4%B8%8Estatic%E5%87%BD%E6%95%B0/">
+        
+        static变量与static函数
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        算法
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="directory">
+      <a href="#" data-role="directory">
+        排序
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%9F%BA%E6%9C%AC%E6%8E%92%E5%BA%8F/">
+        
+        基本排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%A0%86%E6%8E%92%E5%BA%8F/">
+        
+        堆排序
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">
+        
+        快速排序
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        搜索
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%90%9C%E7%B4%A2/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+        
+        回溯算法
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+    <li class="directory open">
+      <a href="#" data-role="directory">
+        数据结构
+        &nbsp;
+        <i class="fa fa-caret-down"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+        
+        动态规划
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/">
+        
+        树
+        
+      </a>
+    </li> 
+    <li class="file active">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/">
+        
+        链表
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+    <li class="directory">
+      <a href="#" data-role="directory">
+        网络
+        &nbsp;
+        <i class="fa fa-caret-right"></i>
+      </a>
+      
+  <ul class="unstyled" id="tree" > 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/HTTPS/">
+        
+        HTTPS
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">
+        
+        TCP 三次握手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E4%B8%8E%20UDP/">
+        
+        TCP 与 UDP
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/TCP%20%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B/">
+        
+        TCP 四次挥手
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/iOS%20%E5%A6%82%E4%BD%95%E9%98%B2%E6%AD%A2%E8%A2%AB%E6%8A%93%E5%8C%85/">
+        
+        iOS 如何防止被抓包
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">
+        
+        计算机网络基础
+        
+      </a>
+    </li> 
+    <li class="file">
+      <a href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%BD%91%E7%BB%9C/%E9%87%8D%E6%94%BE%E6%94%BB%E5%87%BB/">
+        
+        重放攻击
+        
+      </a>
+    </li> 
+  </ul> 
+    </li>
+    
+  </ul> 
+    </li>
+    
+  </ul> 
+</div>
+<script>
+  $(document).ready(function() {
+    var iconFolderOpenClass = 'fa-caret-down';
+    var iconFolderCloseClass = 'fa-caret-right';
+    var iconAllExpandClass = 'fa-angle-double-down';
+    var iconAllPackClass = 'fa-angle-double-up';
+    // Handle directory-tree expansion:
+    // 左键单独展开目录
+    $(document).on('click', '#categories a[data-role="directory"]', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var subtree = $(this).siblings('ul');
+      icon.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        if (typeof subtree != 'undefined') {
+          subtree.slideUp({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderCloseClass);
+      } else {
+        if (typeof subtree != 'undefined') {
+          subtree.slideDown({
+            duration: 100
+          });
+        }
+        icon.addClass(iconFolderOpenClass);
+      }
+    });
+    // 右键展开下属所有目录
+    $('#categories a[data-role="directory"]').bind("contextmenu", function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconFolderOpenClass);
+      var listNode = $(this).siblings('ul');
+      var subtrees = $.merge(listNode.find('li ul'), listNode);
+      var icons = $.merge(listNode.find('.fa'), icon);
+      icons.removeClass(iconFolderOpenClass).removeClass(iconFolderCloseClass);
+      if (expanded) {
+        subtrees.slideUp({
+          duration: 100
+        });
+        icons.addClass(iconFolderCloseClass);
+      } else {
+        subtrees.slideDown({
+          duration: 100
+        });
+        icons.addClass(iconFolderOpenClass);
+      }
+    })
+    // 展开关闭所有目录按钮
+    $(document).on('click', '#allExpand', function(event) {
+      event.preventDefault();
+
+      var icon = $(this).children('.fa');
+      var expanded = icon.hasClass(iconAllExpandClass);
+      icon.removeClass(iconAllExpandClass).removeClass(iconAllPackClass);
+      if (expanded) {
+        $('#sidebar .fa.fa-caret-right').removeClass('fa-caret-right').addClass('fa-caret-down')
+        $('#categories li ul').slideDown({
+          duration: 100
+        });
+        icon.addClass(iconAllPackClass);
+      } else {
+        $('#sidebar .fa.fa-caret-down').removeClass('fa-caret-down').addClass('fa-caret-right')
+        $('#categories li ul').slideUp({
+          duration: 100
+        });
+        icon.addClass(iconAllExpandClass);
+      }
+    });
+  });
+</script>
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+            <section id="main"><article id="post-arch/面试/算法/数据结构/链表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+      
+      
+    <h1 itemprop="name">
+        <a class="article-title" href="/wiki/arch/%E9%9D%A2%E8%AF%95/%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/">
+            
+            链表
+        </a>
+    </h1>
+
+    </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+        
+        <h2 id="删除单向链表中的指定节点"><a href="#删除单向链表中的指定节点" class="headerlink" title="删除单向链表中的指定节点"></a>删除单向链表中的指定节点</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/delete-node-in-a-linked-list/">https://leetcode-cn.com/problems/delete-node-in-a-linked-list/</a></p>
+<p>只能访问当前节点，当前节点不是末尾节点</p>
+<p>借尸还魂：将当前节点的值和 next 全部更新为其 next，再删除 next</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">deleteNode</span><span class="params">(ListNode *node)</span> </span>&#123;</span><br><span class="line">    ListNode *next = node-&gt;next;</span><br><span class="line">    node-&gt;val = next-&gt;val;    </span><br><span class="line">    node-&gt;next = next-&gt;next;</span><br><span class="line">    <span class="keyword">delete</span> next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="移除未排序链表中的重复节点"><a href="#移除未排序链表中的重复节点" class="headerlink" title="移除未排序链表中的重复节点"></a>移除未排序链表中的重复节点</h2><p>遍历的同时使用 map 记录；</p>
+<p>或者</p>
+<p>使用双指针，current 用于迭代，runner 用于检查后续节点有无重复</p>
+<h2 id="寻找链表中倒数第-K-个元素"><a href="#寻找链表中倒数第-K-个元素" class="headerlink" title="寻找链表中倒数第 K 个元素"></a>寻找链表中倒数第 K 个元素</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/">https://leetcode-cn.com/problems/lian-biao-zhong-dao-shu-di-kge-jie-dian-lcof/</a></p>
+<p>快慢指针</p>
+<h2 id="删除链表中某个节点，只能访问该节点，不能访问-head"><a href="#删除链表中某个节点，只能访问该节点，不能访问-head" class="headerlink" title="删除链表中某个节点，只能访问该节点，不能访问 head"></a>删除链表中某个节点，只能访问该节点，不能访问 head</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/delete-node-in-a-linked-list/">https://leetcode-cn.com/problems/delete-node-in-a-linked-list/</a></p>
+<p>删除后续节点，并将后续节点的值复制到该节点</p>
+<h2 id="链表的加法，数字反向存放"><a href="#链表的加法，数字反向存放" class="headerlink" title="链表的加法，数字反向存放"></a>链表的加法，数字反向存放</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/add-two-numbers/">https://leetcode-cn.com/problems/add-two-numbers/</a></p>
+<p>迭代，记录进位</p>
+<h2 id="链表的加法，数字正向存放"><a href="#链表的加法，数字正向存放" class="headerlink" title="链表的加法，数字正向存放"></a>链表的加法，数字正向存放</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/add-two-numbers-ii/">https://leetcode-cn.com/problems/add-two-numbers-ii/</a></p>
+<ol>
+<li>对短的链表补 0</li>
+<li>封装 pair 结构记录 ListNode 和进位</li>
+<li>递归求解</li>
+</ol>
+<h2 id="判断链表是否有环"><a href="#判断链表是否有环" class="headerlink" title="判断链表是否有环"></a>判断链表是否有环</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/linked-list-cycle/">https://leetcode-cn.com/problems/linked-list-cycle/</a></p>
+<p>双指针必相遇</p>
+<h2 id="判断有环链表的环路起始点"><a href="#判断有环链表的环路起始点" class="headerlink" title="判断有环链表的环路起始点"></a>判断有环链表的环路起始点</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/linked-list-cycle-ii/">https://leetcode-cn.com/problems/linked-list-cycle-ii/</a></p>
+<p>假如链表起点距离环路起点为 k</p>
+<ol>
+<li>创建双指针：fast 和 slow；slow 每走一步，fast 走两步</li>
+<li>两者相碰时的节点必然距离环路起点 k</li>
+<li>slow 重置到 head，再以相同的速度移动 slow 和 fast 相碰时必是环路起点</li>
+</ol>
+<h2 id="两个链表的相交节点"><a href="#两个链表的相交节点" class="headerlink" title="两个链表的相交节点"></a>两个链表的相交节点</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/intersection-of-two-linked-lists/">https://leetcode-cn.com/problems/intersection-of-two-linked-lists/</a></p>
+<p>双指针：先得到两个链表的长度，然后得到长度的差值 distance，两个指针分别从两个链表头部遍历，其中较长链表指针先走 distance 步，然后同时向后走，当两个指针相遇的时候，即链表的交点</p>
+<h2 id="链表的中间节点"><a href="#链表的中间节点" class="headerlink" title="链表的中间节点"></a>链表的中间节点</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/middle-of-the-linked-list/">https://leetcode-cn.com/problems/middle-of-the-linked-list/</a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1-&gt;2-&gt;3-&gt;4 则返回 3；1-&gt;2-&gt;3 则返回 2</span></span><br><span class="line"><span class="function">ListNode* <span class="title">middleNode</span><span class="params">(ListNode* head)</span> </span>&#123;</span><br><span class="line">    ListNode *fast = head, *slow = head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (fast &amp;&amp; fast-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/reverse-linked-list/">https://leetcode-cn.com/problems/reverse-linked-list/</a></p>
+<p>反转链表的递归解法非常直观；</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ListNode *<span class="title">reverseList</span><span class="params">(ListNode *head)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!head || !head-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> head;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ListNode *next = head-&gt;next;</span><br><span class="line">    <span class="comment">// reverseList 作用：传入 1-&gt;2-&gt;3，结果为 1&lt;-2&lt;-3，并返回 3</span></span><br><span class="line">    ListNode *after = <span class="built_in">reverseList</span>(next);</span><br><span class="line">    next-&gt;next = head;</span><br><span class="line">    head-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> after;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>迭代解法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ListNode *<span class="title">reverseList</span><span class="params">(ListNode *head)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ListNode *last = <span class="literal">nullptr</span>;</span><br><span class="line">    ListNode *cur = head;</span><br><span class="line">    <span class="keyword">while</span> (cur)</span><br><span class="line">    &#123;</span><br><span class="line">        ListNode *next = curNode-&gt;next;</span><br><span class="line">        cur-&gt;next = last;</span><br><span class="line">        last = cur;</span><br><span class="line">        cur = next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> last;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="判断是否回文链表"><a href="#判断是否回文链表" class="headerlink" title="判断是否回文链表"></a>判断是否回文链表</h2><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/palindrome-linked-list/">https://leetcode-cn.com/problems/palindrome-linked-list/</a></p>
+<ol>
+<li>寻找后半部分的起点</li>
+<li>反转后半部分链表</li>
+<li>双指针比较前半部分和后半部分的是否相同</li>
+</ol>
+
+    </div>
+    
+  </div>
+</article>
+<div id="toc" class="toc-article">
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%8D%95%E5%90%91%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%8C%87%E5%AE%9A%E8%8A%82%E7%82%B9"><span class="toc-text">删除单向链表中的指定节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E9%99%A4%E6%9C%AA%E6%8E%92%E5%BA%8F%E9%93%BE%E8%A1%A8%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E8%8A%82%E7%82%B9"><span class="toc-text">移除未排序链表中的重复节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E9%93%BE%E8%A1%A8%E4%B8%AD%E5%80%92%E6%95%B0%E7%AC%AC-K-%E4%B8%AA%E5%85%83%E7%B4%A0"><span class="toc-text">寻找链表中倒数第 K 个元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E4%B8%AD%E6%9F%90%E4%B8%AA%E8%8A%82%E7%82%B9%EF%BC%8C%E5%8F%AA%E8%83%BD%E8%AE%BF%E9%97%AE%E8%AF%A5%E8%8A%82%E7%82%B9%EF%BC%8C%E4%B8%8D%E8%83%BD%E8%AE%BF%E9%97%AE-head"><span class="toc-text">删除链表中某个节点，只能访问该节点，不能访问 head</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E5%8A%A0%E6%B3%95%EF%BC%8C%E6%95%B0%E5%AD%97%E5%8F%8D%E5%90%91%E5%AD%98%E6%94%BE"><span class="toc-text">链表的加法，数字反向存放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E5%8A%A0%E6%B3%95%EF%BC%8C%E6%95%B0%E5%AD%97%E6%AD%A3%E5%90%91%E5%AD%98%E6%94%BE"><span class="toc-text">链表的加法，数字正向存放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%93%BE%E8%A1%A8%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF"><span class="toc-text">判断链表是否有环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%9C%89%E7%8E%AF%E9%93%BE%E8%A1%A8%E7%9A%84%E7%8E%AF%E8%B7%AF%E8%B5%B7%E5%A7%8B%E7%82%B9"><span class="toc-text">判断有环链表的环路起始点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E9%93%BE%E8%A1%A8%E7%9A%84%E7%9B%B8%E4%BA%A4%E8%8A%82%E7%82%B9"><span class="toc-text">两个链表的相交节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%AD%E9%97%B4%E8%8A%82%E7%82%B9"><span class="toc-text">链表的中间节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E8%BD%AC%E9%93%BE%E8%A1%A8"><span class="toc-text">反转链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%9B%9E%E6%96%87%E9%93%BE%E8%A1%A8"><span class="toc-text">判断是否回文链表</span></a></li></ol>
+</div></section>
+        </div>
+        <!-- <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            Norcy &copy; 2025 
+            <a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a>
+            <br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme - <a target="_blank" rel="noopener" href="https://github.com/zthxxx/hexo-theme-Wikitten">wikitten</a>
+            
+        </div>
+    </div>
+</footer> -->
+        
+
+    
+        
+<script src="/wiki/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/wiki/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/wiki/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+        <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true,
+            TeX: {
+                equationNumbers: {
+                  autoNumber: 'AMS'
+                }
+            }
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/wiki/js/main.js"></script>
+
+
+    </div>
+</body>
+</html>
