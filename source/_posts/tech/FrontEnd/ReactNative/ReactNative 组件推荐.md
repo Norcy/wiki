@@ -18,7 +18,9 @@
     + [react-native-root-siblings](https://github.com/magicismight/react-native-root-siblings)
 + Switch 开关
     + [split](https://help.split.io/hc/en-us/articles/4406066357901-React-Native-SDK)
-    
++ 转场动画
+  + [react-native-shared-element](https://github.com/IjzerenHein/react-native-shared-element)
+
 请参考 [openbase 排名](https://openbase.com/categories/js-react-native)
 
 
